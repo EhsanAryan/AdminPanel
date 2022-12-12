@@ -4,7 +4,7 @@ import Navbar from "./navbar/Navbar";
 import Sidebar from "./sidebar/Sidebar";
 import Content from '../../pages/Content';
 
-const Index = () => {
+const Layout = () => {
 
     return (
         <AdminContextContainer>
@@ -15,4 +15,4 @@ const Index = () => {
     )
 }
 
-export default Index;
+export default Layout;

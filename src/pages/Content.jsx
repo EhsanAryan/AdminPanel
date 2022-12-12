@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { AdminContext } from '../context/AdminLayoutContext';
 import Brand from './brand/Brand';
 import Cart from './Cart/Cart';
@@ -19,33 +19,31 @@ import Role from './role/Role';
 import User from './user/User';
 
 const Content = () => {
-    const {showSidebar} = useContext(AdminContext);
+    const { showSidebar } = useContext(AdminContext);
 
     return (
-        <BrowserRouter>
-            <section id="content_section"
-                className={`bg-light py-2 px-3 ${showSidebar ? "with_sidebar" : null}`}>
-                <Routes>
-                    <Route path="/dashboard" element={<Dashboard />} />
-                    <Route path="/category" element={<Category />} />
-                    <Route path="/product" element={<Product />} />
-                    <Route path="/brand" element={<Brand />} />
-                    <Route path="/guarantee" element={<Guarantee />} />
-                    <Route path="/color" element={<Color />} />
-                    <Route path="/discount" element={<Discount />} />
-                    <Route path="/cart" element={<Cart />} />
-                    <Route path="/order" element={<Order />} />
-                    <Route path="/delivery" element={<Delivery />} />
-                    <Route path="/user" element={<User />} />
-                    <Route path="/role" element={<Role />} />
-                    <Route path="/permission" element={<Permission />} />
-                    <Route path="/comments" element={<Comments />} />
-                    <Route path="/question" element={<Question />} />
-                    <Route path="/" element={<Dashboard />} />
-                    <Route path="*" element={<Error />} />
-                </Routes>
-            </section>
-        </BrowserRouter>
+        <section id="content_section"
+            className={`bg-light py-2 px-3 ${showSidebar ? "with_sidebar" : null}`}>
+            <Routes>
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/categories" element={<Category />} />
+                <Route path="/products" element={<Product />} />
+                <Route path="/brands" element={<Brand />} />
+                <Route path="/guarantee" element={<Guarantee />} />
+                <Route path="/colors" element={<Color />} />
+                <Route path="/discount" element={<Discount />} />
+                <Route path="/cart" element={<Cart />} />
+                <Route path="/order" element={<Order />} />
+                <Route path="/delivery" element={<Delivery />} />
+                <Route path="/user" element={<User />} />
+                <Route path="/roles" element={<Role />} />
+                <Route path="/permission" element={<Permission />} />
+                <Route path="/comments" element={<Comments />} />
+                <Route path="/questions" element={<Question />} />
+                <Route path="/" element={<Dashboard />} />
+                <Route path="*" element={<Error />} />
+            </Routes>
+        </section>
     )
 }
 

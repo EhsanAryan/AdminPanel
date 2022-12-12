@@ -15,13 +15,10 @@ const Comments = () => {
                     </div>
                 </div>
                 <div className="col-2 col-md-6 col-lg-4 d-flex flex-column align-items-end">
-                    <button className="btn btn-success d-flex justify-content-center align-items-center" data-bs-toggle="modal" data-bs-target="#add_comment_modal">
-                        <i className="fas fa-plus text-light"></i>
-                    </button>
+                    <AddComment />
                 </div>
             </div>
             <CommentTable />
-            <AddComment />
         </div>
     );
 }

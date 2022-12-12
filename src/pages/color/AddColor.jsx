@@ -3,30 +3,36 @@ import ModalContainer from '../../components/ModalContainer';
 
 const AddColor = () => {
     return (
-        <ModalContainer
-        id={"add_color_modal"}
-        title={"افزون رنگ"}
-        fullScreen={false}
-        >
-            <div class="container">
-                            <div class="row justify-content-center">
-                                <div class="col-12">
-                                    <div class="input-group my-3 dir_ltr">
-                                        <input type="text" class="form-control" placeholder="" />
-                                        <span class="input-group-text w_8rem justify-content-center">نام رنگ</span>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <label for="exampleColorInput" class="form-label">انتخاب رنگ</label>
-                                    <input type="color" class="form-control form-control-color"
-                                    id="exampleColorInput" value="#563d7c" title="Choose your color" />
-                                </div>                        
-                                <div class="btn_box text-center col-12 col-md-6 col-lg-8 mt-4">
-                                    <button class="btn btn-primary ">ذخیره</button>
-                                </div>
+        <>
+            <button className="btn btn-success d-flex justify-content-center align-items-center" data-bs-toggle="modal" data-bs-target="#add_color_modal">
+                <i className="fas fa-plus text-light"></i>
+            </button>
+            
+            <ModalContainer
+                id={"add_color_modal"}
+                title={"افزون رنگ"}
+                fullScreen={false}
+            >
+                <div className="container">
+                    <div className="row justify-content-center">
+                        <div className="col-12">
+                            <div className="input-group my-3 dir_ltr">
+                                <input type="text" className="form-control" placeholder="" />
+                                <span className="input-group-text w_8rem justify-content-center">نام رنگ</span>
                             </div>
-            </div>            
-        </ModalContainer>
+                        </div>
+                        <div className="col-12">
+                            <label for="exampleColorInput" className="form-label">انتخاب رنگ</label>
+                            <input type="color" className="form-control form-control-color"
+                                id="exampleColorInput" value="#563d7c" title="Choose your color" />
+                        </div>
+                        <div className="btn_box text-center col-12 col-md-6 col-lg-8 mt-4">
+                            <button className="btn btn-primary ">ذخیره</button>
+                        </div>
+                    </div>
+                </div>
+            </ModalContainer>
+        </>
     );
 }
 

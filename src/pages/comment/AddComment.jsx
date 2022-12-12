@@ -3,11 +3,16 @@ import ModalContainer from '../../components/ModalContainer';
 
 const AddComment = () => {
     return (
-        <ModalContainer
-        id={"add_comment_modal"}
-        title={"افزودن نظر برای محصول"}
-        fullScreen={false}
-        >
+        <>
+            <button className="btn btn-success d-flex justify-content-center align-items-center" data-bs-toggle="modal" data-bs-target="#add_comment_modal">
+                <i className="fas fa-plus text-light"></i>
+            </button>
+
+            <ModalContainer
+                id={"add_comment_modal"}
+                title={"افزودن نظر برای محصول"}
+                fullScreen={false}
+            >
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-12">
@@ -18,9 +23,9 @@ const AddComment = () => {
                         </div>
                         <div class="col-12">
                             <div class="input-group my-2 dir_ltr">
-                                <input type="text" class="form-control" 
-                                placeholder="قسمتی از نام محصول مورد نظر را وارد کنید" 
-                                list="productList" />
+                                <input type="text" class="form-control"
+                                    placeholder="قسمتی از نام محصول مورد نظر را وارد کنید"
+                                    list="productList" />
                                 <span class="input-group-text w_8rem justify-content-center">برای</span>
                                 <datalist id="productList">
                                     <option value="محصول شماره 1" />
@@ -34,7 +39,8 @@ const AddComment = () => {
                         </div>
                     </div>
                 </div>
-        </ModalContainer>
+            </ModalContainer>
+        </>
     );
 }
 
