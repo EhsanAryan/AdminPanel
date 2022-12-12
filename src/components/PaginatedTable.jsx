@@ -7,27 +7,45 @@ const PaginatedTable = ({ children, data, dataInfo, additionField, numOfItems, s
     const [currentPage, setCurrentPage] = useState(1);
     const [pages, setPages] = useState([]);
     const [searchValue, setSearchValue] = useState("");
+    const [itemsCount, setItemsCount] = useState(numOfItems);
 
     useEffect(() => {
-        const pagesCount = Math.ceil(initData.length / numOfItems);
+        const pagesCount = Math.ceil(initData.length / itemsCount);
         let allPages = [];
         for (let p = 1; p <= pagesCount; p++) {
             allPages = [...allPages, p];
         }
         setPages(allPages);
-    }, [initData]);
+    }, [initData, itemsCount]);
 
     useEffect(() => {
-        const startIndex = (currentPage - 1) * numOfItems;
-        const endIndex = currentPage * numOfItems;
+        const startIndex = (currentPage - 1) * itemsCount;
+        const endIndex = currentPage * itemsCount;
         const currentData = initData.slice(startIndex, endIndex);
         setTableData(currentData);
-    }, [currentPage, initData]);
+    }, [currentPage, initData, itemsCount]);
 
     useEffect(() => {
         setInitData(data.filter(d => d[searchParams.searchField].toLowerCase().includes(searchValue.toLowerCase())));
         setCurrentPage(1);
     }, [searchValue]);
+
+    const handleChangeItemsCount = (event) => {
+        const cnt = Number(Math.ceil(event.target.value));
+        if (cnt === 0) {
+            setItemsCount(numOfItems);
+        }
+        else if (cnt < 0) {
+            setItemsCount(1);
+        }
+        else if (cnt > 20) {
+            setItemsCount(20);
+        }
+        else {
+            setItemsCount(cnt);
+        }
+        setCurrentPage(1);
+    }
 
 
     return (
@@ -45,7 +63,6 @@ const PaginatedTable = ({ children, data, dataInfo, additionField, numOfItems, s
                     {children}
                 </div>
             </div>
-
             {
                 initData.length > 0 ? (
                     <>
@@ -85,6 +102,15 @@ const PaginatedTable = ({ children, data, dataInfo, additionField, numOfItems, s
                                 })}
                             </tbody>
                         </table>
+
+                        <div className="row">
+                            <div className="col-8 col-sm-5 col-md-5 col-lg-4 col-xl-3 mt-1 mb-2">
+                                <input type="number" className="form-control" min="1" max="20"
+                                    placeholder="تعداد آیتم های صفحه"
+                                    onChange={(event) => handleChangeItemsCount(event)} />
+                            </div>
+                        </div>
+
                         {
                             pages.length > 1 ? (
                                 <nav aria-label="Page navigation example" className="d-flex justify-content-center">

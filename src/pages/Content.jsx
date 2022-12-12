@@ -1,22 +1,22 @@
 import React, { useContext } from 'react'
 import { Route, Routes } from 'react-router-dom';
 import { AdminContext } from '../context/AdminLayoutContext';
-import Brand from './brand/Brand';
-import Cart from './Cart/Cart';
-import Category from './category/Category';
-import Color from './color/Color';
-import Comments from './comment/Comment';
+import Brands from './brands/Brands';
+import Carts from './Carts/Carts';
+import Categories from './categories/Categories';
+import Colors from './colors/Colors';
+import Comments from './comments/Comments';
 import Dashboard from './dashboard/Dashboard';
-import Delivery from './delivery/Delivery';
-import Discount from './discount/Discount';
+import Deliveries from './deliveries/Deliveries';
+import Discounts from './discounts/Discounts';
 import Error from './Error/Error';
-import Guarantee from './guarantee/Guarantee';
-import Order from './order/Order';
-import Permission from './permission/Permission';
-import Product from './product/Product';
-import Question from './question/Question';
-import Role from './role/Role';
-import User from './user/User';
+import Guaranties from './guaranties/Guaranties';
+import Orders from './orders/Orders';
+import Permissions from './permissions/Permissions';
+import Products from './products/Products';
+import Questions from './questions/Questions';
+import Roles from './roles/Roles';
+import Users from './users/Users';
 
 const Content = () => {
     const { showSidebar } = useContext(AdminContext);
@@ -26,20 +26,20 @@ const Content = () => {
             className={`bg-light py-2 px-3 ${showSidebar ? "with_sidebar" : null}`}>
             <Routes>
                 <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/categories" element={<Category />} />
-                <Route path="/products" element={<Product />} />
-                <Route path="/brands" element={<Brand />} />
-                <Route path="/guarantee" element={<Guarantee />} />
-                <Route path="/colors" element={<Color />} />
-                <Route path="/discount" element={<Discount />} />
-                <Route path="/cart" element={<Cart />} />
-                <Route path="/order" element={<Order />} />
-                <Route path="/delivery" element={<Delivery />} />
-                <Route path="/user" element={<User />} />
-                <Route path="/roles" element={<Role />} />
-                <Route path="/permission" element={<Permission />} />
+                <Route path="/categories" element={<Categories />} />
+                <Route path="/products" element={<Products />} />
+                <Route path="/brands" element={<Brands />} />
+                <Route path="/guaranties" element={<Guaranties />} />
+                <Route path="/colors" element={<Colors />} />
+                <Route path="/discounts" element={<Discounts />} />
+                <Route path="/carts" element={<Carts />} />
+                <Route path="/orders" element={<Orders />} />
+                <Route path="/deliveries" element={<Deliveries />} />
+                <Route path="/users" element={<Users />} />
+                <Route path="/roles" element={<Roles />} />
+                <Route path="/permissions" element={<Permissions />} />
                 <Route path="/comments" element={<Comments />} />
-                <Route path="/questions" element={<Question />} />
+                <Route path="/questions" element={<Questions />} />
                 <Route path="/" element={<Dashboard />} />
                 <Route path="*" element={<Error />} />
             </Routes>

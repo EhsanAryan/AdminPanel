@@ -46,7 +46,7 @@ const Index = () => {
                 />
 
                 <SidebarItem
-                targetRoute={"/guarantee"}
+                targetRoute={"/guaranties"}
                 icon={"fab fa-pagelines"}
                 text={"مدیریت گارانتی ها"}
                 />
@@ -58,7 +58,7 @@ const Index = () => {
                 />
 
                 <SidebarItem
-                targetRoute={"/discount"}
+                targetRoute={"/discounts"}
                 icon={"fas fa-percentage"}
                 text={"مدیریت تخفیف ها"}
                 />
@@ -69,20 +69,20 @@ const Index = () => {
                 />
 
                 <SidebarItem
-                targetRoute={"/cart"}
+                targetRoute={"/carts"}
                 icon={"fas fa-shopping-basket"}
                 text={"مدیریت سبد ها"}
                 />
 
                 <SidebarItem
-                targetRoute={"/order"}
+                targetRoute={"/orders"}
                 icon={"fas fa-luggage-cart"}
                 text={"مدیریت سفارشات"}
                 />
                 
 
                 <SidebarItem
-                targetRoute={"/delivery"}
+                targetRoute={"/deliveries"}
                 icon={"fas fa-truck-loading"}
                 text={"مدیریت نحوه ارسال"}
                 />
@@ -93,7 +93,7 @@ const Index = () => {
                 />
 
                 <SidebarItem
-                targetRoute={"/user"}
+                targetRoute={"/users"}
                 icon={"fas fa-users"}
                 text={"مشاهده کاربران"}
                 />
@@ -105,7 +105,7 @@ const Index = () => {
                 />
 
                 <SidebarItem
-                targetRoute={"/permission"}
+                targetRoute={"/permissions"}
                 icon={"fas fa-shield-alt"}
                 text={"مجوز ها"}
                 />
