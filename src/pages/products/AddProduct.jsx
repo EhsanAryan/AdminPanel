@@ -4,14 +4,15 @@ import ModalContainer from '../../components/ModalContainer';
 const AddProduct = () => {
     return (
         <>
-            <button className="btn btn-success d-flex justify-content-center align-items-center" data-bs-toggle="modal" data-bs-target="#add_product_modal">
+            <button className="btn btn-success d-flex justify-content-center align-items-center" 
+            data-bs-toggle="modal" data-bs-target="#add_product_modal">
                 <i className="fas fa-plus text-light"></i>
             </button>
             
             <ModalContainer
-                id={"add_product_modal"}
-                title={"افزودن محصول جدید"}
-                fullScreen={true}
+            id={"add_product_modal"}
+            title={"افزودن محصول جدید"}
+            fullScreen={true}
             >
                 <div className="container">
                     <div className="row justify-content-center">
@@ -147,7 +148,7 @@ const AddProduct = () => {
                         <div className="col-12 col-md-6 col-lg-8 row justify-content-center">
                             <div className="form-check form-switch col-5 col-md-2">
                                 <input className="form-check-input pointer" type="checkbox"
-                                    id="flexSwitchCheckDefault" checked />
+                                    id="flexSwitchCheckDefault" />
                                 <label className="form-check-label pointer" htmlFor="flexSwitchCheckDefault">وضعیت فعال</label>
                             </div>
                         </div>

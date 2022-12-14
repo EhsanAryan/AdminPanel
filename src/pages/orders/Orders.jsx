@@ -1,5 +1,6 @@
 import React from 'react';
 import AddOrder from './AddOrder';
+import OrdersDetails from './OrdersDetails';
 import OrdersTable from './OrdersTable';
 
 const Orders = () => {
@@ -19,6 +20,7 @@ const Orders = () => {
                 </div>
             </div>
             <OrdersTable />
+            <OrdersDetails />
         </div>
     );
 }

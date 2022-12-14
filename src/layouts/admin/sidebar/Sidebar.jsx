@@ -115,13 +115,13 @@ const Index = () => {
                 />
 
                 <SidebarItem
-                targetRoute={"/comments"}
+                targetRoute={"/questions"}
                 icon={"fas fa-question-circle"}
                 text={"سوال ها"}
                 />
 
                 <SidebarItem
-                targetRoute={"/questions"}
+                targetRoute={"/comments"}
                 icon={"fas fa-comment"}
                 text={"نظرات"}
                 />

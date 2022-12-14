@@ -66,7 +66,8 @@ const additionElements = (itemId) => {
             </i>
 
             <i className="fas fa-edit text-warning mx-1 hoverable_text pointer has_tooltip"
-                title="ویرایش دسته" data-bs-toggle="tooltip" data-bs-placement="top">
+                title="ویرایش دسته" data-bs-placement="top" data-bs-toggle="modal" 
+                data-bs-target="#add_product_category_modal">
             </i>
 
             <i className="fas fa-plus text-success mx-1 hoverable_text pointer has_tooltip"
@@ -87,20 +88,20 @@ const additionField = {
 }
 
 const searchParams = {
-    searchField : "title" ,
-    title : "جستجو" ,
-    placeHolder : "قسمتی از عنوان را وارد کنید"
+    searchField: "title",
+    title: "جستجو",
+    placeHolder: "قسمتی از عنوان را وارد کنید"
 }
 
 
 const CategoriesTable = () => {
     return (
         <PaginatedTable
-        data={data}
-        dataInfo={dataInfo}
-        additionField={additionField}
-        numOfItems={4}
-        searchParams={searchParams}
+            data={data}
+            dataInfo={dataInfo}
+            additionField={additionField}
+            numOfItems={4}
+            searchParams={searchParams}
         >
             <AddCategory />
         </PaginatedTable>
