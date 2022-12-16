@@ -12,7 +12,7 @@ body{
     background: url("../images/body_back4.jpg") repeat;
 }
 
-*{
+*:not(i) {
     font-family: "BYekan";
     direction: rtl;
     text-align: right;
@@ -402,7 +402,98 @@ td , th {
 .active-page {
     background-color: rgba(25, 135, 84 , 0.5);
 }
+
+.box-shadow-10 {
+    box-shadow: 0px 0px 10px black;
+}
+
 /* End added styles */
+
+
+/* Start Auth Form */
+.auth-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(#0CF , rgb(0, 178, 178) , teal);
+}
+
+.auth-form-container {
+    width: 50%;
+    min-height: 250px;
+    border-radius: 10px;
+}
+
+@media screen and (max-width: 768px) {
+    .auth-form-container {
+        width: 75%;
+    }
+}
+
+.custom-field-size {
+    width: 50%;
+}
+
+@media screen and (max-width: 1200px) {
+    .custom-field-size {
+        width: 67%;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .custom-field-size {
+        width: 83%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .custom-field-size {
+        width: 100%;
+    }
+}
+
+.waiting-div {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5rem;
+    opacity: 1;
+    animation: waitingDivAnimaton 0.7s ease-in infinite;
+}
+
+@keyframes waitingDivAnimaton {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.6;
+    }
+
+    100% {
+        opacity: 0.1;
+    }
+}
+/* End Auth Form */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

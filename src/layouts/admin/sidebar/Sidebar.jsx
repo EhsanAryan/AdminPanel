@@ -14,7 +14,7 @@ const Index = () => {
             <div className="p-0 m-0">
                 <SidebarAvatar
                 name={"احسان آریان"}
-                imgPath={"./assets/images/avatar/user1.jpg"}
+                imgPath={"/assets/images/avatar/user1.jpg"}
                 />
                 
                 <SidebarItem
