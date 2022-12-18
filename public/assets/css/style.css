@@ -399,6 +399,10 @@ td , th {
     opacity: 0.5 !important;
 }
 
+.disabled-page {
+    pointer-events: none !important;
+}
+
 .active-page {
     background-color: rgba(25, 135, 84 , 0.5);
 }

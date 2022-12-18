@@ -1,10 +1,10 @@
-import axios from 'axios';
 import {Form, Formik } from 'formik';
 import React from 'react';
 import * as Yup from "yup";
 import GetField from '../../components/GetField';
 import { useNavigate } from 'react-router-dom';
 import { Alert } from '../../utils/Alerts';
+import { loginService } from '../../services/authServices';
 
 
 const initialValues = {
@@ -13,12 +13,12 @@ const initialValues = {
     remember: false
 }
 
-const onSubmit = (values, submitProps, navigate) => {
-    axios.post("https://ecomadminapi.azhadev.ir/api/auth/login", {
-        ...values,
-        remember: values.remember ? 1 : 0
-    })
-    .then(response => {
+const onSubmit = async (values, submitProps, navigate) => {
+    try {
+        const response = await loginService({
+            ...values,
+            remember: values.remember ? 1 : 0
+        });
         if (response.status === 200) {
             localStorage.setItem("loginToken" , JSON.stringify(response.data));
             navigate("/");
@@ -27,7 +27,11 @@ const onSubmit = (values, submitProps, navigate) => {
             Alert("اررور!" , response.data.message , "error");
         }
         submitProps.setSubmitting(false);
-    });
+
+    } catch (error) {
+        Alert("اررور!" , "خطایی در سمت سرور رخ داده است" , "error");
+        submitProps.setSubmitting(false);
+    }
 }
 
 const validationSchema = Yup.object({
@@ -86,9 +90,14 @@ const Login = () => {
 
                                 <div className="col-12 text-center mt-4 mb-2">
                                     <button type="submit"
-                                    className="btn btn-lg btn-success rounded-pill px-4"
+                                    className="btn btn-lg btn-success rounded-pill px-5 mx-auto
+                                    d-flex justify-content-center align-items-center"
                                     disabled={!(formik.dirty && formik.isValid) || formik.isSubmitting}>
-                                        {formik.isSubmitting ? "صبر کنید" : "ورود"}
+                                        {formik.isSubmitting ? (
+                                            <div className="spinner-border text-light">
+                                                <span className="visually-hidden">Loading...</span>
+                                            </div>
+                                        ) : "ورود"}
                                     </button>
                                 </div>
                             </div>

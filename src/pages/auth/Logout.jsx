@@ -1,21 +1,15 @@
-import axios from 'axios';
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
+import { logoutService } from '../../services/authServices';
 import { Alert } from '../../utils/Alerts';
 
 const Logout = () => {
     const [loading , setLoading] = useState(true);
 
-    useEffect(() => {
-        const loginToken = JSON.parse(localStorage.getItem("loginToken"));
-
-        axios.get("https://ecomadminapi.azhadev.ir/api/auth/logout" , {
-            headers : {
-                "Authorization" : `Bearer ${loginToken.token}`
-            }
-        })
-        .then(response => {
+    const handleLogout = async () => {
+        try {
+            const response = await logoutService();
             if(response.status===200) {
                 localStorage.removeItem("loginToken");
             }
@@ -23,11 +17,15 @@ const Logout = () => {
                 Alert("اررور!" , "مشکلی رخ داده است" , "error");
             }
             setLoading(false);
-        })
-        .catch(err => {
+            
+        } catch (error) {
             Alert("اررور!" , "مشکلی از سمت سرور رخ داده است" , "error");
             setLoading(false);
-        })
+        } 
+    }
+
+    useEffect(() => {
+       handleLogout();
     }, []);
 
 
