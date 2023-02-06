@@ -42,7 +42,6 @@ const ColorsTable = () => {
             const response = await getColorsServices();
             if (response.status === 200) {
                 setData(response.data.data);
-                console.log(response);
             }
         } catch (error) {
 

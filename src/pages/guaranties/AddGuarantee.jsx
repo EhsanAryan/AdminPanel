@@ -20,7 +20,9 @@ const AddGuarantee = ({ setData, editGuarantee, setEditGuarantee }) => {
 
     return (
         <>
-            <button className="btn btn-success d-flex justify-content-center align-items-center" data-bs-toggle="modal" data-bs-target="#add_guarantee_modal">
+            <button className="btn btn-success d-flex justify-content-center align-items-center" 
+            data-bs-toggle="modal" data-bs-target="#add_guarantee_modal"
+            onClick={() => setEditGuarantee(null)}>
                 <i className="fas fa-plus text-light"></i>
             </button>
 
@@ -70,7 +72,7 @@ const AddGuarantee = ({ setData, editGuarantee, setEditGuarantee }) => {
 
                                 <FormikControl
                                     control="submit"
-                                    btnText="ذخیره"
+                                    btnText={`${editGuarantee ? "ویرایش" : "ذخیره"}`}
                                     className="col-md-6 col-lg-8 mt-4 btn_box text-center"
                                 />
                             </div>

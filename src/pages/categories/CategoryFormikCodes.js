@@ -18,9 +18,9 @@ export const onSubmit = async (values, actions, setForceRender, editId, setEditI
             is_active: values.is_active ? 1 : 0,
             show_in_menu: values.show_in_menu ? 1 : 0
         }
-        if(editId) { 
+        if (editId) {
             const response = await editCategoryService(editId, data);
-            if(response.status === 200) {
+            if (response.status === 200) {
                 Alert("ویرایش رکورد", response.data.message, "success");
                 setEditId(null);
                 setForceRender(prevValue => !prevValue);
@@ -32,6 +32,7 @@ export const onSubmit = async (values, actions, setForceRender, editId, setEditI
                 actions.resetForm();
                 setForceRender(prevValue => !prevValue);
             }
+            actions.resetForm();
         }
     } catch (error) {
 
