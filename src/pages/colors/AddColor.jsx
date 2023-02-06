@@ -1,35 +1,67 @@
-import React from 'react';
+import { Form, Formik } from 'formik';
+import React, { useEffect } from 'react';
 import ModalContainer from '../../components/ModalContainer';
+import FormikControl from '../../components/form/FormikControl';
+import { initialValues, onSubmit, validationSchema } from './colorsFormikCodes';
+import { useState } from 'react';
 
-const AddColor = () => {
+const AddColor = ({ setData, editColor, setEditColor }) => {
+    const [reinitializeValues, setReinitializeValues] = useState(null);
+
+    useEffect(() => {
+        if (editColor) {
+            setReinitializeValues(editColor);
+        } else {
+            setReinitializeValues(null);
+        }
+    }, [editColor]);
+
     return (
         <>
             <button className="btn btn-success d-flex justify-content-center align-items-center" data-bs-toggle="modal" data-bs-target="#add_color_modal">
                 <i className="fas fa-plus text-light"></i>
             </button>
-            
+
             <ModalContainer
                 id={"add_color_modal"}
                 title={"افزون رنگ"}
                 fullScreen={false}
             >
                 <div className="container">
-                    <div className="row justify-content-center">
-                        <div className="col-12">
-                            <div className="input-group my-3 dir_ltr">
-                                <input type="text" className="form-control" placeholder="" />
-                                <span className="input-group-text w_8rem justify-content-center">نام رنگ</span>
+                    <Formik
+                        initialValues={reinitializeValues || initialValues}
+                        onSubmit={(values, actions) => onSubmit(values, actions, setData,
+                            editColor, setEditColor)}
+                        validationSchema={validationSchema}
+                        enableReinitialize
+                    >
+                        <Form>
+                            <div className="row justify-content-center">
+                                <FormikControl
+                                    control="input"
+                                    name="title"
+                                    label="نام رنگ"
+                                    type="text"
+                                    className="label-8rem"
+                                    placeHolder="نام رنگ"
+
+                                />
+
+                                <FormikControl
+                                    control="color"
+                                    name="code"
+                                    label="انتخاب رنگ"
+                                    className="d-flex justify-content-center flex-column align-items-center"
+                                />
+
+                                <FormikControl
+                                    control="submit"
+                                    btnText="ذخیره"
+                                    className="col-md-6 col-lg-8 mt-4 btn_box text-center"
+                                />
                             </div>
-                        </div>
-                        <div className="col-12">
-                            <label for="exampleColorInput" className="form-label">انتخاب رنگ</label>
-                            <input type="color" className="form-control form-control-color"
-                                id="exampleColorInput" value="#563d7c" title="Choose your color" />
-                        </div>
-                        <div className="btn_box text-center col-12 col-md-6 col-lg-8 mt-4">
-                            <button className="btn btn-primary ">ذخیره</button>
-                        </div>
-                    </div>
+                        </Form>
+                    </Formik>
                 </div>
             </ModalContainer>
         </>

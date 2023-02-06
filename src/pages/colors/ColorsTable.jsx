@@ -10,7 +10,7 @@ import ColorField from './additionFields/ColorField';
 const ColorsTable = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
-
+    const [editColor, setEditColor] = useState(null);
 
     const dataInfo = [
         { field: "id", title: "#" },
@@ -25,7 +25,8 @@ const ColorsTable = () => {
         },
         {
             title: "عملیات",
-            elements: (rowData) => <Actions rowData={rowData} handleDeleteColor={handleDeleteColor} />
+            elements: (rowData) => <Actions rowData={rowData} handleDeleteColor={handleDeleteColor}
+                setEditColor={setEditColor} />
         }
     ]
 
@@ -55,12 +56,12 @@ const ColorsTable = () => {
         if (res) {
             try {
                 const response = await deleteColorService(colorData.id);
-                if(response.status === 200) {
+                if (response.status === 200) {
                     Alert("حذف رنگ", response.data.message, "success");
                     setData(prevData => prevData.filter(d => d.id !== colorData.id));
                 }
             } catch (error) {
-                
+
             }
         } else {
             Alert("لغو عملیات", "شما عملیات حذف رنگ را لغو کردید", "info");
@@ -77,11 +78,11 @@ const ColorsTable = () => {
             data={data}
             dataInfo={dataInfo}
             additionFields={additionFields}
-            numOfItems={4}
+            numOfItems={8}
             searchParams={searchParams}
             loading={loading}
         >
-            <AddColor />
+            <AddColor setData={setData} editColor={editColor} setEditColor={setEditColor} />
         </PaginatedTable>
     );
 }
