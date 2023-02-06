@@ -1,6 +1,9 @@
 import { createContext, useState } from "react";
 
-export const AdminContext = createContext({});
+export const AdminContext = createContext({
+    showSidebar: false ,
+    setShowSidebar: () => {}
+});
 
 
 const AdminContextContainer = ({children}) => {

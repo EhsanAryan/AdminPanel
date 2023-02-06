@@ -1,6 +1,5 @@
 import Chart from "chart.js/auto";
 
-
 export const drawDashboardChart = (labels , datapoints) => {
         const data = {
             labels: labels,

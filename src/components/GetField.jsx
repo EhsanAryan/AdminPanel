@@ -1,6 +1,6 @@
 import React from 'react';
 import Input from './Input';
-import Switch from './Switch';
+import Switch from './form/Switch';
 
 const GetField = (props) => {
     switch (props.control) {

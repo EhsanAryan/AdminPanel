@@ -4,7 +4,9 @@ import { AdminContext } from '../context/AdminLayoutContext';
 import Logout from './auth/Logout';
 import Brands from './brands/Brands';
 import Carts from './Carts/Carts';
+import Attributes from './categories/attrs/Attributes';
 import Categories from './categories/Categories';
+import CategoriesChildren from './categories/CategoriesChildren';
 import Colors from './colors/Colors';
 import Comments from './comments/Comments';
 import Dashboard from './dashboard/Dashboard';
@@ -27,7 +29,10 @@ const Content = () => {
             className={`bg-light py-2 px-3 ${showSidebar ? "with_sidebar" : null}`}>
             <Routes>
                 <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/categories" element={<Categories />} />
+                <Route path="/categories" element={<Categories />}>
+                    <Route path=":categoryId" element={<CategoriesChildren />} />
+                </Route>
+                <Route path="/categories/:categoryId/attributes" element={<Attributes />} />
                 <Route path="/products" element={<Products />} />
                 <Route path="/brands" element={<Brands />} />
                 <Route path="/guaranties" element={<Guaranties />} />

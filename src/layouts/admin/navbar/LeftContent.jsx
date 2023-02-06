@@ -24,7 +24,7 @@ const LeftContent = () => {
                 <hr />
                 <li className="d-flex justify-content-center align-items-center px-2">
                     <i className="fas fa-power-off"></i>
-                    <Link to="/logout" className="dropdown-item" href="#">
+                    <Link to="/logout" className="dropdown-item">
                         خروج
                     </Link>
                 </li>

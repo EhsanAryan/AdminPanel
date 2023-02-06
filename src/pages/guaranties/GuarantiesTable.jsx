@@ -1,47 +1,88 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import PaginatedTable from '../../components/PaginatedTable';
+import { deleteGuaranteeService, getGuarantiesService } from '../../services/guarantiesServices';
+import { Alert, Confirm } from '../../utils/Alerts';
+import AddGuarantee from './AddGuarantee';
+import Actions from './additionFields/Actions';
+
 
 const GuarantiesTable = () => {
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [editGuarantee, setEditGuarantee] = useState(null);
+
+    const dataInfo = [
+        { field: "id", title: "#" },
+        { field: "title", title: "عنوان" },
+        { field: "descriptions", title: "توضیحات" }
+    ]
+
+    const additionFields = [
+        {
+            title: "مدت",
+            elements: (rowData) => <span>{rowData.length} ماه</span>
+        },
+        {
+            title: "عملیات",
+            elements: (rowData) => <Actions rowData={rowData} 
+            handleDeleteGuarantee={handleDeleteGuarantee} setEditGuarantee={setEditGuarantee} />
+        }
+    ]
+
+    const searchParams = {
+        searchField: "title",
+        title: "جستجو",
+        placeHolder: "عنوان محصول را وارد کنید"
+    }
+
+    const handleGetGuarantees = async () => {
+        setLoading(true);
+        try {
+            const response = await getGuarantiesService();
+            if (response.status === 200) {
+                setData(response.data.data);
+            }
+        } catch (error) {
+
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    const handleDeleteGuarantee = async (guaranteeData) => {
+        const res = await Confirm("حذف گارانتی", `آیا از حذف گارانتی ${guaranteeData.title} مطمئن هستید؟`, "warning");
+        if (res) {
+            try {
+                const response = await deleteGuaranteeService(guaranteeData.id);
+                if(response.status === 200) {
+                    Alert("حذف گارانتی", response.data.message, "success");
+                    setData(prevData => prevData.filter(d => d.id !== guaranteeData.id));
+                }
+            } catch (error) {
+                
+            }
+        } else {
+            Alert("لغو عملیات", "شما عملیات حذف گارانتی را لغو کردید", "info");
+        }
+    }
+
+    useEffect(() => {
+        handleGetGuarantees();
+    }, []);
+
     return (
         <>
-            <table className="table table-responsive text-center table-hover table-bordered">
-                <thead className="table-secondary">
-                    <tr>
-                        <th>#</th>
-                        <th>عنوان گارانتی</th>
-                        <th>مدت گارانتی</th>
-                        <th>توضیحات</th>
-                        <th>عملیات</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>گارانتی 1</td>
-                        <td>12 ماه</td>
-                        <td> توضیحات اجمالی در مورد این گارانتی</td>
-                        <td>
-                            <i className="fas fa-times text-danger mx-1 hoverable_text pointer has_tooltip" title="حذف گارانتی" data-bs-toggle="tooltip" data-bs-placement="top"></i>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <nav aria-label="Page navigation example" className="d-flex justify-content-center">
-                <ul className="pagination dir_ltr">
-                    <li className="page-item">
-                    <a className="page-link" href="#" aria-label="Previous">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                    </li>
-                    <li className="page-item"><a className="page-link" href="#">1</a></li>
-                    <li className="page-item"><a className="page-link" href="#">2</a></li>
-                    <li className="page-item"><a className="page-link" href="#">3</a></li>
-                    <li className="page-item">
-                    <a className="page-link" href="#" aria-label="Next">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                    </li>
-                </ul>
-            </nav>
+            <PaginatedTable
+                data={data}
+                dataInfo={dataInfo}
+                additionFields={additionFields}
+                numOfItems={4}
+                searchParams={searchParams}
+                loading={loading}
+            >
+                <AddGuarantee setData={setData} editGuarantee={editGuarantee} 
+                setEditGuarantee={setEditGuarantee} />
+            </PaginatedTable>
         </>
     );
 }

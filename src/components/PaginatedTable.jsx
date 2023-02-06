@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import SpinnerLoader from './SpinnerLoader';
 
 
-const PaginatedTable = ({ children, data, dataInfo, additionFields, numOfItems, searchParams }) => {
+const PaginatedTable = ({ children, data, dataInfo, additionFields, numOfItems, searchParams, loading }) => {
     const [initData, setInitData] = useState(data);
     const [tableData, setTableData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -32,7 +33,7 @@ const PaginatedTable = ({ children, data, dataInfo, additionFields, numOfItems, 
     }, [searchValue, data]);
 
     useEffect(() => {
-        // Pagination form: first page ... x-3 x-2 x-1 x x+1 x+2 x+3 ... last page
+        // Pagination format: first page ... x-3 x-2 x-1 x x+1 x+2 x+3 ... last page
         const startIndex = (currentPage-4 < 0) ? 0 : currentPage-4;
         const endIndex = currentPage+3;
         const paginationCount = pages.slice(startIndex , endIndex);
@@ -65,11 +66,10 @@ const PaginatedTable = ({ children, data, dataInfo, additionFields, numOfItems, 
         setCurrentPage(1);
     }
 
-
     return (
         <>
             <div className="row justify-content-between mb-2">
-                <div className="col-10 col-md-6 col-lg-4">
+                <div className="col-9 col-md-6 col-lg-4">
                     <div className="input-group mb-3 dir_ltr">
                         <input type="text" className="form-control"
                             placeholder={searchParams.placeHolder}
@@ -77,12 +77,14 @@ const PaginatedTable = ({ children, data, dataInfo, additionFields, numOfItems, 
                         <span className="input-group-text" >{searchParams.title}</span>
                     </div>
                 </div>
-                <div className="col-2 col-md-6 col-lg-4 d-flex flex-column align-items-end">
+                <div className="col-3 col-md-6 col-lg-4 d-flex flex-column align-items-end">
                     {children}
                 </div>
             </div>
             {
-                initData.length > 0 ? (
+                loading ? (
+                <SpinnerLoader colorClass={"text-success"} />
+                ) : initData.length > 0 ? (
                     <>
                         <div className="table-responsive">
                         <table className="table text-center table-hover table-bordered">
@@ -135,8 +137,9 @@ const PaginatedTable = ({ children, data, dataInfo, additionFields, numOfItems, 
 
                         <div className="row">
                             <div className="col-8 col-sm-5 col-md-5 col-lg-4 col-xl-3 mt-3 mt-md-1 mb-3">
-                                <input type="number" className="form-control" min="1" max="20"
-                                    placeholder="تعداد آیتم های صفحه"
+                                <input type="number" className="form-control"
+                                    min="1" max="20" title="تعداد آیتم های صفحه"
+                                    placeholder="تعداد آیتم های صفحه" value={itemsCount}
                                     onChange={(event) => handleChangeItemsCount(event)} />
                             </div>
                         </div>
@@ -185,7 +188,6 @@ const PaginatedTable = ({ children, data, dataInfo, additionFields, numOfItems, 
                         نتیجه ای یافت نشد!
                     </div>
                 )
-
             }
 
         </>

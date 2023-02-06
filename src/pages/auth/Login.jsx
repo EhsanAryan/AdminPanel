@@ -23,13 +23,9 @@ const onSubmit = async (values, submitProps, navigate) => {
             localStorage.setItem("loginToken" , JSON.stringify(response.data));
             navigate("/");
         }
-        else {
-            Alert("اررور!" , response.data.message , "error");
-        }
         submitProps.setSubmitting(false);
 
     } catch (error) {
-        Alert("اررور!" , "خطایی در سمت سرور رخ داده است" , "error");
         submitProps.setSubmitting(false);
     }
 }
@@ -38,7 +34,7 @@ const validationSchema = Yup.object({
     phone: Yup.string().required("شماره تلفن را وارد کنید.")
         .matches(/^[0-9]{11}$/, "شماره تلفن باید 11 رقمی باشد."),
     password: Yup.string().required("رمز عبور را وارد کنید.")
-        .matches(/^\w+$/, "رمز عبور فقط میتواند شامل حروف الفبا و اعداد و آندراسکور باشد.")
+        .matches(/^[a-zA-Z0-9!@#$%&]+$/, "رمز عبور فقط میتواند شامل حروف الفبا و اعداد و آندراسکور و برخی کاراکترها باشد.")
         .min(6, "رمز عبور حداقل باید 6 کارکتر باشد."),
     remember: Yup.boolean()
 });
@@ -85,6 +81,7 @@ const Login = () => {
                                         control="switch"
                                         name="remember"
                                         label=" مرا به خاطر بسپار"
+                                        className={"mx-auto custom-field-size d-flex justify-content-start align-items-center"}
                                     />
                                 </div>
 
