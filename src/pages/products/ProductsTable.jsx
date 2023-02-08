@@ -85,7 +85,7 @@ const ProductsTable = () => {
                 const response = await deleteProductservice(productData.id);
                 if (response.status === 200) {
                     Alert("حذف محصول", data.message, "success");
-                    setData(prevData => prevData.filter(d => d.id !== productData.id));
+                    handleGetProducts(currentPage, itemsCount, searchChar);
                 }
             } catch (error) {
 

@@ -88,7 +88,7 @@ const CategoriesTable = () => {
                 data={data}
                 dataInfo={dataInfo}
                 additionFields={additionFields}
-                numOfItems={8}
+                numOfItems={4}
                 searchParams={searchParams}
                 loading={loading}
             >

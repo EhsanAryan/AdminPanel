@@ -7,9 +7,10 @@ const PaginatedTable = ({ children, data, dataInfo, additionFields, numOfItems, 
     const [tableData, setTableData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [pages, setPages] = useState([]);
-    const [pagination, setPagination] = useState(pages);
     const [searchValue, setSearchValue] = useState("");
     const [itemsCount, setItemsCount] = useState(numOfItems);
+
+    const pageRange = 3;
 
     useEffect(() => {
         const pagesCount = Math.ceil(initData.length / itemsCount);
@@ -32,25 +33,7 @@ const PaginatedTable = ({ children, data, dataInfo, additionFields, numOfItems, 
         setCurrentPage(1);
     }, [searchValue, data]);
 
-    useEffect(() => {
-        // Pagination format: first page ... x-3 x-2 x-1 x x+1 x+2 x+3 ... last page
-        const startIndex = (currentPage - 4 < 0) ? 0 : currentPage - 4;
-        const endIndex = currentPage + 3;
-        const paginationCount = pages.slice(startIndex, endIndex);
 
-        let paginationArray = [1, ...paginationCount, pages.length];
-        if ((currentPage > 5) && (currentPage < (pages.length - 4))) {
-            paginationArray = [1, "...1", ...paginationCount, "...2", pages.length];
-        }
-        else if (currentPage > 5) {
-            paginationArray = [1, "...1", ...paginationCount, pages.length];
-        }
-        else if (currentPage < (pages.length - 4)) {
-            paginationArray = [1, ...paginationCount, "...2", pages.length];
-        }
-        paginationArray = [...new Set(paginationArray)];
-        setPagination(paginationArray);
-    }, [currentPage, pages]);
 
     const handleChangeItemsCount = (event) => {
         const cnt = Number(Math.ceil(event.target.value));
@@ -154,24 +137,50 @@ const PaginatedTable = ({ children, data, dataInfo, additionFields, numOfItems, 
                                                 <span aria-hidden="true" className='text-dark'>&raquo;</span>
                                             </span>
                                         </li>
-                                        {pagination.map(page => {
-                                            return typeof page === "string" && page.includes("...") ? (
-                                                <li key={`page_${page}`}
-                                                    className="page-item">
-                                                    <span className="page-link text-dark disabled-page">
-                                                        ...
-                                                    </span>
-                                                </li>
-                                            ) : (
-                                                <li key={`page_${page}`}
-                                                    className="page-item">
+                                        {
+                                            currentPage > 1 + pageRange ? (
+                                                <>
+                                                    <li className="page-item">
+                                                        <span className="page-link text-dark"
+                                                            onClick={() => setCurrentPage(1)}>
+                                                            1
+                                                        </span>
+                                                    </li>
+                                                    <li className="page-item">
+                                                        <span className="page-link text-dark disabled">
+                                                            ...
+                                                        </span>
+                                                    </li>
+                                                </>
+                                            ) : null
+                                        }
+                                        {pages.map(page => {
+                                            return (page >= currentPage - pageRange) && (page <= currentPage + pageRange) ? (
+                                                <li key={`page_${page}`} className="page-item">
                                                     <span className={`page-link text-dark ${currentPage === page ? "active-page" : null}`}
                                                         onClick={() => setCurrentPage(page)}>
                                                         {page}
                                                     </span>
                                                 </li>
-                                            )
+                                            ) : null
                                         })}
+                                        {
+                                            currentPage < pages.length - pageRange ? (
+                                                <>
+                                                    <li className="page-item">
+                                                        <span className="page-link text-dark disabled">
+                                                            ...
+                                                        </span>
+                                                    </li>
+                                                    <li className="page-item">
+                                                        <span className="page-link text-dark"
+                                                            onClick={() => setCurrentPage(pages.length)}>
+                                                            {pages.length}
+                                                        </span>
+                                                    </li>
+                                                </>
+                                            ) : null
+                                        }
                                         <li className="page-item">
                                             <span className={`page-link ${currentPage === pages.length ? "disabled" : null}`}
                                                 aria-label="Next" onClick={() => setCurrentPage(currentPage + 1)}>
