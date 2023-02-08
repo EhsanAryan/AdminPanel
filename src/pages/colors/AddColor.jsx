@@ -10,7 +10,10 @@ const AddColor = ({ setData, editColor, setEditColor }) => {
 
     useEffect(() => {
         if (editColor) {
-            setReinitializeValues(editColor);
+            setReinitializeValues({
+                title: editColor.title,
+                code: editColor.code
+            });
         } else {
             setReinitializeValues(null);
         }
@@ -26,7 +29,7 @@ const AddColor = ({ setData, editColor, setEditColor }) => {
 
             <ModalContainer
                 id={"add_color_modal"}
-                title={"افزون رنگ"}
+                title={`${editColor ? "ویرایش رنگ" : "افزون رنگ"}`}
                 fullScreen={false}
             >
                 <div className="container">

@@ -30,9 +30,9 @@ const validationSchema = Yup.object({
     title: Yup.string().required("فیلد را پر کنید").matches(/^[a-zA-Z0-9!?@#$%&\u0600-\u06FF\s]+$/,
         "فقط از حروف و اعداد و کاراکترها استفاده شود"),
     price: Yup.number().required("فیلد را پر کنید").min(1, "قیمت نمیتواند 0 یا منفی باشد"),
-    weight: Yup.number().min(1, "وزن نمیتواند 0 یا صفر باشد"),
+    weight: Yup.string(),
     brand_id: Yup.number(),
-    color: Yup.array(),
+    colors: Yup.array(),
     guarantees: Yup.array(),
     descriptions: Yup.string().matches(/^[a-zA-Z0-9!?@#$%&\u0600-\u06FF\s.]+$/,
         "فقط از حروف و اعداد و کاراکترها استفاده شود"),
@@ -92,24 +92,36 @@ const AddProduct = () => {
                                         </span>
                                     </div>
                                 </div>
-                                <div className="col-12 col-md-6 col-lg-8">
-                                    <div className="input-group my-3 dir_ltr" >
-                                        <input type="text" className="form-control" placeholder="عنوان محصول" />
-                                        <span className="input-group-text w_6rem justify-content-center">عنوان</span>
-                                    </div>
-                                </div>
-                                <div className="col-12 col-md-6 col-lg-8">
-                                    <div className="input-group mb-3 dir_ltr" >
-                                        <input type="text" className="form-control" placeholder="قیمت محصول" />
-                                        <span className="input-group-text w_6rem justify-content-center">قیمت</span>
-                                    </div>
-                                </div>
-                                <div className="col-12 col-md-6 col-lg-8">
-                                    <div className="input-group mb-3 dir_ltr" >
-                                        <input type="text" className="form-control" placeholder="وزن محصول (کیلوگرم)" />
-                                        <span className="input-group-text w_6rem justify-content-center">وزن</span>
-                                    </div>
-                                </div>
+
+                                <FormikControl
+                                    control="input"
+                                    name="title"
+                                    label="عنوان"
+                                    type="text"
+                                    className="col-md-6 col-lg-8 my-3"
+                                    placeHolder="عنوان محصول"
+                                />
+
+                                <FormikControl
+                                    control="input"
+                                    name="price"
+                                    label="قیمت"
+                                    type="number"
+                                    className="col-md-6 col-lg-8"
+                                    placeHolder="قیمت محصول"
+                                />
+
+                                <FormikControl
+                                    control="input"
+                                    name="weight"
+                                    label="وزن"
+                                    type="text"
+                                    className="col-md-6 col-lg-8"
+                                    placeHolder="وزن محصول (کیلوگرم)"
+                                />
+
+
+                               
                                 <div className="col-12 col-md-6 col-lg-8">
                                     <div className="input-group mb-3 dir_ltr" >
                                         <span className="input-group-text justify-content-center">

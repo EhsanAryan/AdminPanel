@@ -4,6 +4,7 @@ import ModalContainer from '../../components/ModalContainer';
 import FormikControl from '../../components/form/FormikControl';
 import { initialValues, onSubmit, validationSchema } from './brandsFormikCodes';
 import { useState } from 'react';
+import { apiPath } from '../../services/httpService';
 
 
 const AddBrand = ({ setData, editBrand, setEditBrand }) => {
@@ -11,7 +12,12 @@ const AddBrand = ({ setData, editBrand, setEditBrand }) => {
 
     useEffect(() => {
         if (editBrand) {
-            setReinitializeValues(editBrand);
+            setReinitializeValues({
+                original_name: editBrand.original_name,
+                persian_name: editBrand.persian_name ? editBrand.persian_name : "",
+                descriptions: editBrand.descriptions ? editBrand.descriptions : "",
+                logo: null
+            });
         } else {
             setReinitializeValues(null);
         }
@@ -28,7 +34,7 @@ const AddBrand = ({ setData, editBrand, setEditBrand }) => {
 
             <ModalContainer
                 id={"add_brand_modal"}
-                title={"افزودن برند"}
+                title={`${editBrand ? "ویرایش برند" : "افزودن برند"}`}
                 fullScreen={false}
             >
                 <div className="container">
@@ -68,7 +74,12 @@ const AddBrand = ({ setData, editBrand, setEditBrand }) => {
                                     className="label-8rem"
                                 />
 
-                                {!editBrand ? (
+                                {editBrand && editBrand.logo ? (
+                                    <div className="text-center mt-4 mb-3 py-2">
+                                        <img src={`${apiPath}/${editBrand.logo}`} className="img-fluid" alt="Logo" />
+                                    </div>
+                                ) : null}
+
                                 <FormikControl
                                     control="file"
                                     name="logo"
@@ -76,11 +87,10 @@ const AddBrand = ({ setData, editBrand, setEditBrand }) => {
                                     placeHolder="تصویر"
                                     className="label-8rem"
                                 />
-                                ) : null}
 
                                 <FormikControl
                                     control="submit"
-                                    btnText="ذخیره"
+                                    btnText={`${editBrand ? "ویرایش" : "ذخیره"}`}
                                     className="col-md-6 col-lg-8 mt-4 btn_box text-center"
                                 />
                             </div>

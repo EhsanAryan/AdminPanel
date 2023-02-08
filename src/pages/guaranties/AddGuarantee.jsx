@@ -12,7 +12,12 @@ const AddGuarantee = ({ setData, editGuarantee, setEditGuarantee }) => {
 
     useEffect(() => {
         if (editGuarantee) {
-            setReinitializeValues(editGuarantee);
+            setReinitializeValues({
+                title: editGuarantee.title,
+                descriptions: editGuarantee.descriptions ? editGuarantee.descriptions : "",
+                length: editGuarantee.length,
+                length_unit: editGuarantee.length_unit,
+            });
         } else {
             setReinitializeValues(null);
         }
@@ -20,15 +25,15 @@ const AddGuarantee = ({ setData, editGuarantee, setEditGuarantee }) => {
 
     return (
         <>
-            <button className="btn btn-success d-flex justify-content-center align-items-center" 
-            data-bs-toggle="modal" data-bs-target="#add_guarantee_modal"
-            onClick={() => setEditGuarantee(null)}>
+            <button className="btn btn-success d-flex justify-content-center align-items-center"
+                data-bs-toggle="modal" data-bs-target="#add_guarantee_modal"
+                onClick={() => setEditGuarantee(null)}>
                 <i className="fas fa-plus text-light"></i>
             </button>
 
             <ModalContainer
                 id={"add_guarantee_modal"}
-                title={"افزودن گارانتی"}
+                title={`${editGuarantee ? "ویرایش گارانتی" : "افزودن گارانتی"}`}
                 fullScreen={false}
             >
                 <div className="container">
@@ -68,6 +73,15 @@ const AddGuarantee = ({ setData, editGuarantee, setEditGuarantee }) => {
                                     type="number"
                                     className="label-8rem my-2"
                                     placeHolder="مدت گارانتی"
+                                />
+
+                                <FormikControl
+                                    control="input"
+                                    name="length_unit"
+                                    label="واحد"
+                                    type="text"
+                                    className="label-8rem my-2"
+                                    placeHolder="واحد"
                                 />
 
                                 <FormikControl

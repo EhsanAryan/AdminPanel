@@ -14,14 +14,12 @@ const GuarantiesTable = () => {
     const dataInfo = [
         { field: "id", title: "#" },
         { field: "title", title: "عنوان" },
-        { field: "descriptions", title: "توضیحات" }
+        { field: "descriptions", title: "توضیحات" },
+        { field: "length", title: "مدت" },
+        { field: "length_unit", title: "واحد" },
     ]
 
     const additionFields = [
-        {
-            title: "مدت",
-            elements: (rowData) => <span>{rowData.length} ماه</span>
-        },
         {
             title: "عملیات",
             elements: (rowData) => <Actions rowData={rowData} 

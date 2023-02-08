@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import PaginatedTable from '../../components/PaginatedTable';
+import PaginatedDataTable from '../../components/PaginatedDataTable';
 import { deleteProductservice, getProductsService } from '../../services/productServices';
 import { Alert, Confirm } from '../../utils/Alerts';
 import Actions from './additionFields/Actions';
@@ -10,47 +10,71 @@ import AddProduct from './AddProduct';
 
 const ProductsTable = () => {
     const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [searchChar, setSearchChar] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsCount, setItemsCount] = useState(3);
+    const [pagesCount, setPagesCount] = useState(0);
 
     const dataInfo = [
-        { field: "id", title: "#" },
-        { field: "title", title: "عنوان" },
-        { field: "price", title: "قیمت" },
-        { field: "stock", title: "موجودی" },
-    ];
-
-    const additionFields = [
         {
+            field: "id",
+            title: "#"
+        },
+        {
+            field: null,
+            title: "گروه محصول",
+            elements: (rowData) => <span>{rowData.categories[0].title}</span>
+        },
+        {
+            field: "title",
+            title: "عنوان"
+        },
+        {
+            field: "price",
+            title: "قیمت"
+        },
+        {
+            field: "stock",
+            title: "موجودی"
+        },
+        {
+            field: null,
             title: "تعداد لایک",
             elements: (rowData) => <LikeCounts rowData={rowData} />
         },
         {
+            field: null,
             title: "وضعیت",
             elements: (rowData) => <Status rowData={rowData} />
         },
         {
+            field: null,
             title: "عملیات",
             elements: (rowData) => <Actions rowData={rowData} handleDeleteProduct={handleDeleteProduct} />
         }
-    ]
+    ];
 
     const searchParams = {
-        searchField: "title",
         title: "جستجو",
         placeHolder: "عنوان محصول را وارد کنید"
     }
 
-    const handleGetProducts = async () => {
+    const handleGetProducts = async (page, count, char) => {
+        setLoading(true);
         try {
-            const response = await getProductsService();
+            const response = await getProductsService(page, count, char);
             if (response.status === 200) {
                 setData(response.data.data);
+                setPagesCount(response.data.last_page);
                 console.log(response);
-
             } else {
 
             }
         } catch (error) {
 
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -61,7 +85,7 @@ const ProductsTable = () => {
                 const response = await deleteProductservice(productData.id);
                 if (response.status === 200) {
                     Alert("حذف محصول", data.message, "success");
-                    setData(oldData => oldData.filter(d => d.id !== productData.id));
+                    setData(prevData => prevData.filter(d => d.id !== productData.id));
                 }
             } catch (error) {
 
@@ -72,22 +96,33 @@ const ProductsTable = () => {
 
     }
 
+    const handleSearch = (char) => {
+        setSearchChar(char);
+        handleGetProducts(1, itemsCount, char);
+    }
+
     useEffect(() => {
-        handleGetProducts();
-    }, []);
+        handleGetProducts(currentPage, itemsCount, searchChar);
+    }, [currentPage, itemsCount]);
 
 
     return (
         <>
-            <PaginatedTable
-                data={data}
+            <PaginatedDataTable
+                tableData={data}
                 dataInfo={dataInfo}
-                additionFields={additionFields}
                 numOfItems={7}
                 searchParams={searchParams}
+                loading={loading}
+                itemsCount={itemsCount}
+                setItemsCount={setItemsCount}
+                pagesCount={pagesCount}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                handleSearch={handleSearch}
             >
                 <AddProduct />
-            </PaginatedTable>
+            </PaginatedDataTable>
         </>
     );
 }

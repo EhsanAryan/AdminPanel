@@ -2,35 +2,29 @@ import React, { useEffect, useState } from 'react';
 import SpinnerLoader from './SpinnerLoader';
 
 
-const PaginatedTable = ({ children, data, dataInfo, additionFields, numOfItems, searchParams, loading }) => {
-    const [initData, setInitData] = useState(data);
-    const [tableData, setTableData] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
+const PaginatedTable = ({
+    children,
+    tableData,
+    dataInfo,
+    itemsCount,
+    setItemsCount,
+    pagesCount,
+    currentPage,
+    setCurrentPage,
+    searchParams,
+    handleSearch,
+    loading,
+}) => {
     const [pages, setPages] = useState([]);
     const [pagination, setPagination] = useState(pages);
-    const [searchValue, setSearchValue] = useState("");
-    const [itemsCount, setItemsCount] = useState(numOfItems);
 
     useEffect(() => {
-        const pagesCount = Math.ceil(initData.length / itemsCount);
         let allPages = [];
         for (let p = 1; p <= pagesCount; p++) {
             allPages = [...allPages, p];
         }
         setPages(allPages);
-    }, [initData, itemsCount]);
-
-    useEffect(() => {
-        const startIndex = (currentPage - 1) * itemsCount;
-        const endIndex = currentPage * itemsCount;
-        const currentData = initData.slice(startIndex, endIndex);
-        setTableData(currentData);
-    }, [currentPage, initData, itemsCount]);
-
-    useEffect(() => {
-        setInitData(data.filter(d => d[searchParams.searchField].toLowerCase().includes(searchValue.toLowerCase())));
-        setCurrentPage(1);
-    }, [searchValue, data]);
+    }, [pagesCount]);
 
     useEffect(() => {
         // Pagination format: first page ... x-3 x-2 x-1 x x+1 x+2 x+3 ... last page
@@ -55,7 +49,7 @@ const PaginatedTable = ({ children, data, dataInfo, additionFields, numOfItems, 
     const handleChangeItemsCount = (event) => {
         const cnt = Number(Math.ceil(event.target.value));
         if (cnt <= 0) {
-            setItemsCount(numOfItems);
+            setItemsCount(5);
         }
         else if (cnt > 20) {
             setItemsCount(20);
@@ -66,6 +60,15 @@ const PaginatedTable = ({ children, data, dataInfo, additionFields, numOfItems, 
         setCurrentPage(1);
     }
 
+    let timeout;
+
+    const handleSetSearchChar = (char) => {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            handleSearch(char);
+        }, 1000);
+    }
+
     return (
         <>
             <div className="row justify-content-between mb-2">
@@ -73,7 +76,7 @@ const PaginatedTable = ({ children, data, dataInfo, additionFields, numOfItems, 
                     <div className="input-group mb-3 dir_ltr">
                         <input type="text" className="form-control"
                             placeholder={searchParams.placeHolder}
-                            value={searchValue} onChange={(event) => setSearchValue(event.target.value)} />
+                            onChange={(ev) => handleSetSearchChar(ev.target.value)} />
                         <span className="input-group-text" >{searchParams.title}</span>
                     </div>
                 </div>
@@ -84,50 +87,40 @@ const PaginatedTable = ({ children, data, dataInfo, additionFields, numOfItems, 
             {
                 loading ? (
                     <SpinnerLoader colorClass={"text-success"} />
-                ) : initData.length > 0 ? (
+                ) : tableData.length > 0 ? (
                     <>
                         <div className="table-responsive">
                             <table className="table text-center table-hover table-bordered">
                                 <thead className="table-secondary">
                                     <tr>
-                                        {dataInfo.map(i => {
+                                        {dataInfo.map((i, index) => {
                                             return (
-                                                <th key={i.field}>{i.title}</th>
+                                                <th key={i.field || `tableHeader_${index}`}>
+                                                    {i.title}
+                                                </th>
                                             )
                                         })}
-                                        {
-                                            additionFields ? (
-                                                additionFields.map((a, index) => {
-                                                    return (
-                                                        <th key={`additionTitle${index}`}>
-                                                            {a.title}
-                                                        </th>
-                                                    )
-                                                })
-                                            ) : null
-                                        }
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {tableData.map(d => {
                                         return (
                                             <tr key={`item_${d.id}`}>
-                                                {dataInfo.map(i => {
+                                                {dataInfo.map((i, index) => {
+                                                    if (i.field) {
+                                                        return (
+                                                            <td key={`cell_${d.id}_${i.field}`}>
+                                                                {d[i.field]}
+                                                            </td>
+                                                        )
+                                                    }
                                                     return (
-                                                        <td key={`cell_${d.id}_${i.field}`}>{d[i.field]}</td>
+                                                        <td key={`cell_${d.id}_${index}}`}>
+                                                            {i.elements(d)}
+                                                        </td>
                                                     )
                                                 })}
-                                                {
-                                                    additionFields ? (
-                                                        additionFields.map((a, index) => {
-                                                            return (
-                                                                <td key={`additionCell${index}_data${d.id}`}>
-                                                                    {a.elements(d)}
-                                                                </td>
-                                                            )
-                                                        })
-                                                    ) : null
-                                                }
+
                                             </tr>
                                         )
                                     })}

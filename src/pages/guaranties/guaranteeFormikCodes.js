@@ -7,6 +7,7 @@ export const initialValues = {
     title: "",
     descriptions: "",
     length: "",
+    length_unit: ""
 }
 
 export const onSubmit = async (values, actions, setData, editGuarantee, setEditGuarantee) => {
@@ -26,7 +27,7 @@ export const onSubmit = async (values, actions, setData, editGuarantee, setEditG
         } else {
             const response = await addNewGuarantee(values);
             if(response.status === 201) {
-                Alert("افزودن گارانتی", response.data.message);
+                Alert("افزودن گارانتی", response.data.message, "success");
                 actions.resetForm();
                 setData(prevData => [...prevData , response.data.data]);
             }
@@ -42,5 +43,9 @@ export const validationSchema = Yup.object({
         "فقط از حروف و اعداد و کاراکترها استفاده شود"),
     descriptions: Yup.string().matches(/^[a-zA-Z0-9!?@#$%&\u0600-\u06FF\s.]+$/,
         "فقط از حروف و اعداد و کاراکترها استفاده شود"),
-    length: Yup.number().required("مدت گارانتی را مشخص کنید").min(1, "مدت گارانتی نمیتواند کمتر از 1 ماه باشد")
+    length: Yup.number().required("مدت گارانتی را مشخص کنید")
+    .min(1, "مدت گارانتی نمیتواند کمتر از 1 باشد"),
+    length_unit: Yup.string().required("برای مدت گارانتی باید واحد مشخص کنید")
+    .matches(/^[a-zA-Z\u0600-\u06FF\s]+$/,
+    "فقط از حروف استفاده شود")
 });

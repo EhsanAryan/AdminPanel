@@ -9,7 +9,15 @@ export const deleteBrandService = (id) => {
 }
 
 export const addNewBrandService = (data) => {
-    return httpService("/admin/brands", "post", data)
+    if(data.logo) {
+        let formdata = new FormData();
+        formdata.append("original_name", data.original_name);
+        formdata.append("persian_name", data.persian_name);
+        formdata.append("descriptions", data.descriptions);
+        formdata.append("logo", data.logo);
+        data = formdata;
+    }
+    return httpService("/admin/brands", "post", data);
 }
 
 // export const getSignleBrand = (id) => {
@@ -17,5 +25,13 @@ export const addNewBrandService = (data) => {
 // }
 
 export const editBrandService = (id, data) => {
+    if(data.logo) {
+        let formdata = new FormData();
+        formdata.append("original_name", data.original_name);
+        formdata.append("persian_name", data.persian_name);
+        formdata.append("descriptions", data.descriptions);
+        formdata.append("logo", data.logo);
+        data = formdata;
+    }
     return httpService(`/admin/brands/${id}`, "post", data)
 }

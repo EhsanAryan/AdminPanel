@@ -37,5 +37,5 @@ export const onSubmit = async (values, actions, setData, editColor, setEditColor
 export const validationSchema = Yup.object({
     title: Yup.string().required("نام رنگ را وارد کنید").matches(/^[a-zA-Z0-9!?@#$%&\u0600-\u06FF\s]+$/,
         "فقط از حروف و اعداد و کاراکترها استفاده شود"),
-    code: Yup.mixed().required("رنگ مورد نظر را انتخاب کنید")
+    code: Yup.string().required("رنگ مورد نظر را انتخاب کنید")
 })

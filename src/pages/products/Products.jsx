@@ -1,5 +1,4 @@
 import React from 'react'
-import AddProduct from './AddProduct';
 import ProductsTable from './ProductsTable';
 import SetProductAttribute from './SetProductAttribute';
 

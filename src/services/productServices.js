@@ -1,7 +1,7 @@
 import httpService from "./httpService";
 
-export const getProductsService = () => {
-    return httpService("/admin/products", "get");
+export const getProductsService = (page, count, searchChar) => {
+    return httpService(`/admin/products?page=${page}&count=${count}&searchChar=${searchChar}`, "get");
 }
 
 export const deleteProductservice = (id) => {

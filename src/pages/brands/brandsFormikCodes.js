@@ -50,6 +50,6 @@ export const validationSchema = Yup.object({
         "حجم فایل نمیتواند بیشتر از 500 کیلوبایت باشد",
         (value) => !value ? true : (value.size <= 500 * 1024))
         .test("format",
-            "فرمت فایل باید jpg باشد",
-            (value) => !value ? true : (value.type === "image/jpeg")),
+            "فرمت فایل باید png باشد",
+            (value) => !value ? true : (value.type === "image/png")),
 });
