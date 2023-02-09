@@ -17,6 +17,7 @@ import Guaranties from './guaranties/Guaranties';
 import Orders from './orders/Orders';
 import Permissions from './permissions/Permissions';
 import Products from './products/Products';
+import AddProduct from './products/AddProduct';
 import Questions from './questions/Questions';
 import Roles from './roles/Roles';
 import Users from './users/Users';
@@ -34,6 +35,7 @@ const Content = () => {
                 </Route>
                 <Route path="/categories/:categoryId/attributes" element={<Attributes />} />
                 <Route path="/products" element={<Products />} />
+                <Route path="/products/add-product" element={<AddProduct />} />
                 <Route path="/brands" element={<Brands />} />
                 <Route path="/guaranties" element={<Guaranties />} />
                 <Route path="/colors" element={<Colors />} />

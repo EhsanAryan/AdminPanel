@@ -6,7 +6,7 @@ const Textarea = ({ name, label, className, placeHolder, rows }) => {
     return (
         <div className={`col-12 ${className}`}>
             <div className="input-group mb-2 dir_ltr">
-                <FastField as="textarea" id={name} name={name} placeholder={placeHolder} rows={rows}
+                <FastField as="textarea" id={name} name={name} placeholder={placeHolder} rows={rows || 3}
                 className="form-control" />
                 <span className="input-group-text w_6rem justify-content-center">{label}</span>
             </div>

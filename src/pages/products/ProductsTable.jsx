@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import AddButtonLink from '../../components/AddButtonLink';
 import PaginatedDataTable from '../../components/PaginatedDataTable';
 import { deleteProductservice, getProductsService } from '../../services/productServices';
 import { Alert, Confirm } from '../../utils/Alerts';
 import Actions from './additionFields/Actions';
 import LikeCounts from './additionFields/LikeCounts';
 import Status from './additionFields/Status';
-import AddProduct from './AddProduct';
 
 
 const ProductsTable = () => {
@@ -13,7 +13,7 @@ const ProductsTable = () => {
     const [loading, setLoading] = useState(false);
     const [searchChar, setSearchChar] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsCount, setItemsCount] = useState(3);
+    const [itemsCount, setItemsCount] = useState(5);
     const [pagesCount, setPagesCount] = useState(0);
 
     const dataInfo = [
@@ -111,7 +111,6 @@ const ProductsTable = () => {
             <PaginatedDataTable
                 tableData={data}
                 dataInfo={dataInfo}
-                numOfItems={7}
                 searchParams={searchParams}
                 loading={loading}
                 itemsCount={itemsCount}
@@ -121,7 +120,7 @@ const ProductsTable = () => {
                 setCurrentPage={setCurrentPage}
                 handleSearch={handleSearch}
             >
-                <AddProduct />
+                <AddButtonLink href="/products/add-product" />
             </PaginatedDataTable>
         </>
     );

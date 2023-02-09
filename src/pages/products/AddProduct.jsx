@@ -1,97 +1,146 @@
 import { Form, Formik } from 'formik';
-import React from 'react';
-import ModalContainer from '../../components/ModalContainer';
-import * as Yup from "yup";
+import React, { useEffect } from 'react';
 import FormikControl from '../../components/form/FormikControl';
-
-const initialValues = {
-    categories: [],
-    title: "",
-    price: "",
-    weight: "",
-    brand_id: "",
-    colors: [],
-    guarantees: [],
-    descriptions: "",
-    image: null,
-    alt_image: "",
-    keywords: "",
-    stock: "",
-    discount: "",
-    is_active: true
-}
-
-const onSubmit = (values, actions) => {
-    console.log(values);
-}
-
-const validationSchema = Yup.object({
-    categories: Yup.array().required("حداقل یک دسته را باید انتخاب کنید"),
-    title: Yup.string().required("فیلد را پر کنید").matches(/^[a-zA-Z0-9!?@#$%&\u0600-\u06FF\s]+$/,
-        "فقط از حروف و اعداد و کاراکترها استفاده شود"),
-    price: Yup.number().required("فیلد را پر کنید").min(1, "قیمت نمیتواند 0 یا منفی باشد"),
-    weight: Yup.string(),
-    brand_id: Yup.number(),
-    colors: Yup.array(),
-    guarantees: Yup.array(),
-    descriptions: Yup.string().matches(/^[a-zA-Z0-9!?@#$%&\u0600-\u06FF\s.]+$/,
-        "فقط از حروف و اعداد و کاراکترها استفاده شود"),
-    image: Yup.mixed().test("filesize",
-        "حجم فایل نمیتواند بیشتر از 500 کیلوبایت باشد",
-        (value) => !value ? true : (value.size <= 500 * 1024))
-        .test("format",
-            "فرمت فایل باید jpg باشد",
-            (value) => !value ? true : (value.type === "image/jpeg")),
-    alt_image: Yup.string().matches(/^[a-zA-Z0-9!?@#$%&\u0600-\u06FF\s]+$/,
-        "فقط از حروف و اعداد و کاراکترها استفاده شود"),
-    keywords: Yup.string().matches(/^[a-zA-Z0-9!?@#$%&\u0600-\u06FF\s-]+$/,
-        "فقط از حروف و اعداد و کاراکترها استفاده شود"),
-    stock: Yup.number().min(0, "موجودی نمیتواند منفی باشد"),
-    discount: Yup.number().min(0, "تخفیف نمیتواند منفی باشد").max(100, "حداکثر تخفیف 100 درصد است"),
-    is_active: Yup.boolean()
-});
+import { initialValues, onSubmit, validationSchema } from './productsFormikCodes';
+import { useState } from 'react';
+import { getCategoriesService } from '../../services/categoriesServices';
+import SpinnerLoader from '../../components/SpinnerLoader';
+import PrevButton from '../../components/PrevButton';
+import { getBrandsService } from '../../services/brandsServices';
+import { getColorsServices } from '../../services/colorsServices';
+import { getGuarantiesService } from '../../services/guarantiesServices';
 
 
 const AddProduct = () => {
-    return (
-        <>
-            <button className="btn btn-success d-flex justify-content-center align-items-center"
-                data-bs-toggle="modal" data-bs-target="#add_product_modal">
-                <i className="fas fa-plus text-light"></i>
-            </button>
+    const [parentCategories, setParentCategories] = useState([]);
+    const [allBrands, setAllBrands] = useState([]);
+    const [allColors, setAllColors] = useState([]);
+    const [allGuaranties, setAllGuaranties] = useState([]);
+    const [mainCategories, setMainCategories] = useState([]);
 
-            <ModalContainer
-                id={"add_product_modal"}
-                title={"افزودن محصول جدید"}
-                fullScreen={true}
+    const getAllParentCategories = async () => {
+        try {
+            const response = await getCategoriesService();
+            if (response.status === 200) {
+                setParentCategories(response.data.data.map(c => {
+                    return { id: c.id, value: c.title };
+                }))
+            }
+        } catch (error) {
+
+        }
+    }
+
+    const getAllBrands = async () => {
+        try {
+            const response = await getBrandsService();
+            if (response.status === 200) {
+                setAllBrands(response.data.data.map(d => {
+                    return { id: d.id, value: d.persian_name }
+                }))
+            }
+        } catch (error) {
+
+        }
+    }
+
+    const getAllColors = async () => {
+        try {
+            const response = await getColorsServices();
+            if (response.status === 200) {
+                setAllColors(response.data.data.map(d => {
+                    return { id: d.id, value: d.title }
+                }))
+            }
+        } catch (error) {
+
+        }
+    }
+
+    const getAllGuaranties = async () => {
+        try {
+            const response = await getGuarantiesService();
+            if (response.status === 200) {
+                setAllGuaranties(response.data.data.map(d => {
+                    return { id: d.id, value: d.title }
+                }))
+            }
+        } catch (error) {
+
+        }
+    }
+
+    const handleSetMainCategories = async (value) => {
+        setMainCategories("waiting");
+        if (value) {
+            try {
+                const response = await getCategoriesService(value);
+                if (response.status === 200) {
+                    setMainCategories(response.data.data.map(c => {
+                        return { id: c.id, value: c.title };
+                    }))
+                } else {
+                    setMainCategories([]);
+                }
+            } catch (error) {
+                setMainCategories([]);
+            }
+        } else {
+            setMainCategories([]);
+        }
+    }
+
+    useEffect(() => {
+        getAllParentCategories();
+        getAllBrands();
+        getAllColors();
+        getAllGuaranties();
+    }, []);
+
+
+    return (
+        <div className="container">
+            <h4 className="text-center mt-3 mb-4">افزودن محصولات</h4>
+            <Formik
+                initialValues={initialValues}
+                onSubmit={onSubmit}
+                validationSchema={validationSchema}
             >
-                <div className="container">
-                    <Formik
-                        initialValues={initialValues}
-                        onSubmit={onSubmit}
-                        validationSchema={validationSchema}
-                    >
+                {(formik) => {
+                    return (
                         <Form>
                             <div className="row justify-content-center">
-                                <div className="col-12 col-md-6 col-lg-8">
-                                    <div className="input-group mb-2 dir_ltr">
-                                        <select type="text" className="form-control">
-                                            <option value="1">انتخاب دسته محصول</option>
-                                            <option value="1">دسته شماره 1</option>
-                                        </select>
-                                        <span className="input-group-text w_6rem justify-content-center">دسته</span>
-                                    </div>
-                                    <div className="col-12 col-md-6 col-lg-8">
-                                        <span className="chips_elem">
-                                            <i className="fas fa-times text-danger"></i>
-                                            دسته فلان
-                                        </span>
-                                        <span className="chips_elem">
-                                            <i className="fas fa-times text-danger"></i>
-                                            دسته فلان
-                                        </span>
-                                    </div>
+                                <div className="col-12 col-md-6 col-lg-8 mt-1 mb-3 
+                                d-flex justify-content-end align-items-center">
+                                    <PrevButton />
                                 </div>
+                                <FormikControl
+                                    control="select"
+                                    name="parentCats"
+                                    options={parentCategories}
+                                    label="دسته والد"
+                                    className="col-md-6 col-lg-8 mx-auto"
+                                    headerText="دسته والد را انتخاب کنید"
+                                    handleOnChange={handleSetMainCategories}
+                                />
+
+                                {
+                                    mainCategories === "waiting" ? (
+                                        <SpinnerLoader isSmall={true} colorClass="text-primary" />
+                                    ) : null
+                                }
+
+                                <FormikControl
+                                    control="searchableSelect"
+                                    name="category_ids"
+                                    options={typeof mainCategories === "object" ? mainCategories : []}
+                                    label="دسته اصلی"
+                                    className="col-md-6 col-lg-8 mx-auto"
+                                    headerText="دسته اصلی را انتخاب کنید"
+                                    resultType="string"
+                                    placeHolder="بخشی از نام دسته را وارد کنید"
+                                    formikOptions={formik}
+                                />
 
                                 <FormikControl
                                     control="input"
@@ -115,67 +164,47 @@ const AddProduct = () => {
                                     control="input"
                                     name="weight"
                                     label="وزن"
-                                    type="text"
+                                    type="number"
                                     className="col-md-6 col-lg-8"
                                     placeHolder="وزن محصول (کیلوگرم)"
                                 />
 
 
-                               
-                                <div className="col-12 col-md-6 col-lg-8">
-                                    <div className="input-group mb-3 dir_ltr" >
-                                        <span className="input-group-text justify-content-center">
-                                            <i className="fas fa-plus text-success hoverable_text pointer"></i>
-                                        </span>
-                                        <input type="text" className="form-control"
-                                            placeholder="قسمتی از نام برند را وارد کنید" list="brandLists" />
-                                        <span className="input-group-text w_6rem justify-content-center">برند</span>
-                                        <datalist id="brandLists">
-                                            <option value="سامسونگ" />
-                                            <option value="سونی" />
-                                            <option value="اپل" />
-                                        </datalist>
-                                    </div>
-                                </div>
-                                <div className="col-12 col-md-6 col-lg-8">
-                                    <div className="input-group mb-2 dir_ltr" >
-                                        <input type="text" className="form-control"
-                                            placeholder="قسمتی از نام رنگ را وارد کنید" list="colorList" />
-                                        <datalist id="colorList">
-                                            <option value="مشکی" />
-                                            <option value="سفید" />
-                                            <option value="قرمز" />
-                                        </datalist>
-                                        <span className="input-group-text w_6rem justify-content-center">رنگ</span>
-                                    </div>
-                                    <div className="col-12 col-md-6 col-lg-8 mb-3 d-flex">
-                                        <span className="color_tag chips_elem d-flex justify-content-center align-items-center pb-2">
-                                            <i className="fas fa-times text-danger hoverable_text"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div className="col-12 col-md-6 col-lg-8">
-                                    <div className="input-group mb-2 dir_ltr" >
-                                        <input type="text" className="form-control"
-                                            placeholder="قسمتی از نام گارانتی را وارد کنید" list="guarantiList" />
-                                        <datalist id="guarantiList">
-                                            <option value="گارانتی فلان 1" />
-                                            <option value="گارانتی فلان 2" />
-                                            <option value="گارانتی فلان 3" />
-                                        </datalist>
-                                        <span className="input-group-text w_6rem justify-content-center">گارانتی</span>
-                                    </div>
-                                    <div className="col-12 col-md-6 col-lg-8 mb-3">
-                                        <span className="chips_elem">
-                                            <i className="fas fa-times text-danger"></i>
-                                            گارانتی فلان
-                                        </span>
-                                        <span className="chips_elem">
-                                            <i className="fas fa-times text-danger"></i>
-                                            گارانتی فلان
-                                        </span>
-                                    </div>
-                                </div>
+                                {/* <span className="input-group-text justify-content-center">
+                                    <i className="fas fa-plus text-success hoverable_text pointer"></i>
+                                </span> */}
+
+                                <FormikControl
+                                    control="select"
+                                    name="brand_id"
+                                    options={allBrands}
+                                    label="برند"
+                                    className="col-md-6 col-lg-8 mx-auto"
+                                    headerText="برند را انتخاب کنید"
+                                />
+
+                                <FormikControl
+                                    control="searchableSelect"
+                                    name="color_ids"
+                                    options={allColors}
+                                    label="رنگ"
+                                    className="col-md-6 col-lg-8 mx-auto"
+                                    headerText="رنگ را انتخاب کنید"
+                                    resultType="string"
+                                    placeHolder="بخشی از نام رنگ را وارد کنید"
+                                    formikOptions={formik}
+                                />
+
+                                <FormikControl
+                                    control="multiSelect"
+                                    name="guarantee_ids"
+                                    options={allGuaranties}
+                                    label="گارانتی"
+                                    className="col-md-6 col-lg-8 mx-auto mb-1"
+                                    headerText="گارانتی را انتخاب کنید"
+                                    resultType="string"
+                                    formikOptions={formik}
+                                />
 
                                 <FormikControl
                                     control="textarea"
@@ -186,6 +215,24 @@ const AddProduct = () => {
                                     rows={5}
                                 />
 
+
+                                <FormikControl
+                                    control="textarea"
+                                    name="short_descriptions"
+                                    label="توضیحات کوتاه"
+                                    className="col-md-6 col-lg-8 label-8rem"
+                                    placeHolder="توضیحات کوتاه در مورد محصول"
+                                    rows={2}
+                                />
+
+                                <FormikControl
+                                    control="textarea"
+                                    name="cart_descriptions"
+                                    label="توضیحات سبد خرید"
+                                    className="col-md-6 col-lg-8 label-8rem"
+                                    placeHolder="توضیحات  در سبد خرید"
+                                    rows={2}
+                                />
 
                                 <FormikControl
                                     control="file"
@@ -207,7 +254,7 @@ const AddProduct = () => {
                                 <FormikControl
                                     control="input"
                                     name="keywords"
-                                    label="تگ ها"
+                                    label="کلمات کلیدی"
                                     type="text"
                                     className="col-md-6 col-lg-8"
                                     placeHolder="با - از هم جدا شوند"
@@ -232,23 +279,21 @@ const AddProduct = () => {
                                 />
 
                                 <FormikControl
-                                    control="switch"
-                                    name="is_active"
-                                    label="وضعیت فعال"
-                                    className="col-12 col-md-6 col-lg-8 d-flex justify-content-center"
-                                />
-
-                                <FormikControl
                                     control="submit"
                                     btnText="ذخیره"
-                                    className="col-md-6 col-lg-8 mt-4 btn_box text-center"
+                                    className="col-md-6 col-lg-8 mt-3 mb-2 btn_box text-center"
+                                    isLarge={true}
                                 />
+                                <div className="col-12 col-md-6 mb-4 col-lg-8 text-center">
+                                    <PrevButton />
+                                </div>
                             </div>
                         </Form>
-                    </Formik>
-                </div>
-            </ModalContainer>
-        </>
+                    )
+                }}
+
+            </Formik>
+        </div>
     );
 }
 

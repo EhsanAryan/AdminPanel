@@ -1,3 +1,4 @@
+import { convertDataToFormData } from "../utils/convertData";
 import httpService from "./httpService";
 
 export const getProductsService = (page, count, searchChar) => {
@@ -6,4 +7,8 @@ export const getProductsService = (page, count, searchChar) => {
 
 export const deleteProductservice = (id) => {
     return httpService(`/admin/products/${id}`, "delete");
+}
+
+export const addNewProductService = (data) => {
+    return httpService("/admin/products", "post", data.image ? convertDataToFormData(data) : data);
 }

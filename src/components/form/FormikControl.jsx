@@ -2,6 +2,8 @@ import React from 'react';
 import Color from './Color';
 import File from './File';
 import InputField from './InputField';
+import MultiSelect from './MultiSelect';
+import SearchableSelect from './SearchableSelect';
 import Select from './Select';
 import SubmitButton from './SubmitButton';
 import Switch from './Switch';
@@ -11,6 +13,10 @@ const FormikControl = (props) => {
     switch (props.control) {
         case "select":
             return <Select {...props} />
+        case "multiSelect":
+            return <MultiSelect {...props} />
+        case "searchableSelect":
+            return <SearchableSelect {...props} />
         case "input":
             return <InputField {...props} />
         case "textarea":
