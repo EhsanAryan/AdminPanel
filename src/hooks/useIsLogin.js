@@ -10,11 +10,11 @@ export const useIsLogin = () => {
         if(loginToken) {
             try {
                 const response = await getUsersService();
-                setIsLogin(response.status===200 ? true : false)
-                setLoading(false);
+                setIsLogin(response.status===200 ? true : false);
             } catch (error) {
                 localStorage.removeItem("loginToken");
                 setIsLogin(false);
+            } finally {
                 setLoading(false);
             }
         }
