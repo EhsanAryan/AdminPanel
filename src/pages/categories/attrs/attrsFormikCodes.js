@@ -1,5 +1,5 @@
 import * as Yup from "yup";
-import { addCategoryAttrSerivce, editAttrService } from "../../../services/categoryAttrServices";
+import { addCategoryAttrSerivce, editAttrService } from "../../../services/categoryAttrsServices";
 import { Alert } from "../../../utils/Alerts";
 
 export const initialValues = {
@@ -8,13 +8,13 @@ export const initialValues = {
     in_filter: true
 }
 
-export const onSubmit = async (values, actions, categoryId, setData, editAttrId, setEditAttrId) => {
+export const onSubmit = async (values, actions, categoryId, setData, editAttrId, setEditAttrId, editAttr) => {
     try {
         const data = {
             ...values,
             in_filter: values.in_filter ? 1 : 0
         }
-        if (editAttrId) {
+        if (editAttr) {
             const response = await editAttrService(editAttrId, data);
             if(response.status === 200) {
                 Alert("ویرایش ویژگی", response.data.message, "success");

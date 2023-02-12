@@ -9,6 +9,7 @@ import PrevButton from '../../components/PrevButton';
 import { getBrandsService } from '../../services/brandsServices';
 import { getColorsServices } from '../../services/colorsServices';
 import { getGuarantiesService } from '../../services/guarantiesServices';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 
 const AddProduct = () => {
@@ -17,6 +18,15 @@ const AddProduct = () => {
     const [allColors, setAllColors] = useState([]);
     const [allGuaranties, setAllGuaranties] = useState([]);
     const [mainCategories, setMainCategories] = useState([]);
+    const [reinitializeValues, setReinitializeValues] = useState(null);
+    const [initialCategories, setInitialCategories] = useState([]); // used in editing product
+    const [initialColors, setInitialColors] = useState([]); // used in editing product
+    const [initialGuaranties, setInitialGuaranties] = useState([]); // used in editing product
+
+    const location = useLocation();
+    const editProduct = location.state?.editProduct;
+
+    const navigate = useNavigate();
 
     const getAllParentCategories = async () => {
         try {
@@ -90,21 +100,69 @@ const AddProduct = () => {
         }
     }
 
+    const setInitialItems = () => {
+        if(editProduct) {
+            setInitialCategories(editProduct.categories.map(c => {
+                return {id: c.id, value: c.title};
+            }));
+            setInitialColors(editProduct.colors.map(c => {
+                return {id: c.id, value: c.title};
+            }));
+            setInitialGuaranties(editProduct.guarantees.map(g => {
+                return {id: g.id, value: g.title};
+            }));
+        }
+    }
+
     useEffect(() => {
         getAllParentCategories();
         getAllBrands();
         getAllColors();
         getAllGuaranties();
+
+        if (editProduct) {
+            setInitialItems();
+
+            for(let key in editProduct) {
+                editProduct[key] === null && (editProduct[key] = "");
+            }
+
+            setReinitializeValues({
+                category_ids: editProduct.categories.map(c => c.id).join("-"),
+                title: editProduct.title,
+                price: editProduct.price,
+                weight: editProduct.weight,
+                brand_id: editProduct.brand_id,
+                color_ids: editProduct.colors.map(c => c.id).join("-"),
+                guarantee_ids: editProduct.guarantees.map(g => g.id).join("-"),
+                descriptions: editProduct.descriptions,
+                short_descriptions: editProduct.short_descriptions,
+                cart_descriptions: editProduct.cart_descriptions,
+                image: null,
+                alt_image: editProduct.alt_image,
+                keywords: editProduct.keywords,
+                stock: editProduct.stock,
+                discount: editProduct.discount,
+            });
+        } else {
+            setReinitializeValues(null);
+        }
     }, []);
 
 
     return (
         <div className="container">
-            <h4 className="text-center mt-3 mb-4">افزودن محصولات</h4>
+            <h4 className="text-center mt-3 mb-2">
+                {location.state ? "ویرایش محصولات" : "افزودن محصولات"}
+            </h4>
+
+            <Outlet />
+
             <Formik
-                initialValues={initialValues}
-                onSubmit={onSubmit}
+                initialValues={reinitializeValues || initialValues}
+                onSubmit={(values, actions) => onSubmit(values, actions, editProduct, navigate)}
                 validationSchema={validationSchema}
+                enableReinitialize
             >
                 {(formik) => {
                     return (
@@ -140,6 +198,7 @@ const AddProduct = () => {
                                     resultType="string"
                                     placeHolder="بخشی از نام دسته را وارد کنید"
                                     formikOptions={formik}
+                                    initialItems={initialCategories}
                                 />
 
                                 <FormikControl
@@ -193,6 +252,7 @@ const AddProduct = () => {
                                     resultType="string"
                                     placeHolder="بخشی از نام رنگ را وارد کنید"
                                     formikOptions={formik}
+                                    initialItems={initialColors}
                                 />
 
                                 <FormikControl
@@ -204,15 +264,15 @@ const AddProduct = () => {
                                     headerText="گارانتی را انتخاب کنید"
                                     resultType="string"
                                     formikOptions={formik}
+                                    initialItems={initialGuaranties}
                                 />
 
                                 <FormikControl
-                                    control="textarea"
+                                    control="ckeditor"
                                     name="descriptions"
                                     label="توضیحات"
                                     className="col-md-6 col-lg-8"
-                                    placeHolder="توضیحات"
-                                    rows={5}
+                                    placeHolder="توضیحات مربوط محصول را وارد کنید"
                                 />
 
 
@@ -234,13 +294,15 @@ const AddProduct = () => {
                                     rows={2}
                                 />
 
-                                <FormikControl
-                                    control="file"
-                                    name="image"
-                                    label="تصویر"
-                                    className="col-md-6 col-lg-8"
-                                    placeHolder="تصویر"
-                                />
+                                {!location.state ? (
+                                    <FormikControl
+                                        control="file"
+                                        name="image"
+                                        label="تصویر"
+                                        className="col-md-6 col-lg-8"
+                                        placeHolder="تصویر"
+                                    />
+                                ) : null}
 
                                 <FormikControl
                                     control="input"
@@ -280,12 +342,12 @@ const AddProduct = () => {
 
                                 <FormikControl
                                     control="submit"
-                                    btnText="ذخیره"
+                                    btnText={location.state ? "ویرایش" : "ذخیره"}
                                     className="col-md-6 col-lg-8 mt-3 mb-2 btn_box text-center"
                                     isLarge={true}
                                 />
                                 <div className="col-12 col-md-6 mb-4 col-lg-8 text-center">
-                                    <PrevButton />
+                                    <PrevButton btnText="انصراف" />
                                 </div>
                             </div>
                         </Form>

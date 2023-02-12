@@ -12,3 +12,11 @@ export const deleteProductservice = (id) => {
 export const addNewProductService = (data) => {
     return httpService("/admin/products", "post", data.image ? convertDataToFormData(data) : data);
 }
+
+// export const getSingleProduct = (id) => {
+//     return httpService(`/admin/products/${id}`, "get");
+// }
+
+export const editProductService = (id, data) => {
+    return httpService(`/admin/products/${id}`, "put", data);
+}

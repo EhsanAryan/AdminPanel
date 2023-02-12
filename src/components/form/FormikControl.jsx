@@ -1,4 +1,5 @@
 import React from 'react';
+import CKEditorField from './CKEditorField';
 import Color from './Color';
 import File from './File';
 import InputField from './InputField';
@@ -21,6 +22,8 @@ const FormikControl = (props) => {
             return <InputField {...props} />
         case "textarea":
             return <Textarea {...props} />
+        case "ckeditor":
+            return <CKEditorField {...props} />
         case "file":
             return <File {...props} />
         case "switch":

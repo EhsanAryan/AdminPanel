@@ -4,7 +4,7 @@ import ModalContainer from '../../components/ModalContainer';
 import FormikControl from '../../components/form/FormikControl';
 import { getCategoriesService, getSingleCategoryService } from '../../services/categoriesServices';
 import { useParams } from 'react-router-dom';
-import { initialValues, onSubmit, validationSchema } from './CategoryFormikCodes';
+import { initialValues, onSubmit, validationSchema } from './categoriesFormikCodes';
 import { useContext } from 'react';
 import { CategoryContext } from '../../context/categoryContext';
 
@@ -118,12 +118,11 @@ const AddCategory = ({ setForceRender }) => {
                                 />
 
                                 <FormikControl
-                                    control="textarea"
+                                    control="ckeditor"
                                     name="descriptions"
-                                    placeHolder="توضیحات"
                                     label="توضیحات"
                                     className="col-md-6 col-lg-8 mx-auto"
-                                    rows="5"
+                                    placeHolder="توضیحات مربوط به دسته را وارد کنید"
                                 />
 
                                 {!editId ? (

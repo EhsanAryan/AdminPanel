@@ -43,7 +43,7 @@ export const validationSchema = Yup.object({
     parent_id: Yup.number(),
     title: Yup.string().required("فیلد را پر کنید").matches(/^[a-zA-Z0-9!?@#$%&\u0600-\u06FF\s]+$/,
         "فقط از حروف و اعداد و کاراکترها استفاده شود"),
-    descriptions: Yup.string().matches(/^[a-zA-Z0-9!?@#$%&\u0600-\u06FF\s.]+$/,
+    descriptions: Yup.string().matches(/^[a-zA-Z0-9!?@#$%&\u0600-\u06FF\s.<>/"=':()]+$/,
         "فقط از حروف و اعداد و کاراکترها استفاده شود"),
     image: Yup.mixed().test("filesize",
         "حجم فایل نمیتواند بیشتر از 500 کیلوبایت باشد",

@@ -1,15 +1,12 @@
-import { FastField, Form, Formik } from 'formik';
 import React, { useState } from 'react';
 import { useEffect } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
-import FormikControl from '../../../components/form/FormikControl';
+import { useLocation } from 'react-router-dom';
 import PaginatedTable from '../../../components/PaginatedTable';
 import PrevButton from '../../../components/PrevButton';
-import { deleteCategoryAttrSerivce, getCategoryAttrsSerivce, getSingleAttrSerivce } from '../../../services/categoryAttrServices';
+import { deleteCategoryAttrSerivce, getCategoryAttrsSerivce, getSingleAttrSerivce } from '../../../services/categoryAttrsServices';
 import { Alert, Confirm } from '../../../utils/Alerts';
 import AddAttrForm from './AddAttrForm';
 import AttrActions from './AttrActions';
-import { initialValues, onSubmit, validationSchema } from './AttrFormikCodes';
 import ShowInFilter from './ShowInFilter';
 
 
@@ -84,9 +81,11 @@ const Attributes = () => {
             const response = await getSingleAttrSerivce(editAttrId);
             if (response.status === 200) {
                 setEditAttr(response.data.data);
+            } else {
+                setEditAttr(null);
             }
         } catch (error) {
-
+            setEditAttr(null);
         }
     }
 

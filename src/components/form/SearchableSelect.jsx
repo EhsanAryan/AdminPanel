@@ -4,7 +4,17 @@ import FormShowError from './FormShowError';
 
 // resultType === "string" ? "1-2-3" : [1, 2, 3];
 
-const SearchableSelect = ({formikOptions, resultType, name, label, options, className, headerText, placeHolder }) => {
+const SearchableSelect = ({
+    formikOptions,
+    resultType,
+    name,
+    label,
+    options,
+    className,
+    headerText,
+    placeHolder,
+    initialItems
+}) => {
     const [selectedItems, setSelectedItems] = useState([]);
     const [showItems, setShowItems] = useState(false);
     const [initOptions, setInitOptions] = useState(options);
@@ -42,7 +52,9 @@ const SearchableSelect = ({formikOptions, resultType, name, label, options, clas
     useEffect(() => {
         document.body.addEventListener("click", () => {
             setShowItems(false);
-        })
+        });
+
+
     }, []);
 
     useEffect(() => {
@@ -50,10 +62,15 @@ const SearchableSelect = ({formikOptions, resultType, name, label, options, clas
     }, [options]);
 
     useEffect(() => {
-        if(formikOptions.values[name] === formikOptions.initialValues[name]) {
+        if (formikOptions.values[name] === formikOptions.initialValues[name]) {
             setSelectedItems([]);
         }
     }, [formikOptions.isSubmitting]);
+
+    useEffect(() => {
+       initialItems && setSelectedItems(initialItems);
+    }, [initialItems]);
+
 
     return (
         <div className={`col-12 ${className}`}>
@@ -62,7 +79,7 @@ const SearchableSelect = ({formikOptions, resultType, name, label, options, clas
                     return (
                         <>
                             <div className="input-group mb-2 dir_ltr">
-                                <div id={name} name={name} className="searchable-select form-select 
+                                <div className="searchable-select form-select 
                                 d-flex justify-content-start align-items-center"
                                     onClick={(ev) => handleShowItems(ev)}>
                                     {
@@ -80,14 +97,14 @@ const SearchableSelect = ({formikOptions, resultType, name, label, options, clas
                                         ) : <span className="text-muted">{headerText}</span>
                                     }
                                     <div className={`hidden-menu ${!showItems ? "d-none" : ""}`}
-                                    onClick={(ev) => ev.stopPropagation()}>
+                                        onClick={(ev) => ev.stopPropagation()}>
                                         <input type="text" className="form-control hidden-input border-0"
-                                            placeholder={placeHolder+"..."}
+                                            placeholder={placeHolder + "..."}
                                             onChange={(ev) => handleSearch(ev.target.value)} />
                                         <ul className="list-unstyled w-100 p-0 m-0 hidden-items-list">
                                             {initOptions.map(opt => {
                                                 return (
-                                                    <li className="hidden-items w-100" key={`option_${opt.id}`}
+                                                    <li className="hidden-items w-100" key={`option_${opt.id}_${Math.random()}`}
                                                         onClick={() => handleSetSelectedItems(opt.id, form)}>
                                                         {opt.value}
                                                     </li>

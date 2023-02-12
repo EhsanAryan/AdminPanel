@@ -24,7 +24,7 @@ const ProductsTable = () => {
         {
             field: null,
             title: "گروه محصول",
-            elements: (rowData) => <span>{rowData.categories[0].title}</span>
+            elements: (rowData) => <span>{rowData.categories[0]?.title}</span>
         },
         {
             field: "title",
@@ -67,7 +67,6 @@ const ProductsTable = () => {
             if (response.status === 200) {
                 setData(response.data.data);
                 setPagesCount(response.data.last_page);
-                console.log(response);
             } else {
 
             }

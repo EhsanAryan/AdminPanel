@@ -4,11 +4,20 @@ import FormShowError from './FormShowError';
 
 // resultType === "string" ? "1-2-3" : [1, 2, 3];
 
-const MultiSelect = ({formikOptions, resultType, name, label, options, className, headerText }) => {
+const MultiSelect = ({
+    formikOptions,
+    resultType,
+    name,
+    label,
+    options,
+    className,
+    headerText,
+    initialItems
+}) => {
     const [selectedItems, setSelectedItems] = useState([]);
 
     const handleSetSelectedItems = (selectedId, formik) => {
-        if(selectedId && selectedItems.findIndex(item => item.id == selectedId) === -1) {
+        if (selectedId && selectedItems.findIndex(item => item.id == selectedId) === -1) {
             const newData = [...selectedItems, options.filter(o => o.id == selectedId)[0]];
             setSelectedItems(newData);
 
@@ -29,13 +38,18 @@ const MultiSelect = ({formikOptions, resultType, name, label, options, className
     }
 
     useEffect(() => {
-        if(formikOptions.values[name] === formikOptions.initialValues[name]) {
+        if (formikOptions.values[name] === formikOptions.initialValues[name]) {
             setSelectedItems([]);
         }
     }, [formikOptions.isSubmitting]);
 
+    useEffect(() => {
+        initialItems && setSelectedItems(initialItems);
+    }, [initialItems]);
+
+
     return (
-        <div className={`col-12 ${className}`}>
+        <div className={`col-12 ${className} mb-3`}>
             <Field>
                 {({ form }) => {
                     return (
@@ -52,7 +66,7 @@ const MultiSelect = ({formikOptions, resultType, name, label, options, className
                                 </Field>
                                 <span className="input-group-text w_6rem justify-content-center">{label}</span>
                             </div>
-                            <div className="pt-1 mb-2">
+                            <div className="pt-1">
                                 {
                                     selectedItems.map(item => {
                                         return (

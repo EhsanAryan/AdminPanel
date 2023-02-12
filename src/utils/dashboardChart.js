@@ -7,7 +7,9 @@ export const drawDashboardChart = (labels , datapoints) => {
                 {
                     label: 'فروش ماه',
                     data: datapoints,
-                    borderColor: "#0062ff",
+                    borderColor: "#1565c0",
+                    borderWidth: 3,
+                    backgroundColor: "#1565c033",
                     fill: true,
                     cubicInterpolationMode: 'monotone',
                     tension: 0.4
@@ -20,21 +22,21 @@ export const drawDashboardChart = (labels , datapoints) => {
             data: data,
             options: {
                 responsive: true,
-                plugins: {
+                plugins : {
                     title: {
                         display: true,
                         text: 'نمودار فروش یک سال گذشته'
-                    },
+                    }
                 },
                 interaction: {
                     intersect: false,
                 },
                 scales: {
-                    x: {
+                    x : {
                         display: true,
                         title: {
                             display: true,
-                            // text: 'زمان'
+                            text: 'ماه'
                         }
                     },
                     y: {
@@ -47,7 +49,7 @@ export const drawDashboardChart = (labels , datapoints) => {
                         // suggestedMax: 200
                     }
                 }
-            },
+            }
         };
 
         const chartExist = Chart.getChart("myChart");

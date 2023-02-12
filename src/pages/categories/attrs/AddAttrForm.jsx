@@ -1,14 +1,14 @@
 import { FastField, Form, Formik } from 'formik';
 import React from 'react';
 import FormikControl from '../../../components/form/FormikControl';
-import { initialValues, onSubmit, validationSchema } from './AttrFormikCodes';
+import { initialValues, onSubmit, validationSchema } from './attrsFormikCodes';
 
 const AddAttrForm = ({reinitializeValues,location,setData, editAttrId, setEditAttrId, editAttr}) => {
     return (
         <Formik
             initialValues={reinitializeValues || initialValues}
             onSubmit={(values, actions) => onSubmit(values, actions, location.state.categoryData.id,
-                setData, editAttrId, setEditAttrId)}
+                setData, editAttrId, setEditAttrId, editAttr)}
             validationSchema={validationSchema}
             enableReinitialize
         >
