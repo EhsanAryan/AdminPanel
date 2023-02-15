@@ -88,11 +88,12 @@ const AddBrand = ({ setData, editBrand, setEditBrand }) => {
                                     className="label-8rem"
                                 />
 
-                                <FormikControl
-                                    control="submit"
-                                    btnText={`${editBrand ? "ویرایش" : "ذخیره"}`}
-                                    className="col-md-6 col-lg-8 mt-4 btn_box text-center"
-                                />
+                                <div className="col-12 col-md-6 col-lg-8 mt-4 btn_box text-center">
+                                    <FormikControl
+                                        control="submit"
+                                        btnText={`${editBrand ? "ویرایش" : "ذخیره"}`}
+                                    />
+                                </div>
                             </div>
                         </Form>
                     </Formik>

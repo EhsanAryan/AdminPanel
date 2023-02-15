@@ -97,7 +97,9 @@ const PaginatedTable = ({ children, data, dataInfo, additionFields, numOfItems, 
                                             <tr key={`item_${d.id}`}>
                                                 {dataInfo.map(i => {
                                                     return (
-                                                        <td key={`cell_${d.id}_${i.field}`}>{d[i.field]}</td>
+                                                        <td key={`cell_${d.id}_${i.field}`}>
+                                                            {d[i.field]}
+                                                        </td>
                                                     )
                                                 })}
                                                 {

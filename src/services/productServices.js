@@ -20,3 +20,15 @@ export const addNewProductService = (data) => {
 export const editProductService = (id, data) => {
     return httpService(`/admin/products/${id}`, "put", data);
 }
+
+export const addProductAttributeService = (id, data) => {
+    return httpService(`/admin/products/${id}/add_attr`, "post", data);
+}
+
+export const addGalleryImageSerive = (productId, data) => {
+    return httpService(`/admin/products/${productId}/add_image`, "post", data, "multipart/form-data");
+}
+
+export const deleteGalleryImageService = (imageId) => {
+    return httpService(`/admin/products/gallery/${imageId}`, "delete");
+}

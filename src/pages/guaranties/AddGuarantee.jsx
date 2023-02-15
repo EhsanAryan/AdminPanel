@@ -84,11 +84,13 @@ const AddGuarantee = ({ setData, editGuarantee, setEditGuarantee }) => {
                                     placeHolder="واحد"
                                 />
 
-                                <FormikControl
-                                    control="submit"
-                                    btnText={`${editGuarantee ? "ویرایش" : "ذخیره"}`}
-                                    className="col-md-6 col-lg-8 mt-4 btn_box text-center"
-                                />
+
+                                <div className="col-12 col-md-6 col-lg-8 mt-4 btn_box text-center">
+                                    <FormikControl
+                                        control="submit"
+                                        btnText={`${editGuarantee ? "ویرایش" : "ذخیره"}`}
+                                    />
+                                </div>
                             </div>
                         </Form>
                     </Formik>

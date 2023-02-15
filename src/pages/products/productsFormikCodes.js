@@ -37,7 +37,7 @@ export const onSubmit = async (values, actions, editProduct, navigate) => {
             }
         }
     } catch (error) {
-        console.log(error);
+
     }
 }
 

@@ -22,8 +22,6 @@ export const onSubmit = async (values, actions, setData, editBrand, setEditBrand
                     }
                     return d;
                 }));
-                console.log(values);
-                console.log(response.data.data);
             }
         } else {
             const response = await addNewBrandService(values);
@@ -50,6 +48,6 @@ export const validationSchema = Yup.object({
         "حجم فایل نمیتواند بیشتر از 500 کیلوبایت باشد",
         (value) => !value ? true : (value.size <= 500 * 1024))
         .test("format",
-            "فرمت فایل باید png باشد",
-            (value) => !value ? true : (value.type === "image/png")),
+            "فرمت فایل باید png یا jpeg باشد",
+            (value) => !value ? true : (value.type === "image/png" || value.type === "image/jpeg")),
 });

@@ -25,7 +25,7 @@ const validationSchema = Yup.object({
     percent: Yup.number().required("درصد تخفیف را مشخص کنید").min(1, "درصد تخفیف نمیتواند کمتر از 1 باشد"),
     expire_at: Yup.string().required("تاریخ پایان تخفیف را مشخص کنید")
         .matches(/^[0-9]{4}[/]{1}(0?[1-9]{1}|1[0-2]{1})[/]{1}(0?[1-9]{1}|[1-2]{1}[0-9]{1}|3[0-1]{1})$/,
-         "تاریخ را به تقویم شمسی وارد کنید"),
+            "تاریخ را به تقویم شمسی وارد کنید"),
     product_ids: Yup.array(),
     for_all: Yup.boolean()
 });
@@ -84,7 +84,7 @@ const AddDiscount = () => {
                                     label="تاریخ اعتبار"
                                     type="text"
                                     className="col-md-6 col-lg-8 my-3 label-8rem"
-                                    placeHolder="مثلا 1400/10/10" 
+                                    placeHolder="مثلا 1400/10/10"
                                 />
 
                                 <div className="col-12 col-md-6 col-lg-8 col-md-6 col-lg-8">
@@ -111,11 +111,12 @@ const AddDiscount = () => {
                                     </div>
                                 </div>
 
-                                <FormikControl
-                                    control="submit"
-                                    btnText="ذخیره"
-                                    className="col-md-6 col-lg-8 mt-4 btn_box text-center"
-                                />
+                                <div className="col-12 col-md-6 col-lg-8 mt-4 btn_box text-center">
+                                    <FormikControl
+                                        control="submit"
+                                        btnText="ذخیره"
+                                    />
+                                </div>
                             </div>
                         </Form>
                     </Formik>

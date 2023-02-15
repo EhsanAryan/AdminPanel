@@ -101,15 +101,15 @@ const AddProduct = () => {
     }
 
     const setInitialItems = () => {
-        if(editProduct) {
+        if (editProduct) {
             setInitialCategories(editProduct.categories.map(c => {
-                return {id: c.id, value: c.title};
+                return { id: c.id, value: c.title };
             }));
             setInitialColors(editProduct.colors.map(c => {
-                return {id: c.id, value: c.title};
+                return { id: c.id, value: c.title };
             }));
             setInitialGuaranties(editProduct.guarantees.map(g => {
-                return {id: g.id, value: g.title};
+                return { id: g.id, value: g.title };
             }));
         }
     }
@@ -123,7 +123,7 @@ const AddProduct = () => {
         if (editProduct) {
             setInitialItems();
 
-            for(let key in editProduct) {
+            for (let key in editProduct) {
                 editProduct[key] === null && (editProduct[key] = "");
             }
 
@@ -227,11 +227,6 @@ const AddProduct = () => {
                                     className="col-md-6 col-lg-8"
                                     placeHolder="وزن محصول (کیلوگرم)"
                                 />
-
-
-                                {/* <span className="input-group-text justify-content-center">
-                                    <i className="fas fa-plus text-success hoverable_text pointer"></i>
-                                </span> */}
 
                                 <FormikControl
                                     control="select"
@@ -340,14 +335,12 @@ const AddProduct = () => {
                                     placeHolder="فقط عدد"
                                 />
 
-                                <FormikControl
-                                    control="submit"
-                                    btnText={location.state ? "ویرایش" : "ذخیره"}
-                                    className="col-md-6 col-lg-8 mt-3 mb-2 btn_box text-center"
-                                    isLarge={true}
-                                />
-                                <div className="col-12 col-md-6 mb-4 col-lg-8 text-center">
-                                    <PrevButton btnText="انصراف" />
+                                <div className="col-12 col-md-6 mt-4 mb-3 col-lg-8 text-center btn_box">
+                                    <FormikControl
+                                        control="submit"
+                                        btnText={location.state ? "ویرایش" : "ذخیره"}
+                                    />
+                                    <PrevButton btnText="انصراف" className="mx-2" />
                                 </div>
                             </div>
                         </Form>

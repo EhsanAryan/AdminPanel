@@ -149,11 +149,13 @@ const AddCategory = ({ setForceRender }) => {
                                     className="mx-auto col-12 col-md-6 my-1 my-md-3 d-flex justify-content-center align-items-center"
                                 />
 
-                                <FormikControl
-                                    control="submit"
-                                    className="col-md-6 col-lg-8 mt-4 btn_box text-center"
-                                    btnText={`${editId ? "ویرایش" : "ذخیره"}`}
-                                />
+
+                                <div className="col-12 col-md-6 col-lg-8 mt-4 btn_box text-center">
+                                    <FormikControl
+                                        control="submit"
+                                        btnText={`${editId ? "ویرایش" : "ذخیره"}`}
+                                    />
+                                </div>
 
                             </div>
                         </div>

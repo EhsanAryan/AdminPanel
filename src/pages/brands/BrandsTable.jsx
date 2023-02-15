@@ -24,7 +24,8 @@ const BrandsTable = () => {
             title: "لوگو",
             elements: (rowData) => {
                 if (rowData.logo) {
-                    return <img src={`${apiPath}/${rowData.logo}`} className="img-fluid" alt="Logo" />
+                    return <img src={`${apiPath}/${rowData.logo}`} className="img-fluid brand-img" 
+                    alt="Logo" />
                 }
             }
         },
