@@ -441,6 +441,7 @@ td , th {
 .add-gallery-img-box {
     width: 200px;
     height: 200px;
+    border-radius: 10px;
 }
 
 .add-icon {
@@ -463,6 +464,8 @@ td , th {
 .gallery-img-box {
     width: 200px;
     height: 200px;
+    border-radius: 10px;
+    overflow: hidden;
 }
 
 .gallery-img-options-container {
@@ -471,6 +474,7 @@ td , th {
     left: 0;
     width: 100%;
     height: 100%;
+    border-radius: 10px;
     display: flex;
     justify-content: center;
     align-items: center;

@@ -3,8 +3,8 @@ import { useLocation } from "react-router-dom";
 import PrevButton from "../../../components/PrevButton";
 import SpinnerLoader from "../../../components/SpinnerLoader";
 import { apiPath } from "../../../services/httpService";
-import { addGalleryImageSerive, deleteGalleryImageService } from "../../../services/productServices";
-import { Alert } from "../../../utils/Alerts";
+import { addGalleryImageSerive, deleteGalleryImageService, setMainGalleryImageService } from "../../../services/productServices";
+import { Alert, Confirm } from "../../../utils/Alerts";
 
 const ProductGallery = () => {
     const location = useLocation();
@@ -53,11 +53,37 @@ const ProductGallery = () => {
     }
 
     const handleDeleteImage = async (imageId) => {
+        const res = await Confirm("حذف تصویر", "آیا از حذف این تصویر مطمئن هستید؟", "warning");
+        if(res) {
+            try {
+                const response = await deleteGalleryImageService(imageId);
+                if(response.status === 200) {
+                    Alert("حذف تصویر", response.data.message, "success");
+                    setGallery(prevGallery => prevGallery.filter(g => g.id != imageId));
+                }
+            } catch (error) {
+                
+            }
+        } else {
+            Alert("لغو عملیات", "شما عملیات حذف تصویر را لغو کردید!", "info");
+        }
+    }
+
+    const handleSetMainImage = async (imageId) => {
         try {
-            const response = await deleteGalleryImageService(imageId);
+            const response = await setMainGalleryImageService(imageId);
             if(response.status === 200) {
-                Alert("حذف تصویر", response.data.message, "success");
-                setGallery(prevGallery => prevGallery.filter(g => g.id != imageId));
+                Alert("تنظیم تصویر اصلی", response.data.message, "success");
+                setGallery(prevGallery => {
+                    return prevGallery.map(g => {
+                        if(g.id == imageId) {
+                            return {...g, is_main: 1};
+                        } else if(g.is_main == 1) {
+                            return  {...g, is_main: 0};
+                        }
+                        return g;
+                    })
+                });
             }
         } catch (error) {
             
@@ -81,22 +107,23 @@ const ProductGallery = () => {
                     ) : null
                 }
             </div>
-            <div className="d-flex justify-content-start align-align-items-start">
+            <div className="d-flex justify-content-start align-items-start flex-wrap">
                 {
                     gallery.length > 0 ? (
                         <>
                             {gallery.map(g => {
                                 return (
-                                    <div key={`img-${g.id}`} className={`gallery-img-box border border-1 
-                                    border-dark rounded-3 position-relative mx-1 p-0
-                                    ${g.is_main ? "main-img" : ""}`}>
+                                    <div key={`img-${g.id}`} className={`gallery-img-box 
+                                     border border-1 border-dark position-relative mx-1
+                                      my-1 p-0 ${g.is_main ? "main-img" : ""}`}>
                                         <img src={`${apiPath}/${g.image}`}
                                             className="img-fluid h-100" alt="gallery pic" />
                                         <div className="gallery-img-options-container">
                                             {
                                                 !g.is_main ? (
                                                     <i className="fas fa-check fs-5 mx-1 text-success hoverable_text pointer"
-                                                        title="انتخاب به عنوان تصویر اصلی">
+                                                        title="انتخاب به عنوان تصویر اصلی"
+                                                        onClick={() => handleSetMainImage(g.id)}>
                                                     </i>
                                                 ) : null
                                             }
@@ -112,9 +139,9 @@ const ProductGallery = () => {
                     ) : null
                 }
 
-                <div className={`add-gallery-img-box bg-white border border-2 border-dark rounded-3 
-                mx-1 d-flex justify-content-center align-items-center position-relative
-                ${loading ? "disabled" : ""}`}>
+                <div className={`add-gallery-img-box bg-white border border-2 border-dark 
+                mx-1 my-1 d-flex justify-content-center align-items-center 
+                position-relative ${loading ? "disabled" : ""}`}>
                     {
                         loading ? (
                             <SpinnerLoader colorClass="text-success" />

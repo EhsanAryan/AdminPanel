@@ -65,8 +65,8 @@ export const validationSchema = Yup.object({
             (value) => !value ? true : (value.type === "image/jpeg") || (value.type === "image/png")),
     alt_image: Yup.string().matches(/^[a-zA-Z0-9!?@#$%&\u0600-\u06FF\s]+$/,
         "فقط از حروف و اعداد و کاراکترها استفاده شود"),
-    keywords: Yup.string().matches(/^[a-zA-Z0-9\u0600-\u06FF-]+$/,
-        "فقط از حروف و اعداد و خط تیره استفاده شود (بدون فاصله)"),
+    keywords: Yup.string().matches(/^[a-zA-Z0-9\u0600-\u06FF-\s]+$/,
+        "فقط از حروف و اعداد و خط تیره استفاده شود"),
     stock: Yup.number().required("تعداد موجودی محصول را مشخص کنید")
         .min(1, "برای ثبت محصول، حداقل یک نمونه باید موجود باشد"),
     discount: Yup.number().min(0, "تخفیف نمیتواند منفی باشد").max(100, "حداکثر تخفیف 100 درصد است")

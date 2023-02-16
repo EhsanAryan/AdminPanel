@@ -10,7 +10,8 @@ export const deleteProductservice = (id) => {
 }
 
 export const addNewProductService = (data) => {
-    return httpService("/admin/products", "post", data.image ? convertDataToFormData(data) : data);
+    return httpService("/admin/products", "post", data.image ? convertDataToFormData(data) : data, 
+    "multipart/form-data");
 }
 
 // export const getSingleProduct = (id) => {
@@ -31,4 +32,8 @@ export const addGalleryImageSerive = (productId, data) => {
 
 export const deleteGalleryImageService = (imageId) => {
     return httpService(`/admin/products/gallery/${imageId}`, "delete");
+}
+
+export const setMainGalleryImageService = (imageId) => {
+    return httpService(`/admin/products/gallery/set_main/${imageId}`, "get");
 }

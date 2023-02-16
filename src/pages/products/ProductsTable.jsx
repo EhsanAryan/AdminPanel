@@ -13,7 +13,7 @@ const ProductsTable = () => {
     const [loading, setLoading] = useState(false);
     const [searchChar, setSearchChar] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsCount, setItemsCount] = useState(5);
+    const [itemsCount, setItemsCount] = useState(8);
     const [pagesCount, setPagesCount] = useState(0);
 
     const dataInfo = [
