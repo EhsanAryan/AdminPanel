@@ -13,6 +13,7 @@ import { Alert, Confirm } from '../../utils/Alerts';
 const DiscountsTable = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [editDiscount, setEditDiscount] = useState(null);
 
     const dataInfo = [
         { field: "id", title: "#" },
@@ -32,7 +33,8 @@ const DiscountsTable = () => {
         },
         {
             title: "عملیات",
-            elements: (rowData) => <Actions rowData={rowData} handleDeleteDiscount={handleDeleteDiscount} />
+            elements: (rowData) => <Actions rowData={rowData} handleDeleteDiscount={handleDeleteDiscount}
+            setEditDiscount={setEditDiscount} />
         }
     ]
     
@@ -48,7 +50,6 @@ const DiscountsTable = () => {
             const response = await getDiscountsService();
             if(response.status === 200) {
                 setData(response.data.data);
-                console.log(response);
             }
         } catch (error) {
             
@@ -78,7 +79,6 @@ const DiscountsTable = () => {
         handleGetDiscounts();
     }, []);
 
-
     return (
         <PaginatedTable
             data={data}
@@ -88,7 +88,7 @@ const DiscountsTable = () => {
             searchParams={searchParams}
             loading={loading}
         >
-            <AddDiscount />
+            <AddDiscount setData={setData} editDiscount={editDiscount} setEditDiscount={setEditDiscount} />
         </PaginatedTable>
     );
 }

@@ -29,7 +29,8 @@ const SetProductAttribute = () => {
                     allattrs = [...allattrs, { groupTitle: category.title, data: response.data.data }];
                     if (response.data.data.length > 0) {
                         for (let attr of response.data.data) {
-                            let val = productData.attributes.filter(a => a.id == attr.id)[0]?.pivot.value || "";
+                            let val = productData.attributes.filter(a => a.id == attr.id)[0]?.pivot.value 
+                            || "";
                             initialVals = { ...initialVals, [attr.id]: val };
                             valSchema = {
                                 ...valSchema,

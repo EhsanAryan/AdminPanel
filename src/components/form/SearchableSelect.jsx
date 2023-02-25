@@ -53,8 +53,6 @@ const SearchableSelect = ({
         document.body.addEventListener("click", () => {
             setShowItems(false);
         });
-
-
     }, []);
 
     useEffect(() => {

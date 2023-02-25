@@ -90,7 +90,6 @@ const ProductGallery = () => {
         }
     }
 
-
     return (
         <div className="container">
             <h3 className="text-center mt-3">

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { drawDashboardChart } from '../../utils/dashboardChart';
 import DashboardCard from './DashboardCard';
-import Table from './DashboardTable';
+import DashboardTable from './DashboardTable';
 
 const Dashboard =() => {
 
@@ -12,7 +12,7 @@ const Dashboard =() => {
     } , []);
 
   return (
-    // <!-- #region(collapsed) dashboard section start -->
+
     <div id="dashboard_section" className="dashboard_section main_section">
 
         <div className="row">
@@ -56,21 +56,17 @@ const Dashboard =() => {
 
 
         <div className="row">
-
             <div className="col-12 col-lg-6">
                 <p className="text-center mt-3 text-dark">محصولات رو به اتمام</p>
-                <Table />
+                <DashboardTable />
             </div>
 
             <div className="col-12 col-lg-6">
                 <canvas id="myChart" height="195"></canvas>
             </div>
-
         </div>
-
     </div>
-    // <!-- #endregion content -->
-  )
+  );
 }
 
 export default Dashboard;

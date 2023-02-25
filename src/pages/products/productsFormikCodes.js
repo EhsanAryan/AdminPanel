@@ -43,14 +43,14 @@ export const onSubmit = async (values, actions, editProduct, navigate) => {
 
 export const validationSchema = Yup.object({
     category_ids: Yup.string().required("حداقل یک دسته را باید انتخاب کنید")
-        .matches(/^[0-9\s-]+$/, "فقط از اعداد و خط تیره استفاده شود"),
+        .matches(/^[0-9-]+$/, "فقط از اعداد و خط تیره استفاده شود"),
     title: Yup.string().required("فیلد را پر کنید").matches(/^[a-zA-Z0-9!?@#$%&\u0600-\u06FF\s]+$/,
         "فقط از حروف و اعداد و کاراکترها استفاده شود"),
     price: Yup.number().required("فیلد را پر کنید").min(1, "قیمت نمیتواند 0 یا منفی باشد"),
     weight: Yup.number().min(1, "وزن محصول نمیتواند 0 یا منفی باشد"),
     brand_id: Yup.number(),
-    color_ids: Yup.string().matches(/^[0-9\s-]+$/, "فقط از اعداد و خط تیره استفاده شود"),
-    guarantee_ids: Yup.string().matches(/^[0-9\s-]+$/, "فقط از اعداد و خط تیره استفاده شود"),
+    color_ids: Yup.string().matches(/^[0-9-]+$/, "فقط از اعداد و خط تیره استفاده شود"),
+    guarantee_ids: Yup.string().matches(/^[0-9-]+$/, "فقط از اعداد و خط تیره استفاده شود"),
     descriptions: Yup.string().matches(/^[a-zA-Z0-9!?@#$%&\u0600-\u06FF\s.<>/"=':()]+$/,
         "فقط از حروف و اعداد و کاراکترها استفاده شود"),
     short_descriptions: Yup.string().matches(/^[a-zA-Z0-9!?@#$%&\u0600-\u06FF\s.]+$/,
