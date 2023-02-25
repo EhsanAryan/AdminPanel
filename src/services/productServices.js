@@ -1,12 +1,12 @@
 import { convertDataToFormData } from "../utils/convertData";
 import httpService from "./httpService";
 
-export const getAllProductsService = () => {
-    return httpService("/admin/products", "get");
-}
-
 export const getProductsService = (page, count, searchChar) => {
     return httpService(`/admin/products?page=${page}&count=${count}&searchChar=${searchChar}`, "get");
+}
+
+export const getAllProductsTitlesService = () => {
+    return httpService("/admin/products/all_titles" , "get");
 }
 
 export const deleteProductservice = (id) => {

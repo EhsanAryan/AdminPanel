@@ -20,23 +20,24 @@ const CategoriesTable = () => {
     const dataInfo = [
         { field: "id", title: "#" },
         { field: "title", title: "عنوان محصول" },
-        { field: "parent_id", title: "والد" }
-    ]
-    
-    const additionFields = [
+        { field: "parent_id", title: "والد" },
         {
+            field: null,
             title: "تاریخ",
             elements: (rowData) => convertDateToJalali(rowData.created_at)
         },
         {
+            field: null,
             title: "نمایش در منو",
             elements: (rowData) => <ShowInMenu rowData={rowData} />
         },
         {
+            field: null,
             title: "عملیات",
             elements: (rowData) => <Actions rowData={rowData} handleDeleteCategory={handleDeleteCategory} />
         }
     ]
+
     
     const searchParams = {
         searchField: "title",
@@ -87,7 +88,6 @@ const CategoriesTable = () => {
             <PaginatedTable
                 data={data}
                 dataInfo={dataInfo}
-                additionFields={additionFields}
                 numOfItems={4}
                 searchParams={searchParams}
                 loading={loading}

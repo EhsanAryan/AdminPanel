@@ -18,20 +18,20 @@ const Select = ({ name, label, options, className, headerText, handleOnChange })
     }
 
     return (
-        <div className={`col-12 ${className}`}>
+        <div className={`col-12 ${className || ""} p-0`}>
             <div className="input-group mb-2 dir_ltr">
                 <Field>
                     {({ form }) => {
                         if (handleOnChange) {
                             return (
-                                <Field as="select" id={name} name={name} className="form-select"
+                                <Field as="select" id={name} name={name} className="form-select pointer"
                                     onChange={(ev) => handleOnChange(ev.target.value, form)}>
                                     {optionsElements()}
                                 </Field>
                             );
                         } else {
                             return (
-                                <Field as="select" id={name} name={name} className="form-select">
+                                <Field as="select" id={name} name={name} className="form-select pointer">
                                     {optionsElements()}
                                 </Field>
                             );

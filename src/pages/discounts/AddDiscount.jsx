@@ -3,18 +3,24 @@ import { Form, Formik } from 'formik';
 import ModalContainer from '../../components/ModalContainer';
 import FormikControl from '../../components/form/FormikControl';
 import { initialValues, onSubmit, validationSchema } from './discountsFormikCodes';
-import { getAllProductsService } from '../../services/productServices';
+import { getAllProductsTitlesService } from '../../services/productServices';
 import { convertDateToJalali } from '../../utils/convertDate';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 
-const AddDiscount = ({ setData, editDiscount, setEditDiscount }) => {
+const AddDiscount = ({ setData }) => {
     const [allProducts, setAllProducts] = useState([]);
     const [reinitializeValues, setReinitializeValues] = useState(null);
     const [initProducts, setInitProducts] = useState([]); // used in editing discount
 
+    const navigate = useNavigate();
+
+    const location = useLocation();
+    const editDiscount = location.state?.editDiscount;
+
     const handleGetAllProducts = async () => {
         try {
-            const response = await getAllProductsService();
+            const response = await getAllProductsTitlesService();
             if (response.status === 200) {
                 const products = response.data.data.map(p => {
                     return { id: p.id, value: p.title };
@@ -29,7 +35,7 @@ const AddDiscount = ({ setData, editDiscount, setEditDiscount }) => {
     const handleSetInitialProducts = () => {
         if (editDiscount) {
             setInitProducts(editDiscount.products.map(p => {
-                return {id : p.id, value: p.title};
+                return { id: p.id, value: p.title };
             }));
         }
     }
@@ -42,7 +48,7 @@ const AddDiscount = ({ setData, editDiscount, setEditDiscount }) => {
         if (editDiscount) {
             handleSetInitialProducts();
 
-            for(let key in editDiscount) {
+            for (let key in editDiscount) {
                 editDiscount[key] === null && (editDiscount[key] = "");
             }
 
@@ -61,22 +67,24 @@ const AddDiscount = ({ setData, editDiscount, setEditDiscount }) => {
 
     return (
         <>
-            <button className="btn btn-success d-flex justify-content-center align-items-center"
+            {/* <button className="btn btn-success d-flex justify-content-center align-items-center"
                 data-bs-toggle="modal" data-bs-target="#add_discount_modal"
                 onClick={() => setEditDiscount(null)}>
                 <i className="fas fa-plus text-light"></i>
-            </button>
+            </button> */}
 
             <ModalContainer
                 id={"add_discount_modal"}
                 title={editDiscount ? "ویرایش کد تخفیف" : "افزودن کد تخفیف"}
-                fullScreen={true}
+                fullScreen={false}
+                className="show d-block animate__animated animate__fadeInDown"
+                closeFunction={() => navigate(-1)}
             >
                 <div className="container">
                     <Formik
                         initialValues={reinitializeValues || initialValues}
                         onSubmit={(values, actions) => onSubmit(values, actions, setData,
-                             editDiscount, setEditDiscount)}
+                            editDiscount)}
                         validationSchema={validationSchema}
                         enableReinitialize
                     >
@@ -89,7 +97,7 @@ const AddDiscount = ({ setData, editDiscount, setEditDiscount }) => {
                                             name="title"
                                             label="عنوان تخفیف"
                                             type="text"
-                                            className="col-md-6 col-lg-8 my-3 label-8rem"
+                                            className="label-8rem"
                                             placeHolder="عنوان تخفیف را وارد کنید"
                                         />
 
@@ -98,7 +106,7 @@ const AddDiscount = ({ setData, editDiscount, setEditDiscount }) => {
                                             name="code"
                                             label="کد تخفیف"
                                             type="text"
-                                            className="col-md-6 col-lg-8 my-3 label-8rem"
+                                            className="label-8rem"
                                             placeHolder="کد تخفیف را وارد کنید"
                                         />
 
@@ -107,38 +115,42 @@ const AddDiscount = ({ setData, editDiscount, setEditDiscount }) => {
                                             name="percent"
                                             label="درصد تخفیف"
                                             type="number"
-                                            className="col-md-6 col-lg-8 my-3 label-8rem"
+                                            className="label-8rem"
                                             placeHolder="فقط عدد"
                                         />
 
                                         <FormikControl
-                                            control="input"
+                                            control="date"
                                             name="expire_at"
                                             label="تاریخ اعتبار"
-                                            type="text"
-                                            className="col-md-6 col-lg-8 my-3 label-8rem"
-                                            placeHolder="مثلا 1400/10/10"
-                                        />
-
-                                        <FormikControl
-                                            control="searchableSelect"
-                                            formikOptions={formik}
-                                            resultType="string"
-                                            name="product_ids"
-                                            label="محصولات"
-                                            options={allProducts}
-                                            className="col-md-6 col-lg-8 my-3 label-8rem"
-                                            headerText="انتخاب محصول"
-                                            placeHolder="قسمتی از نام محصول را وارد کنید"
-                                            initialItems={initProducts}
+                                            className="label-8rem"
+                                            formik={formik}
+                                            yearRange={{from: 50, to: 10}}
                                         />
 
                                         <FormikControl
                                             control="switch"
                                             name="for_all"
                                             label="برای همه"
-                                            className="d-flex justify-content-center align-items-center"
+                                            className="d-flex justify-content-center align-items-center my-2"
                                         />
+
+                                        {
+                                            !formik.values.for_all ? (
+                                                <FormikControl
+                                                    control="searchableSelect"
+                                                    formikOptions={formik}
+                                                    resultType="string"
+                                                    name="product_ids"
+                                                    label="محصولات"
+                                                    options={allProducts}
+                                                    className="label-8rem mt-1 animate__animated animate__headShake"
+                                                    headerText="انتخاب محصول"
+                                                    placeHolder="قسمتی از نام محصول را وارد کنید"
+                                                    initialItems={initProducts}
+                                                />
+                                            ) : null
+                                        }
 
 
                                         <div className="col-12 col-md-6 col-lg-8 mt-4 btn_box text-center">

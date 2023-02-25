@@ -3,7 +3,7 @@ import React from 'react';
 import FormikControl from '../../../components/form/FormikControl';
 import { initialValues, onSubmit, validationSchema } from './attrsFormikCodes';
 
-const AddAttrForm = ({reinitializeValues,location,setData, editAttrId, setEditAttrId, editAttr}) => {
+const AddAttrForm = ({reinitializeValues, location, setData, editAttrId, setEditAttrId, editAttr}) => {
     return (
         <Formik
             initialValues={reinitializeValues || initialValues}

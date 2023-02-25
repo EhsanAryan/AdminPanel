@@ -71,20 +71,20 @@ const SearchableSelect = ({
 
 
     return (
-        <div className={`col-12 ${className}`}>
+        <div className={`col-12 ${className || ""} p-0`}>
             <Field>
                 {({ form }) => {
                     return (
                         <>
                             <div className="input-group mb-2 dir_ltr">
-                                <div className="searchable-select form-select 
-                                d-flex justify-content-start align-items-center"
+                                <div className="searchable-select form-select pointer
+                                d-flex justify-content-start align-items-center flex-wrap"
                                     onClick={(ev) => handleShowItems(ev)}>
                                     {
                                         selectedItems.length > 0 ? (
                                             selectedItems.map(item => {
                                                 return (
-                                                    <span className="chips_elem" key={`product_chips_${item.id}`}>
+                                                    <span className="chips_elem my-1" key={`product_chips_${item.id}`}>
                                                         <i className="fas fa-times text-danger me-1 ms-2"
                                                             onClick={(ev) => handleRemoveFromSelectedItems(ev, item.id, form)}>
                                                         </i>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import SpinnerLoader from './SpinnerLoader';
 
 
-const PaginatedTable = ({ children, data, dataInfo, additionFields, numOfItems, searchParams, loading }) => {
+const PaginatedTable = ({ children, data, dataInfo, numOfItems, searchParams, loading }) => {
     const [initData, setInitData] = useState(data);
     const [tableData, setTableData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -70,49 +70,32 @@ const PaginatedTable = ({ children, data, dataInfo, additionFields, numOfItems, 
                 ) : initData.length > 0 ? (
                     <>
                         <div className="table-responsive">
-                            <table className="table text-center table-hover table-bordered">
+                            <table className="table text-center table-hover table-bordered 
+                            align-middle">
                                 <thead className="table-secondary">
                                     <tr>
-                                        {dataInfo.map(i => {
+                                        {dataInfo.map((i , index) => {
                                             return (
-                                                <th key={i.field}>{i.title}</th>
+                                                <th key={i.field || `title_${index}`}>{i.title}</th>
                                             )
                                         })}
-                                        {
-                                            additionFields ? (
-                                                additionFields.map((a, index) => {
-                                                    return (
-                                                        <th key={`additionTitle${index}`}>
-                                                            {a.title}
-                                                        </th>
-                                                    )
-                                                })
-                                            ) : null
-                                        }
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {tableData.map(d => {
                                         return (
                                             <tr key={`item_${d.id}`}>
-                                                {dataInfo.map(i => {
-                                                    return (
+                                                {dataInfo.map((i, index) => {
+                                                    return i.field ? (
                                                         <td key={`cell_${d.id}_${i.field}`}>
                                                             {d[i.field]}
                                                         </td>
+                                                    ) : (
+                                                        <td key={`cell_${d.id}_${index}`}>
+                                                            {i.elements(d)}
+                                                        </td>
                                                     )
                                                 })}
-                                                {
-                                                    additionFields ? (
-                                                        additionFields.map((a, index) => {
-                                                            return (
-                                                                <td key={`additionCell${index}_data${d.id}`}>
-                                                                    {a.elements(d)}
-                                                                </td>
-                                                            )
-                                                        })
-                                                    ) : null
-                                                }
                                             </tr>
                                         )
                                     })}

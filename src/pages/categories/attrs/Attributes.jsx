@@ -22,22 +22,20 @@ const Attributes = () => {
     const dataInfo = [
         { field: "id", title: "#" },
         { field: "title", title: "عنوان ویژگی" },
-        { field: "unit", title: "واحد" }
-    ]
-
-    const additionFields = [
+        { field: "unit", title: "واحد" },
         {
+            field: null,
             title: "نمایش در منو",
             elements: (rowData) => <ShowInFilter rowData={rowData} />
         },
         {
+            field: null,
             title: "عملیات",
             elements: (rowData) => <AttrActions rowData={rowData}
                 handleDeleteCategoryAttr={handleDeleteCategoryAttr}
                 editAttrId={editAttrId} setEditAttrId={setEditAttrId} />
         }
     ]
-
     const searchParams = {
         searchField: "title",
         title: "جستجو",
@@ -136,7 +134,6 @@ const Attributes = () => {
                 <PaginatedTable
                     data={data}
                     dataInfo={dataInfo}
-                    additionFields={additionFields}
                     numOfItems={6}
                     searchParams={searchParams}
                     loading={loading}

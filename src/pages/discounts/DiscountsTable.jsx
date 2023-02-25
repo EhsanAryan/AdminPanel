@@ -7,37 +7,43 @@ import Actions from './additionFields/Actions';
 import ForAll from './additionFields/ForAll';
 import { convertDateToJalali } from '../../utils/convertDate';
 import { Alert, Confirm } from '../../utils/Alerts';
+import Status from './additionFields/Status';
+import AddButtonLink from '../../components/AddButtonLink';
+import { Outlet } from 'react-router-dom';
 
 
 
 const DiscountsTable = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [editDiscount, setEditDiscount] = useState(null);
 
     const dataInfo = [
         { field: "id", title: "#" },
         { field: "title", title: "عنوان" },
         { field: "code", title: "کد" },
         { field: "percent", title: "درصد تخفیف" },
-    ]
-    
-    const additionFields = [
         {
+            field: null,
             title: "تا تاریخ",
             elements: (rowData) => convertDateToJalali(rowData.expire_at)
         },
         {
+            field: null,
+            title: "تا تاریخ",
+            elements: (rowData) => <Status rowData={rowData}  />
+        },
+        {
+            field: null,
             title: "برای",
             elements: (rowData) => <ForAll rowData={rowData} />
         },
         {
+            field: null,
             title: "عملیات",
-            elements: (rowData) => <Actions rowData={rowData} handleDeleteDiscount={handleDeleteDiscount}
-            setEditDiscount={setEditDiscount} />
+            elements: (rowData) => <Actions rowData={rowData} handleDeleteDiscount={handleDeleteDiscount} />
         }
     ]
-    
+
     const searchParams = {
         searchField: "title",
         title: "جستجو",
@@ -83,12 +89,12 @@ const DiscountsTable = () => {
         <PaginatedTable
             data={data}
             dataInfo={dataInfo}
-            additionFields={additionFields}
             numOfItems={8}
             searchParams={searchParams}
             loading={loading}
         >
-            <AddDiscount setData={setData} editDiscount={editDiscount} setEditDiscount={setEditDiscount} />
+            <AddButtonLink href="/discounts/add-discount" />
+            <Outlet setData={setData} />
         </PaginatedTable>
     );
 }

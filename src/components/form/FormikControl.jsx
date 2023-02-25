@@ -1,6 +1,7 @@
 import React from 'react';
 import CKEditorField from './CKEditorField';
 import Color from './Color';
+import Date from './Date';
 import File from './File';
 import InputField from './InputField';
 import MultiSelect from './MultiSelect';
@@ -12,25 +13,27 @@ import Textarea from './Textarea';
 
 const FormikControl = (props) => {
     switch (props.control) {
-        case "select":
-            return <Select {...props} />
-        case "multiSelect":
-            return <MultiSelect {...props} />
-        case "searchableSelect":
-            return <SearchableSelect {...props} />
         case "input":
             return <InputField {...props} />
         case "textarea":
             return <Textarea {...props} />
         case "ckeditor":
             return <CKEditorField {...props} />
+        case "select":
+            return <Select {...props} />
+        case "multiSelect":
+            return <MultiSelect {...props} />
+        case "searchableSelect":
+            return <SearchableSelect {...props} />
         case "file":
             return <File {...props} />
         case "switch":
             return <Switch {...props} />
-        case "color": 
+        case "color":
             return <Color {...props} />
-        case "submit": 
+        case "date":
+            return <Date {...props} />
+        case "submit":
             return <SubmitButton {...props} />
         default:
             return <InputField {...props} />

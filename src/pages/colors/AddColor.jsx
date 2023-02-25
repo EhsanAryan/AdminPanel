@@ -21,9 +21,9 @@ const AddColor = ({ setData, editColor, setEditColor }) => {
 
     return (
         <>
-            <button className="btn btn-success d-flex justify-content-center align-items-center" 
-            data-bs-toggle="modal" data-bs-target="#add_color_modal"
-            onClick={() => setEditColor(null)}>
+            <button className="btn btn-success d-flex justify-content-center align-items-center"
+                data-bs-toggle="modal" data-bs-target="#add_color_modal"
+                onClick={() => setEditColor(null)}>
                 <i className="fas fa-plus text-light"></i>
             </button>
 
@@ -59,11 +59,12 @@ const AddColor = ({ setData, editColor, setEditColor }) => {
                                     className="d-flex justify-content-center flex-column align-items-center"
                                 />
 
-                                <FormikControl
-                                    control="submit"
-                                    btnText={`${editColor ? "ویرایش" : "ذخیره"}`}
-                                    className="col-md-6 col-lg-8 mt-4 btn_box text-center"
-                                />
+                                <div className="text-center mt-3">
+                                    <FormikControl
+                                        control="submit"
+                                        btnText={`${editColor ? "ویرایش" : "ذخیره"}`}
+                                    />
+                                </div>
                             </div>
                         </Form>
                     </Formik>

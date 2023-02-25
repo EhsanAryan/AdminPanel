@@ -7,7 +7,8 @@ const SubmitButton = ({ btnText, btnColor, isLarge }) => {
         <FastField>
             {({ form }) => {
                 return (
-                    <button type="submit" className={`btn ${btnColor || "btn-primary"} ${isLarge ? "btn-lg" : ""}`}
+                    <button type="submit" className={`btn ${btnColor || "btn-primary"}
+                     ${isLarge ? "btn-lg" : ""}`}
                         disabled={form.isSubmitting}>
                         {btnText}
                         {form.isSubmitting ? (

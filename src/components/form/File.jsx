@@ -4,7 +4,7 @@ import FormShowError from './FormShowError'
 
 const File = ({ name, label, className, placeHolder }) => {
     return (
-        <div className={`col-12 ${className}`}>
+        <div className={`col-12 ${className || ""} p-0`}>
             <div className="input-group mb-2 dir_ltr">
                 <FastField name={name}>
                     {({form}) => {

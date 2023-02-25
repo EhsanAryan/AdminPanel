@@ -49,13 +49,13 @@ const MultiSelect = ({
 
 
     return (
-        <div className={`col-12 ${className} mb-3`}>
+        <div className={`col-12 mb-3 ${className || ""} p-0`}>
             <Field>
                 {({ form }) => {
                     return (
                         <>
                             <div className="input-group mb-2 dir_ltr">
-                                <Field as="select" id={name} name={name} className="form-select"
+                                <Field as="select" id={name} name={name} className="form-select pointer"
                                     onChange={(ev) => handleSetSelectedItems(ev.target.value, form)}>
                                     <option value="">{headerText}</option>
                                     {options.map(opt => {

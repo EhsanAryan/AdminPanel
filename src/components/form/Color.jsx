@@ -4,10 +4,10 @@ import FormShowError from './FormShowError'
 
 const Color = ({ name, label, className }) => {
     return (
-        <div className={`col-12 my-2 ${className}`}>
-            {label ? (
+        <div className={`col-12 my-2 ${className || ""} p-0`}>
+            { label ? (
                 <label htmlFor={name} className="form-label">{label}</label>
-            ) : null}
+            ) : null }
              <FastField type="color" id={name} name={name} className="form-control form-control-color"
                 title="Choose your color" />
             <ErrorMessage name={name} component={FormShowError} />

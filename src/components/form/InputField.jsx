@@ -4,7 +4,7 @@ import FormShowError from './FormShowError'
 
  const InputField = ({name, label, type, className, placeHolder}) => {
   return (
-    <div className={`col-12 ${className}`}>
+    <div className={`col-12 ${className || ""} p-0`}>
         <div className="input-group mb-2 dir_ltr">
               <FastField type={type} id={name} name={name} 
               placeholder={placeHolder} className="form-control" />

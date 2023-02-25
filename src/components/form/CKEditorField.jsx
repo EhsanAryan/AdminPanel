@@ -6,7 +6,7 @@ import FormShowError from './FormShowError';
 
 const CKEditorField = ({ name, label, className, placeHolder }) => {
     return (
-        <div className={`col-12 ${className} mb-4`}>
+        <div className={`col-12 mb-4 ${className || ""} p-0`}>
             <FastField>
                 {({ form }) => {
                     return (

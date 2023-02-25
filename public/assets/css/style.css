@@ -489,20 +489,9 @@ td , th {
     transform: scale(1);
 }
 
-.main-img {
-    box-shadow: 0 5px green;
+.bgColor-fff {
+    background-color: #fff !important;
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -581,14 +570,14 @@ td , th {
 
 /* Start Searchable Select */
 .searchable-select {
-    height: 40px;
+    min-height: 40px;
     position: relative;
     overflow: visible;
 }
 
 .hidden-menu {
     position: absolute;
-    top: 40px;
+    top: 100%;
     right: 0;
     z-index: 100;
     width: 100%;
@@ -620,6 +609,35 @@ td , th {
 }
 /* End Searchable Select */
 
+/* Start Date Picker */
+.date-picker {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+}
+
+.date-select {
+    appearance: none !important;
+    border: none !important;
+    background: white;
+    padding: 0 !important;
+    text-overflow: ellipsis;
+}
+
+.date-select:focus {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+
+
+
+/* End Date Picker */
 
 
 
