@@ -83,8 +83,10 @@ const ProductsTable = () => {
             try {
                 const response = await deleteProductservice(productData.id);
                 if (response.status === 200) {
-                    Alert("حذف محصول", data.message, "success");
-                    handleGetProducts(currentPage, itemsCount, searchChar);
+                    console.log(response);
+                    Alert("حذف محصول", response.data.message, "success");
+                    handleGetProducts(1, itemsCount, searchChar);
+                    setCurrentPage(1);
                 }
             } catch (error) {
 
@@ -98,6 +100,7 @@ const ProductsTable = () => {
     const handleSearch = (char) => {
         setSearchChar(char);
         handleGetProducts(1, itemsCount, char);
+        setCurrentPage(1);
     }
 
     useEffect(() => {

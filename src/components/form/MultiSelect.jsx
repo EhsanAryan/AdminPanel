@@ -24,7 +24,6 @@ const MultiSelect = ({
             const selectedIds = newData.map(nd => nd.id);
             const fieldValue = resultType === "string" ? selectedIds.join("-") : selectedIds;
             formik.setFieldValue(name, fieldValue);
-
         }
     }
 

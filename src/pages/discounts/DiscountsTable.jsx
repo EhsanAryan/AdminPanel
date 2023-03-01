@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useState } from 'react';
 import PaginatedTable from '../../components/PaginatedTable';
 import { deleteDiscountService, getDiscountsService } from '../../services/discountsServices';
-import AddDiscount from './AddDiscount';
 import Actions from './additionFields/Actions';
 import ForAll from './additionFields/ForAll';
 import { convertDateToJalali } from '../../utils/convertDate';
@@ -94,7 +93,9 @@ const DiscountsTable = () => {
             loading={loading}
         >
             <AddButtonLink href="/discounts/add-discount" />
-            <Outlet setData={setData} />
+            <Outlet context={{
+                setData
+            }} />
         </PaginatedTable>
     );
 }

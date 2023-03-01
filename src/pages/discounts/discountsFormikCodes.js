@@ -13,11 +13,10 @@ export const initialValues = {
     product_ids: "",
 }
 
-export const onSubmit = async (values, actions, setData, editDiscount) => {
+export const onSubmit = async (values, actions, setData, editDiscount, navigate) => {
     const data = {
         ...values,
-        expire_at: convertDateToGregorian(values.expire_at),
-        for_all: values.for_all ? 1 : 0
+        expire_at: convertDateToGregorian(values.expire_at)
     };
     try {
         if (editDiscount) {
@@ -32,7 +31,7 @@ export const onSubmit = async (values, actions, setData, editDiscount) => {
                         return d;
                     })
                 });
-                actions.resetForm();
+                navigate("/discounts");
             }
         } else {
             const response = await addNewDiscountService(data);
@@ -62,7 +61,7 @@ export const validationSchema = Yup.object().shape({
     product_ids: Yup.string().when("for_all", {
         is: false,
         then: Yup.string().required("باید حداقل یک محصول را انتخاب کنید")
-        .matches(/^[0-9-]+$/, "فقط از اعداد و خط تیره استفاده شود"),
+            .matches(/^[0-9-]+$/, "فقط از اعداد و خط تیره استفاده شود"),
         otherwise: Yup.string().matches(/^[0-9-]+$/, "فقط از اعداد و خط تیره استفاده شود")
     })
 });

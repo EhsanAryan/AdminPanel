@@ -1,10 +1,12 @@
 import React from 'react';
+import CheckBox from './CheckBox';
 import CKEditorField from './CKEditorField';
 import Color from './Color';
 import Date from './Date';
 import File from './File';
 import InputField from './InputField';
 import MultiSelect from './MultiSelect';
+import PasswordField from './PasswordField';
 import SearchableSelect from './SearchableSelect';
 import Select from './Select';
 import SubmitButton from './SubmitButton';
@@ -15,6 +17,8 @@ const FormikControl = (props) => {
     switch (props.control) {
         case "input":
             return <InputField {...props} />
+        case "visiblePassword":
+            return <PasswordField {...props} />
         case "textarea":
             return <Textarea {...props} />
         case "ckeditor":
@@ -33,6 +37,8 @@ const FormikControl = (props) => {
             return <Color {...props} />
         case "date":
             return <Date {...props} />
+        case "checkbox": 
+            return <CheckBox {...props} />
         case "submit":
             return <SubmitButton {...props} />
         default:

@@ -121,7 +121,7 @@ const AddCategory = ({ setForceRender }) => {
                                     control="ckeditor"
                                     name="descriptions"
                                     label="توضیحات"
-                                    className="col-md-6 col-lg-8 mx-auto"
+                                    className="col-lg-8 mx-auto mt-2"
                                     placeHolder="توضیحات مربوط به دسته را وارد کنید"
                                 />
 

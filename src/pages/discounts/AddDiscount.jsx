@@ -5,10 +5,10 @@ import FormikControl from '../../components/form/FormikControl';
 import { initialValues, onSubmit, validationSchema } from './discountsFormikCodes';
 import { getAllProductsTitlesService } from '../../services/productServices';
 import { convertDateToJalali } from '../../utils/convertDate';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useOutletContext } from 'react-router-dom';
 
 
-const AddDiscount = ({ setData }) => {
+const AddDiscount = () => {
     const [allProducts, setAllProducts] = useState([]);
     const [reinitializeValues, setReinitializeValues] = useState(null);
     const [initProducts, setInitProducts] = useState([]); // used in editing discount
@@ -17,6 +17,8 @@ const AddDiscount = ({ setData }) => {
 
     const location = useLocation();
     const editDiscount = location.state?.editDiscount;
+
+    const { setData } = useOutletContext();
 
     const handleGetAllProducts = async () => {
         try {
@@ -38,6 +40,30 @@ const AddDiscount = ({ setData }) => {
                 return { id: p.id, value: p.title };
             }));
         }
+    }
+
+    const handleSetSelectedProducts = (formik) => {
+        const selectedProductsIds = formik.values.product_ids.split("-").filter(id => id);
+        let selectedProducts = [];
+        for (let id of selectedProductsIds) {
+            selectedProducts = [...selectedProducts, allProducts.filter(p => p.id == id)[0]];
+        }
+        selectedProducts = selectedProducts.filter(p => p);
+
+        return (
+            <FormikControl
+                control="searchableSelect"
+                formikOptions={formik}
+                resultType="string"
+                name="product_ids"
+                label="محصولات"
+                options={allProducts}
+                className="label-8rem mt-1 animate__animated animate__headShake"
+                headerText="انتخاب محصول"
+                placeHolder="قسمتی از نام محصول را وارد کنید"
+                initialItems={selectedProducts.length > 0 ? selectedProducts : initProducts}
+            />
+        );
     }
 
     useEffect(() => {
@@ -77,14 +103,14 @@ const AddDiscount = ({ setData }) => {
                 id={"add_discount_modal"}
                 title={editDiscount ? "ویرایش کد تخفیف" : "افزودن کد تخفیف"}
                 fullScreen={false}
-                className="show d-block animate__animated animate__fadeInDown"
+                className="show d-block"
                 closeFunction={() => navigate(-1)}
             >
                 <div className="container">
                     <Formik
                         initialValues={reinitializeValues || initialValues}
                         onSubmit={(values, actions) => onSubmit(values, actions, setData,
-                            editDiscount)}
+                            editDiscount, navigate, setReinitializeValues)}
                         validationSchema={validationSchema}
                         enableReinitialize
                     >
@@ -125,7 +151,8 @@ const AddDiscount = ({ setData }) => {
                                             label="تاریخ اعتبار"
                                             className="label-8rem"
                                             formik={formik}
-                                            yearRange={{from: 50, to: 10}}
+                                            yearRange={{ from: 50, to: 10 }}
+                                            initialDate={editDiscount?.expire_at || ""}
                                         />
 
                                         <FormikControl
@@ -137,18 +164,7 @@ const AddDiscount = ({ setData }) => {
 
                                         {
                                             !formik.values.for_all ? (
-                                                <FormikControl
-                                                    control="searchableSelect"
-                                                    formikOptions={formik}
-                                                    resultType="string"
-                                                    name="product_ids"
-                                                    label="محصولات"
-                                                    options={allProducts}
-                                                    className="label-8rem mt-1 animate__animated animate__headShake"
-                                                    headerText="انتخاب محصول"
-                                                    placeHolder="قسمتی از نام محصول را وارد کنید"
-                                                    initialItems={initProducts}
-                                                />
+                                                handleSetSelectedProducts(formik)
                                             ) : null
                                         }
 

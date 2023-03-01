@@ -19,7 +19,7 @@ const allMonths = [
     { id: 12, value: "اسفند" }
 ]
 
-const Date = ({ name, label, className, placeHolder, formik, yearRange }) => {
+const Date = ({ name, label, className, placeHolder, formik, yearRange, initialDate }) => {
     const [day, setDay] = useState("");
     const [month, setMonth] = useState("");
     const [year, setYear] = useState("");
@@ -27,15 +27,15 @@ const Date = ({ name, label, className, placeHolder, formik, yearRange }) => {
     const [showDatePicker, setShowDatePicker] = useState(false);
 
     useEffect(() => {
-        const nowDate = moment();
-        setYear(nowDate.jYear());
-        setMonth(nowDate.jMonth() + 1);
-        setDay(nowDate.jDate());
-    }, []);
+        const date = initialDate ? moment(initialDate) : moment();
+        setYear(date.jYear());
+        setMonth(date.jMonth() + 1);
+        setDay(date.jDate());
+    }, [initialDate]);
 
     const handleOpenDatePicker = () => {
         let years = [];
-        for (let i = parseInt(year) - (yearRange?.from || 100) ; i <= parseInt(year) + (yearRange?.to || 1) ; i++) {
+        for (let i = parseInt(year) - (yearRange?.from || 100); i <= parseInt(year) + (yearRange?.to || 1); i++) {
             years = [...years, i];
         }
         setAllYears(years);
@@ -45,63 +45,64 @@ const Date = ({ name, label, className, placeHolder, formik, yearRange }) => {
     const handleCloseDatePicker = () => {
         const fieldValue = `${year}/${month}/${day}`;
         formik.setFieldValue(name, fieldValue);
-
         setShowDatePicker(false);
     }
 
     return (
-        <div className={`col-12 ${className || ""} p-0 position-relative overflow-hidden`}>
-            <div className="input-group mb-2 dir_ltr"
-                onClick={() => handleOpenDatePicker()}>
-                <FastField id={name} name={name} className="form-control bgColor-fff pointer"
-                    placeholder={placeHolder || "برای انتخاب تاریخ کلیک کنید"} disabled />
-                {label ? (
-                    <span className="input-group-text w_6rem justify-content-center">{label}</span>
-                ) : null}
-            </div>
+        <>
+            <div className={`col-12 ${className || ""} p-0 position-relative overflow-hidden mb-2`}>
+                <div className="input-group mb-2 dir_ltr"
+                    onClick={() => handleOpenDatePicker()}>
+                    <FastField id={name} name={name} className="form-control bgColor-fff pointer"
+                        placeholder={placeHolder || "برای انتخاب تاریخ کلیک کنید"} disabled />
+                    {label ? (
+                        <span className="input-group-text w_6rem justify-content-center">{label}</span>
+                    ) : null}
+                </div>
 
-            {
-                showDatePicker ? (
-                    <div className='date-picker row m-0 p-0'>
-                        <div className="col-3 d-flex justify-content-center align-items-center">
-                            <select className="form-select date-select pointer" value={day}
-                                onChange={(ev) => setDay(ev.target.value)}>
+                {
+                    showDatePicker ? (
+                        <div className='date-picker row m-0 p-0'>
+                            <div className="col-3 d-flex justify-content-center align-items-center">
+                                <select className="form-select date-select pointer" value={day}
+                                    onChange={(ev) => setDay(ev.target.value)}>
                                     {allDays.map(d => {
                                         return (
                                             <option key={`day_${d}`} value={d}>{d}</option>
                                         );
                                     })}
-                            </select>
-                        </div>
-                        <div className="col-3 d-flex justify-content-center align-items-center">
-                            <select className="form-select date-select pointer" value={month}
-                                onChange={(ev) => setMonth(ev.target.value)}>
+                                </select>
+                            </div>
+                            <div className="col-3 d-flex justify-content-center align-items-center">
+                                <select className="form-select date-select pointer" value={month}
+                                    onChange={(ev) => setMonth(ev.target.value)}>
                                     {allMonths.map(m => {
                                         return (
                                             <option key={`month_${m.id}`} value={m.id}>{m.value}</option>
                                         );
                                     })}
-                            </select>
-                        </div>
-                        <div className="col-3 d-flex justify-content-center align-items-center">
-                            <select className="form-select date-select pointer" value={year}
-                                onChange={(ev) => setYear(ev.target.value)}>
+                                </select>
+                            </div>
+                            <div className="col-3 d-flex justify-content-center align-items-center">
+                                <select className="form-select date-select pointer" value={year}
+                                    onChange={(ev) => setYear(ev.target.value)}>
                                     {allYears.map(y => {
                                         return (
                                             <option key={`year_${y}`} value={y}>{y}</option>
                                         );
                                     })}
-                            </select>
+                                </select>
+                            </div>
+                            <div className="col-3 d-flex justify-content-center align-items-center">
+                                <i className="fas fa-check text-success pointer bg-white"
+                                    onClick={() => handleCloseDatePicker()}></i>
+                            </div>
                         </div>
-                        <div className="col-3 d-flex justify-content-center align-items-center">
-                            <i className="fas fa-check text-success pointer bg-white"
-                            onClick={() => handleCloseDatePicker()}></i>
-                        </div>
-                    </div>
-                ) : null
-            }
+                    ) : null
+                }
+            </div>
             <ErrorMessage name={name} component={FormShowError} />
-        </div>
+        </>
     );
 }
 

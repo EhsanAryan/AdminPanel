@@ -7,8 +7,7 @@ const Actions = ({ rowData, handleDeleteDiscount }) => {
     return (
         <>
             <i className="fas fa-edit text-warning mx-1 hoverable_text pointer has_tooltip"
-                title="ویرایش تخفیف" data-bs-placement="top" data-bs-toggle="modal"
-                data-bs-target="#add_discount_modal"
+                title="ویرایش تخفیف"
                 onClick={() => navigate("/discounts/add-discount", {
                     state : {
                         editDiscount : rowData
