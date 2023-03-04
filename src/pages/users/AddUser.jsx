@@ -40,7 +40,6 @@ const AddUser = () => {
             const response = await getSingleUserService(editUserId);
             if (response.status === 200) {
                 setEditUser(response.data.data);
-                console.log(response.data.data);
             }
             else {
                 setEditUser(null);
@@ -63,16 +62,17 @@ const AddUser = () => {
         if (editUser) {
             // API doesn't send the password (for security reasons), but user can change the password
             setReinitializeValues({
-                user_name: editUser.user_name,
+                user_name: editUser.user_name || "",
                 first_name: editUser.first_name || "",
                 last_name: editUser.last_name || "",
-                phone: editUser.phone,
+                phone: editUser.phone || "",
                 national_code: editUser.national_code || "",
                 email: editUser.email || "",
                 password: "",
                 birth_date: editUser.birth_date ? convertDateToJalali(editUser.birth_date) : "",
                 gender: editUser.gender || 1,
                 roles_id: editUser.roles.map(r => r.id),
+                isEditing: true
             });
             setInitialRoles(editUser.roles.map(r => {
                 return { id: r.id, value: r.title };

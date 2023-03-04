@@ -65,11 +65,11 @@ const MultiSelect = ({
                                 </Field>
                                 <span className="input-group-text w_6rem justify-content-center">{label}</span>
                             </div>
-                            <div className="pt-1">
+                            <div className="pt-1 d-flex justify-content-start align-items-center flex-wrap">
                                 {
                                     selectedItems.map(item => {
                                         return (
-                                            <span className="chips_elem" key={`product_chips_${item.id}`}>
+                                            <span className="chips_elem mb-1" key={`product_chips_${item.id}`}>
                                                 <i className="fas fa-times text-danger me-1 ms-2"
                                                     onClick={() => handleRemoveFromSelectedItems(item.id, form)}>
                                                 </i>

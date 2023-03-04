@@ -255,6 +255,7 @@ td , th {
 
 #sidebar_section .mini_sidebar .avatar_box{
     width: 55px;
+    height: 55px;
 }
 
 #sidebar_section .mini_sidebar .avatar_box img{
@@ -506,6 +507,32 @@ td , th {
     overflow: auto !important;
 }
 
+.error-bug-icon {
+    animation: scaleAnimation 0.75s 1;
+    transition: all 0.25s;
+}
+
+.error-bug-icon:hover {
+    filter: drop-shadow(0px 0px 5px grey);
+}
+
+@keyframes scaleAnimation {
+    0% {
+        transform: scale(1);
+    }
+
+    40% {
+        transform: scale(1.4);
+    }
+
+    80% {
+        transform: scale(0.7);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
 /* End added styles */
 
 

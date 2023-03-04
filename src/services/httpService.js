@@ -11,7 +11,7 @@ axios.interceptors.response.use((response) => {
         if(typeof (response.data) === "object") {
             let message = "";
             for(let key in response.data) {
-                message = message + `${key} : ${response.data[key]}\n`;
+                message = message + `${response.data[key]}\n`;
             }
             response.data.message = message;
         }

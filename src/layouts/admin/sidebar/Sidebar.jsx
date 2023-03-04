@@ -4,18 +4,21 @@ import { AdminContext } from '../../../context/AdminLayoutContext';
 import SidebarItem from "./SidebarItem";
 import SidebarAvatar from './SidebarAvatar';
 import SidebarTitle from './SidebarTitle';
+import { useSelector } from 'react-redux';
 
 
 const Index = () => {
   const { showSidebar } = useContext(AdminContext);
+
+  const { user } = useSelector(state => state);
 
   return (
     <section id="sidebar_section">
       <div className={`mini_sidebar collapsedd bg-dark h-100 ${showSidebar ? "expanded" : null}`}>
         <div className="p-0 m-0">
           <SidebarAvatar
-            name={"احسان آریان"}
-            imgPath={"/assets/images/avatar/user1.jpg"}
+            name={user.full_name || user.user_name || "کاربر"}
+            imgPath={user.image || "/assets/images/user-default_3.png"}
           />
 
           <SidebarItem

@@ -83,7 +83,6 @@ const ProductsTable = () => {
             try {
                 const response = await deleteProductservice(productData.id);
                 if (response.status === 200) {
-                    console.log(response);
                     Alert("حذف محصول", response.data.message, "success");
                     handleGetProducts(1, itemsCount, searchChar);
                     setCurrentPage(1);

@@ -1,16 +1,24 @@
 import { useEffect, useState } from "react";
-import { getUsersService } from "../services/authServices";
+import { useDispatch } from "react-redux";
+import { receiveUserResponseAction } from "../redux/user/userActions";
+import { getUserService } from "../services/authServices";
 
 export const useIsLogin = () => {
-    const [isLogin , setIsLogin] = useState(false);
-    const [loading , setLoading] = useState(true);
+    const [isLogin, setIsLogin] = useState(false);
+    const [loading, setLoading] = useState(true);
+
+    const dispatch = useDispatch();
 
     const handleCheckLogin = async () => {
         const loginToken = JSON.parse(localStorage.getItem("loginToken"));
-        if(loginToken) {
+        if (loginToken) {
             try {
-                const response = await getUsersService();
-                setIsLogin(response.status===200 ? true : false);
+                const response = await getUserService();
+                setIsLogin(response.status === 200 ? true : false);
+
+                let userData = response.data;
+                userData.full_name = `${userData.first_name || ""} ${userData.last_name || ""}`.trim();
+                dispatch(receiveUserResponseAction(userData));
             } catch (error) {
                 localStorage.removeItem("loginToken");
                 setIsLogin(false);
@@ -26,7 +34,7 @@ export const useIsLogin = () => {
 
     useEffect(() => {
         handleCheckLogin();
-    } , []);
+    }, []);
 
-    return [loading , isLogin];
+    return [loading, isLogin];
 }

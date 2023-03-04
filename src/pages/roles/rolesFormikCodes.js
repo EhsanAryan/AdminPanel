@@ -26,7 +26,7 @@ export const onSubmit = async (values, actions, setData, editRoleId, editType, n
             }
         } else if (editType === "permissions") {
             const response = await editRolePermissionsService(editRoleId, values);
-            if(response.status === 200) {
+            if (response.status === 200) {
                 Alert("ویرایش مجوزهای نقش", response.data.message, "success");
                 setData(prevData => {
                     return prevData.map(d => {
@@ -51,16 +51,19 @@ export const onSubmit = async (values, actions, setData, editRoleId, editType, n
     }
 }
 
+// "editPermissions" is not a real field, it's only used for editing permissions
 export const validationSchema = Yup.object().shape({
     title: Yup.string().when("editPermissions", {
         is: true,
-        then: null,
+        then: Yup.string().matches(/^[a-zA-Z0-9!?@#$%&\u0600-\u06FF\s-_]+$/,
+            "فقط از حروف و اعداد و کاراکترها استفاده شود"),
         otherwise: Yup.string().required("فیلد را پر کنید").matches(/^[a-zA-Z0-9!?@#$%&\u0600-\u06FF\s-_]+$/,
             "فقط از حروف و اعداد و کاراکترها استفاده شود")
     }),
     description: Yup.string().when("editPermissions", {
         is: true,
-        then: null,
+        then: Yup.string().matches(/^[a-zA-Z0-9!?@#$%&\u0600-\u06FF\s-_]+$/,
+            "فقط از حروف و اعداد و کاراکترها استفاده شود"),
         otherwise: Yup.string().required("فیلد را پر کنید").matches(/^[a-zA-Z0-9!?@#$%&\u0600-\u06FF\s-_]+$/,
             "فقط از حروف و اعداد و کاراکترها استفاده شود")
     }),

@@ -8,6 +8,6 @@ export const logoutService = () => {
     return httpService("/auth/logout", "get");
 }
 
-export const getUsersService = () => {
+export const getUserService = () => {
     return httpService("/auth/user", "get");
 }
