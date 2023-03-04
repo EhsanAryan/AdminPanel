@@ -32,7 +32,6 @@ import { useSelector } from 'react-redux';
 const Content = () => {
     const { showSidebar } = useContext(AdminContext);
     const { user } = useSelector(state => state);
-    console.log(user);
 
     let permissions = [];
     for (let role of user.roles) {
@@ -43,6 +42,9 @@ const Content = () => {
         return permissions.findIndex(p => p.title.includes(permissionTitle)) > -1;
     }
 
+    const isMainAdmin = () => {
+        return user.roles[0].title.includes("admin");
+    }
 
     return (
         <section id="content_section"
@@ -50,77 +52,77 @@ const Content = () => {
             <Routes>
                 <Route path="/dashboard" element={<Dashboard />} />
 
-                {hasPermission("read_categories") && (
+                {(hasPermission("read_categories") || isMainAdmin()) && (
                     <Route path="/categories" element={<Categories />}>
                         <Route path=":categoryId" element={<CategoriesChildren />} />
                     </Route>
                 )}
 
-                {hasPermission("read_category_attrs") && (
+                {(hasPermission("read_category_attrs") || isMainAdmin()) && (
                     <Route path="/categories/:categoryId/attributes" element={<Attributes />} />
                 )}
 
-                {hasPermission("read_products") && (
+                {(hasPermission("read_products") || isMainAdmin()) && (
                     <Route path="/products" element={<Products />} />
                 )}
 
-                {hasPermission("create_product") && (
+                {(hasPermission("create_product") || isMainAdmin()) && (
                     <Route path="/products/add-product" element={<AddProduct />}>
                         <Route path=":productId" element={<ProductToEdit />} />
                     </Route>
                 )}
 
-                {hasPermission("read_product_attrs") && (
+                {(hasPermission("read_product_attrs") || isMainAdmin()) && (
                     <Route path="/products/set-attr" element={<SetProductAttribute />} />
                 )}
 
-                {hasPermission("create_product_image") && (
+                {(hasPermission("create_product_image") || isMainAdmin()) && (
                     <Route path="/products/gallery" element={<ProductGallery />} />
                 )}
 
-                {hasPermission("read_brands") && (
+                {(hasPermission("read_brands") || isMainAdmin()) && (
                     <Route path="/brands" element={<Brands />} />
                 )}
 
-                {hasPermission("read_guarantees") && (
+                {(hasPermission("read_guarantees") || isMainAdmin()) && (
                     <Route path="/guaranties" element={<Guaranties />} />
                 )}
 
-                {hasPermission("read_colors") && (
+                {(hasPermission("read_colors") || isMainAdmin()) && (
                     <Route path="/colors" element={<Colors />} />
                 )}
 
-                {hasPermission("read_discounts") && (
+                {(hasPermission("read_discounts") || isMainAdmin()) && (
                     <Route path="/discounts" element={<Discounts />}>
                         <Route path="add-discount" element={<AddDiscount />} />
                     </Route>
                 )}
 
-                {hasPermission("read_carts") && (
+                {(hasPermission("read_carts") || isMainAdmin()) && (
                     <Route path="/carts" element={<Carts />} />
                 )}
 
-                {hasPermission("read_orders") && (
+                {(hasPermission("read_orders") || isMainAdmin()) && (
                     <Route path="/orders" element={<Orders />} />
                 )}
 
-                {hasPermission("read_deliveries") && (
+                {(hasPermission("read_deliveries") || isMainAdmin()) && (
                     <Route path="/deliveries" element={<Deliveries />} />
                 )}
 
-                {hasPermission("read_users") && (
+                {(hasPermission("read_users") || isMainAdmin()) && (
                     <Route path="/users" element={<Users />}>
                         <Route path="add-user" element={<AddUser />} />
                     </Route>
                 )}
 
-                {hasPermission("read_roles") && (
+                {(hasPermission("read_roles") || isMainAdmin()) && (
                     <Route path="/roles" element={<Roles />}>
                         <Route path='add-role' element={<AddRole />} />
                     </Route>
                 )}
 
-                {hasPermission("read_permissions") && (
+                {(hasPermission("read_permissions") || isMainAdmin()) && (
                     <Route path="/permissions" element={<Permissions />} />
                 )}
 
