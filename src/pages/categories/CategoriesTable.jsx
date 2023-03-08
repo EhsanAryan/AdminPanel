@@ -8,6 +8,7 @@ import AddCategory from './AddCategory'
 import Actions from './additionFields/Actions'
 import ShowInMenu from './additionFields/ShowInMenu'
 import { convertDateToJalali } from '../../utils/convertDate'
+import { useHasPermission } from '../../hooks/hasPermission'
 
 
 const CategoriesTable = () => {
@@ -16,6 +17,8 @@ const CategoriesTable = () => {
     const [loading, setLoading] = useState(false);
 
     const params = useParams();
+
+    const hasAddCatPermission = useHasPermission("create_category")
 
     const dataInfo = [
         { field: "id", title: "#" },
@@ -92,7 +95,7 @@ const CategoriesTable = () => {
                 searchParams={searchParams}
                 loading={loading}
             >
-                <AddCategory setForceRender={setForceRender} />
+                {hasAddCatPermission && <AddCategory setForceRender={setForceRender} />} 
             </PaginatedTable>
         </>
     )

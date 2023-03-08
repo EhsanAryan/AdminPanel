@@ -9,6 +9,7 @@ import { Alert, Confirm } from "../../../utils/Alerts";
 const ProductGallery = () => {
     const location = useLocation();
     const { productData } = location.state;
+
     const [gallery, setGallery] = useState(productData.gallery);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
@@ -22,9 +23,6 @@ const ProductGallery = () => {
             setLoading(false);
             return;
         }
-        
-        let formdata = new FormData();
-        formdata.append("image", image);
 
         if (image.size > 500 * 1024) {
             setLoading(false);
@@ -35,9 +33,11 @@ const ProductGallery = () => {
             return setError("لطفا یک فایل با فرمت png یا jpg یا jpeg انتخاب کنید.")
         }
 
+        let formdata = new FormData();
+        formdata.append("image", image);
+
         try {
             const response = await addGalleryImageSerive(productData.id, formdata);
-            console.log(response)
             if (response.status === 201) {
                 Alert("افزودن تصویر", response.data.message, "success");
                 setGallery(prevGallery => [
@@ -106,7 +106,7 @@ const ProductGallery = () => {
                     ) : null
                 }
             </div>
-            <div className="d-flex justify-content-start align-items-start flex-wrap">
+            <div className="d-flex justify-content-center align-items-start flex-wrap">
                 {
                     gallery.length > 0 ? (
                         <>
@@ -114,7 +114,7 @@ const ProductGallery = () => {
                                 return (
                                     <div key={`img-${g.id}`} className={`gallery-img-box 
                                      border border-1 border-dark position-relative mx-1
-                                      my-1 p-0 ${g.is_main ? "main-img" : ""}`}>
+                                      my-2 p-0 ${g.is_main ? "main-img" : ""}`}>
                                         <img src={`${apiPath}/${g.image}`}
                                             className="img-fluid h-100" alt="gallery pic" />
                                         <div className="gallery-img-options-container">
@@ -139,7 +139,7 @@ const ProductGallery = () => {
                 }
 
                 <div className={`add-gallery-img-box bg-white border border-2 border-dark 
-                mx-1 my-1 d-flex justify-content-center align-items-center 
+                mx-1 my-2 d-flex justify-content-center align-items-center 
                 position-relative ${loading ? "disabled" : ""}`}>
                     {
                         loading ? (

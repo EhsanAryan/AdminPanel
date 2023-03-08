@@ -9,12 +9,15 @@ import { Alert, Confirm } from '../../utils/Alerts';
 import Status from './additionFields/Status';
 import AddButtonLink from '../../components/AddButtonLink';
 import { Outlet } from 'react-router-dom';
+import { useHasPermission } from '../../hooks/hasPermission';
 
 
 
 const DiscountsTable = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
+
+    const hasAddDiscountPermission = useHasPermission("create_discount");
 
     const dataInfo = [
         { field: "id", title: "#" },
@@ -29,7 +32,7 @@ const DiscountsTable = () => {
         {
             field: null,
             title: "تا تاریخ",
-            elements: (rowData) => <Status rowData={rowData}  />
+            elements: (rowData) => <Status rowData={rowData} />
         },
         {
             field: null,
@@ -53,11 +56,11 @@ const DiscountsTable = () => {
         setLoading(true);
         try {
             const response = await getDiscountsService();
-            if(response.status === 200) {
+            if (response.status === 200) {
                 setData(response.data.data);
             }
         } catch (error) {
-            
+
         } finally {
             setLoading(false);
         }
@@ -65,15 +68,15 @@ const DiscountsTable = () => {
 
     const handleDeleteDiscount = async (discountData) => {
         const res = await Confirm("حذف تخفیف", `آیا از حذف تخفیف ${discountData.title} مطمئن هستید؟`, "warning");
-        if(res) {
+        if (res) {
             try {
                 const response = await deleteDiscountService(discountData.id);
-                if(response.status === 200) {
+                if (response.status === 200) {
                     Alert("حذف تخفیف", response.data.message, "success");
                     setData(prevData => prevData.filter(d => d.id !== discountData.id));
                 }
             } catch (error) {
-                
+
             }
         } else {
             Alert("لغو عملیات", "شما عملیات حذف تخفیف را لغو کردید", "info");
@@ -92,10 +95,14 @@ const DiscountsTable = () => {
             searchParams={searchParams}
             loading={loading}
         >
-            <AddButtonLink href="/discounts/add-discount" />
-            <Outlet context={{
-                setData
-            }} />
+            {hasAddDiscountPermission && (
+                <>
+                    <AddButtonLink href="/discounts/add-discount" />
+                    <Outlet context={{
+                        setData
+                    }} />
+                </>
+            )}
         </PaginatedTable>
     );
 }

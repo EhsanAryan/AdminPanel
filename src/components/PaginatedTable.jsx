@@ -29,7 +29,12 @@ const PaginatedTable = ({ children, data, dataInfo, numOfItems, searchParams, lo
     }, [currentPage, initData, itemsCount]);
 
     useEffect(() => {
-        setInitData(data.filter(d => d[searchParams.searchField].toLowerCase().includes(searchValue.toLowerCase())));
+        if(searchParams.searchField) {
+            setInitData(data.filter(d => d[searchParams.searchField].toLowerCase().includes(searchValue.toLowerCase())));
+        } else {
+            setInitData(data.filter(d => d));
+        }
+        
         setCurrentPage(1);
     }, [searchValue, data]);
 

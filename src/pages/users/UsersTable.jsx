@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import AddButtonLink from '../../components/AddButtonLink';
 import PaginatedDataTable from '../../components/PaginatedDataTable';
+import { useHasPermission } from '../../hooks/hasPermission';
 import { deleteUserService, getUsersService } from '../../services/usersServices';
 import { Alert, Confirm } from '../../utils/Alerts';
 import Actions from './additionField/Actions';
@@ -15,6 +16,8 @@ const UsersTable = () => {
     const [searchChar, setSearchChar] = useState("");
     const [itemsCount, setItemsCount] = useState(8);
     const [pagesCount, setPagesCount] = useState(0);
+
+    const hasAddUserPermission = useHasPermission("create_user");
 
     const dataInfo = [
         { field: "id", title: "#" },
@@ -104,10 +107,14 @@ const UsersTable = () => {
             setCurrentPage={setCurrentPage}
             handleSearch={handleSearch}
         >
-            <AddButtonLink href="/users/add-user" />
-            <Outlet context={{
-                setData
-            }} />
+            {hasAddUserPermission && (
+                <>
+                    <AddButtonLink href="/users/add-user" />
+                    <Outlet context={{
+                        setData
+                    }} />
+                </>
+            )}
         </PaginatedDataTable>
     );
 }

@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import AddButtonLink from '../../components/AddButtonLink';
 import PaginatedTable from '../../components/PaginatedTable';
+import { useHasPermission } from '../../hooks/hasPermission';
 import { deleteRoleService, getAllRolesService } from '../../services/usersServices';
 import { Confirm, Alert } from '../../utils/Alerts';
 import Actions from './additionFields/Actions';
@@ -10,6 +11,8 @@ import Actions from './additionFields/Actions';
 const RolesTable = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
+
+    const hasAddRolePermission = useHasPermission("create_role");
 
     const dataInfo = [
         { field: "id", title: "#" },
@@ -72,10 +75,14 @@ const RolesTable = () => {
             searchParams={searchParams}
             loading={loading}
         >
-            <AddButtonLink href="/roles/add-role" />
-            <Outlet context={{
-                setData
-            }} />
+            {hasAddRolePermission && (
+                <>
+                    <AddButtonLink href="/roles/add-role" />
+                    <Outlet context={{
+                        setData
+                    }} />
+                </>
+            )}
         </PaginatedTable>
     );
 }

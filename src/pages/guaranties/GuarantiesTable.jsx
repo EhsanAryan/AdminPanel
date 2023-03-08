@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PaginatedTable from '../../components/PaginatedTable';
+import { useHasPermission } from '../../hooks/hasPermission';
 import { deleteGuaranteeService, getGuarantiesService } from '../../services/guarantiesServices';
 import { Alert, Confirm } from '../../utils/Alerts';
 import AddGuarantee from './AddGuarantee';
@@ -11,21 +12,22 @@ const GuarantiesTable = () => {
     const [loading, setLoading] = useState(false);
     const [editGuarantee, setEditGuarantee] = useState(null);
 
+    const hasAddGuaranteePermission = useHasPermission("create_guarantee");
+
     const dataInfo = [
         { field: "id", title: "#" },
         { field: "title", title: "عنوان" },
         { field: "descriptions", title: "توضیحات" },
         { field: "length", title: "مدت" },
         { field: "length_unit", title: "واحد" },
-    ]
-
-    const additionFields = [
         {
+            field: null,
             title: "عملیات",
-            elements: (rowData) => <Actions rowData={rowData} 
-            handleDeleteGuarantee={handleDeleteGuarantee} setEditGuarantee={setEditGuarantee} />
+            elements: (rowData) => <Actions rowData={rowData}
+                handleDeleteGuarantee={handleDeleteGuarantee} setEditGuarantee={setEditGuarantee} />
         }
     ]
+
 
     const searchParams = {
         searchField: "title",
@@ -52,12 +54,12 @@ const GuarantiesTable = () => {
         if (res) {
             try {
                 const response = await deleteGuaranteeService(guaranteeData.id);
-                if(response.status === 200) {
+                if (response.status === 200) {
                     Alert("حذف گارانتی", response.data.message, "success");
                     setData(prevData => prevData.filter(d => d.id !== guaranteeData.id));
                 }
             } catch (error) {
-                
+
             }
         } else {
             Alert("لغو عملیات", "شما عملیات حذف گارانتی را لغو کردید", "info");
@@ -73,13 +75,12 @@ const GuarantiesTable = () => {
             <PaginatedTable
                 data={data}
                 dataInfo={dataInfo}
-                additionFields={additionFields}
                 numOfItems={4}
                 searchParams={searchParams}
                 loading={loading}
             >
-                <AddGuarantee setData={setData} editGuarantee={editGuarantee} 
-                setEditGuarantee={setEditGuarantee} />
+                {hasAddGuaranteePermission && <AddGuarantee setData={setData}
+                    editGuarantee={editGuarantee} setEditGuarantee={setEditGuarantee} />}
             </PaginatedTable>
         </>
     );

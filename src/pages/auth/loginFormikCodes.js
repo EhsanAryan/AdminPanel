@@ -20,8 +20,6 @@ export const onSubmit = async (values, actions, navigate) => {
         }
     } catch (error) {
 
-    } finally {
-        actions.setSubmitting(false);
     }
 }
 

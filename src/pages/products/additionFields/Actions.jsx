@@ -1,47 +1,53 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import ActionIcon from '../../../components/ActionIcon';
 
 const Actions = ({ rowData, handleDeleteProduct }) => {
     const navigate = useNavigate();
 
     return (
         <>
-            <i className="fas fa-edit text-warning mx-1 
-            hoverable_text pointer has_tooltip" title="ویرایش محصول"
+            <ActionIcon
+                permTitle="update_product"
+                iconClasses="fas fa-edit text-warning"
+                title="ویرایش محصول"
                 onClick={() => {
                     navigate(`/products/add-product/${rowData.id}`, {
                         state: {
                             editProduct: rowData
                         }
                     });
-                }}>
-            </i>
+                }}
+            />
 
-            <i className="fas fa-receipt text-info mx-1 
-            hoverable_text pointer has_tooltip"
+            <ActionIcon
+                permTitle="create_product_attr"
+                iconClasses="fas fa-receipt text-info"
                 title="ثبت ویژگی"
                 onClick={() => navigate("/products/set-attr", {
                     state: {
-                        productData : rowData
+                        productData: rowData
                     }
-                })}>
-            </i>
+                })}
+            />
 
-            <i className="fas fa-image text-success mx-1 
-            hoverable_text pointer has_tooltip"
+            <ActionIcon
+                permTitle="create_product_image"
+                iconClasses="fas fa-image text-success"
                 title="گالری تصاویر"
                 onClick={() => navigate("/products/gallery", {
                     state: {
-                        productData : rowData
+                        productData: rowData
                     }
-                })}>
-            </i>
+                })}
+            />
 
-            <i className="fas fa-times text-danger mx-1 
-            hoverable_text pointer has_tooltip"
-                title="حذف محصول" data-bs-toggle="tooltip" data-bs-placement="top"
-                onClick={() => handleDeleteProduct(rowData)}>
-            </i>
+            <ActionIcon
+                permTitle="delete_product"
+                iconClasses="fas fa-times text-danger"
+                title="حذف محصول"
+                onClick={() => handleDeleteProduct(rowData)}
+            />
         </>
     );
 }

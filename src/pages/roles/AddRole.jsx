@@ -79,7 +79,7 @@ const AddRole = () => {
                 title={editType === "role" ?
                     "ویرایش نقش" :
                     editType === "permissions" ?
-                        "ویرایش مجوزهای نقش" + " " + editRole?.title || "" :
+                        "ویرایش مجوزهای نقش:" + " " + editRole?.title || "" :
                         "افزودن نقش"}
                 fullScreen={editType === "role" ? false : true}
                 className="show d-block"

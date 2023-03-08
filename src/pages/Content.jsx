@@ -27,24 +27,20 @@ import ProductGallery from './products/gallery/ProductGallery';
 import AddDiscount from './discounts/AddDiscount';
 import AddRole from './roles/AddRole';
 import AddUser from './users/AddUser';
-import { useSelector } from 'react-redux';
+import AddCart from './Carts/AddCart';
+import PermComponent from '../components/PermComponent';
+import { useHasPermission } from '../hooks/hasPermission';
+import AddDelivery from './deliveries/AddDelivery';
 
 const Content = () => {
     const { showSidebar } = useContext(AdminContext);
-    const { user } = useSelector(state => state);
-
-    let permissions = [];
-    for (let role of user.roles) {
-        permissions = [...permissions, ...role.permissions];
-    }
-
-    const hasPermission = (permissionTitle) => {
-        return permissions.findIndex(p => p.title.includes(permissionTitle)) > -1;
-    }
-
-    const isMainAdmin = () => {
-        return user.roles[0].title.includes("admin");
-    }
+    const hasCategoriesPermission = useHasPermission("read_categories");
+    const hasAddProductPermission = useHasPermission("create_product");
+    const hasDiscountsPermission = useHasPermission("read_discounts");
+    const hasCartsPermission = useHasPermission("read_carts");
+    const hasUsersPermission = useHasPermission("read_users");
+    const hasRolesPermission = useHasPermission("read_roles");
+    const hasDeliveriesPermission = useHasPermission("read_deliveries");
 
     return (
         <section id="content_section"
@@ -52,79 +48,81 @@ const Content = () => {
             <Routes>
                 <Route path="/dashboard" element={<Dashboard />} />
 
-                {(hasPermission("read_categories") || isMainAdmin()) && (
+                {hasCategoriesPermission && (
                     <Route path="/categories" element={<Categories />}>
                         <Route path=":categoryId" element={<CategoriesChildren />} />
                     </Route>
                 )}
 
-                {(hasPermission("read_category_attrs") || isMainAdmin()) && (
-                    <Route path="/categories/:categoryId/attributes" element={<Attributes />} />
-                )}
+                <Route path="/categories/:categoryId/attributes"
+                    element={<PermComponent component={<Attributes />} permTitle="read_category_attrs" />} />
 
-                {(hasPermission("read_products") || isMainAdmin()) && (
-                    <Route path="/products" element={<Products />} />
-                )}
+                <Route path="/products"
+                    element={<PermComponent component={<Products />} permTitle="read_products" />} />
 
-                {(hasPermission("create_product") || isMainAdmin()) && (
+                {hasAddProductPermission && (
                     <Route path="/products/add-product" element={<AddProduct />}>
                         <Route path=":productId" element={<ProductToEdit />} />
                     </Route>
                 )}
 
-                {(hasPermission("read_product_attrs") || isMainAdmin()) && (
-                    <Route path="/products/set-attr" element={<SetProductAttribute />} />
-                )}
+                <Route path="/products/set-attr"
+                    element={<PermComponent component={<SetProductAttribute />} permTitle="read_product_attrs" />} />
 
-                {(hasPermission("create_product_image") || isMainAdmin()) && (
-                    <Route path="/products/gallery" element={<ProductGallery />} />
-                )}
+                <Route path="/products/gallery"
+                    element={<PermComponent component={<ProductGallery />} permTitle="create_product_image" />} />
 
-                {(hasPermission("read_brands") || isMainAdmin()) && (
-                    <Route path="/brands" element={<Brands />} />
-                )}
+                <Route path="/brands"
+                    element={<PermComponent component={<Brands />} permTitle="read_brands" />} />
 
-                {(hasPermission("read_guarantees") || isMainAdmin()) && (
-                    <Route path="/guaranties" element={<Guaranties />} />
-                )}
+                <Route path="/guaranties"
+                    element={<PermComponent component={<Guaranties />} permTitle="read_guarantees" />} />
 
-                {(hasPermission("read_colors") || isMainAdmin()) && (
-                    <Route path="/colors" element={<Colors />} />
-                )}
+                <Route path="/colors"
+                    element={<PermComponent component={<Colors />} permTitle="read_colors" />} />
 
-                {(hasPermission("read_discounts") || isMainAdmin()) && (
+                {hasDiscountsPermission && (
                     <Route path="/discounts" element={<Discounts />}>
-                        <Route path="add-discount" element={<AddDiscount />} />
+                        <Route path="add-discount"
+                            element={<PermComponent component={<AddDiscount />} permTitle="create_discount" />} />
                     </Route>
                 )}
 
-                {(hasPermission("read_carts") || isMainAdmin()) && (
-                    <Route path="/carts" element={<Carts />} />
+                {hasCartsPermission && (
+                    <Route path="/carts" element={<Carts />}>
+                        <Route path="add-cart"
+                            element={<PermComponent component={<AddCart />} permTitle="create_cart" />} />
+                    </Route>
                 )}
 
-                {(hasPermission("read_orders") || isMainAdmin()) && (
-                    <Route path="/orders" element={<Orders />} />
+                <Route path="/orders"
+                    element={<PermComponent component={<Orders />} permTitle="read_orders" />} />
+
+
+                {hasDeliveriesPermission && (
+                    <Route path="/deliveries" element={<Deliveries />}>
+                        <Route path="add-delivery"
+                            element={<PermComponent component={<AddDelivery />} permTitle="create_delivery" />} />
+                    </Route>
                 )}
 
-                {(hasPermission("read_deliveries") || isMainAdmin()) && (
-                    <Route path="/deliveries" element={<Deliveries />} />
-                )}
 
-                {(hasPermission("read_users") || isMainAdmin()) && (
+                {hasUsersPermission && (
                     <Route path="/users" element={<Users />}>
-                        <Route path="add-user" element={<AddUser />} />
+                        <Route path="add-user"
+                            element={<PermComponent component={<AddUser />} permTitle="create_user" />} />
                     </Route>
                 )}
 
-                {(hasPermission("read_roles") || isMainAdmin()) && (
+                {hasRolesPermission && (
                     <Route path="/roles" element={<Roles />}>
-                        <Route path='add-role' element={<AddRole />} />
+                        <Route path='add-role'
+                            element={<PermComponent component={<AddRole />} permTitle="create_role" />} />
                     </Route>
                 )}
 
-                {(hasPermission("read_permissions") || isMainAdmin()) && (
-                    <Route path="/permissions" element={<Permissions />} />
-                )}
+                <Route path="/permissions"
+                    element={<PermComponent component={<Permissions />} permTitle="read_permissions" />} />
 
                 <Route path="/comments" element={<Comments />} />
                 <Route path="/questions" element={<Questions />} />

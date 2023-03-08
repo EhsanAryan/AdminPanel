@@ -1,39 +1,42 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import ActionIcon from '../../../components/ActionIcon';
 
 const Actions = ({ rowData, handleDeleteRole }) => {
     const navigate = useNavigate();
 
     return (
         <>
-            <i className="fas fa-edit text-warning mx-1 
-            hoverable_text pointer has_tooltip" title="ویرایش نقش"
+            <ActionIcon
+            permTitle="update_role"
+            iconClasses="fas fa-edit text-warning"
+            title="ویرایش نقش"
             onClick={() => navigate("/roles/add-role", {
                 state : {
                     editRoleId : rowData.id,
                     editType: "role"
                 }
             })}
-            >
-            </i>
+            />
 
-            <i className="fas fa-fingerprint text-info mx-1 
-            hoverable_text pointer has_tooltip" title="ویرایش مجوزهای نقش"
+            <ActionIcon
+            permTitle="update_role_permissions"
+            iconClasses="fas fa-fingerprint text-info"
+            title="ویرایش مجوزهای نقش"
             onClick={() => navigate("/roles/add-role", {
                 state : {
                     editRoleId : rowData.id,
                     editType: "permissions"
                 }
             })}
-            >
-            </i>
+            />
 
-            <i className="fas fa-times text-danger mx-1 
-            hoverable_text pointer has_tooltip"
-                title="حذف نقش" data-bs-toggle="tooltip" data-bs-placement="top"
+            <ActionIcon
+            permTitle="delete_role"
+            iconClasses="fas fa-times text-danger"
+            title="حذف نقش"
             onClick={() => handleDeleteRole(rowData)}
-            >
-            </i>
+            />
         </>
     );
 }

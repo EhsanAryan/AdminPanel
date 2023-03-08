@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import AddButtonLink from '../../components/AddButtonLink';
 import PaginatedDataTable from '../../components/PaginatedDataTable';
+import { useHasPermission } from '../../hooks/hasPermission';
 import { deleteProductservice, getProductsService } from '../../services/productServices';
 import { Alert, Confirm } from '../../utils/Alerts';
 import Actions from './additionFields/Actions';
@@ -15,6 +16,8 @@ const ProductsTable = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsCount, setItemsCount] = useState(8);
     const [pagesCount, setPagesCount] = useState(0);
+
+    const hasAddProductPermission = useHasPermission("create_product")
 
     const dataInfo = [
         {
@@ -121,7 +124,7 @@ const ProductsTable = () => {
                 setCurrentPage={setCurrentPage}
                 handleSearch={handleSearch}
             >
-                <AddButtonLink href="/products/add-product" />
+                {hasAddProductPermission && <AddButtonLink href="/products/add-product" />}
             </PaginatedDataTable>
         </>
     );

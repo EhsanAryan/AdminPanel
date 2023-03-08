@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PaginatedTable from '../../components/PaginatedTable';
+import { useHasPermission } from '../../hooks/hasPermission';
 import { deleteColorService, getColorsServices } from '../../services/colorsServices';
 import { Alert, Confirm } from '../../utils/Alerts';
 import AddColor from './AddColor';
@@ -11,6 +12,8 @@ const ColorsTable = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [editColor, setEditColor] = useState(null);
+
+    const hasAddColorPermission = useHasPermission("create_color");
 
     const dataInfo = [
         { field: "id", title: "#" },
@@ -79,7 +82,8 @@ const ColorsTable = () => {
             searchParams={searchParams}
             loading={loading}
         >
-            <AddColor setData={setData} editColor={editColor} setEditColor={setEditColor} />
+            {hasAddColorPermission && <AddColor setData={setData}
+                editColor={editColor} setEditColor={setEditColor} />}
         </PaginatedTable>
     );
 }

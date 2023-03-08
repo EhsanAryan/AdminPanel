@@ -1,17 +1,22 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import ModalContainer from '../../components/ModalContainer';
 
-const EditCart = () => {
+const AddCart = () => {
+    const navigate = useNavigate();
+
     return (
         <>
-            <button className="btn btn-success d-flex justify-content-center align-items-center" data-bs-toggle="modal" data-bs-target="#edit_cart_modal">
+            {/* <button className="btn btn-success d-flex justify-content-center align-items-center" data-bs-toggle="modal" data-bs-target="#edit_cart_modal">
                 <i className="fas fa-plus text-light"></i>
-            </button>
+            </button> */}
 
             <ModalContainer
                 id={"edit_cart_modal"}
                 title={"جزئیات سبد خرید"}
                 fullScreen={true}
+                className="show d-block"
+                closeFunction={() => navigate(-1)}
             >
                 <div className="container">
                     <div className="row my-3 justify-content-center">
@@ -99,4 +104,4 @@ const EditCart = () => {
     );
 }
 
-export default EditCart;
+export default AddCart;

@@ -4,6 +4,7 @@ import PrevButton from '../../components/PrevButton';
 
 const CategoriesChildren = () => {
     const location = useLocation();
+    
     return (
         <h4 className="text-center mb-2 d-flex justify-content-between align-items-center">
             <div className="d-felx justify-content-center align-items-center">

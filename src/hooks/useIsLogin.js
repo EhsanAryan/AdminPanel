@@ -15,8 +15,8 @@ export const useIsLogin = () => {
             try {
                 const response = await getUserService();
                 setIsLogin(response.status === 200 ? true : false);
-
                 let userData = response.data;
+                // add a full_name property to user data
                 userData.full_name = `${userData.first_name || ""} ${userData.last_name || ""}`.trim();
                 dispatch(receiveUserResponseAction(userData));
             } catch (error) {

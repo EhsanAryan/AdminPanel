@@ -11,10 +11,10 @@ export const onSubmit = async (values, actions, setData, editColor, setEditColor
     try {
         if (editColor) {
             const response = await editColorService(editColor.id, values);
-            if(response.status === 200) {
+            if (response.status === 200) {
                 Alert("ویرایش رنگ", response.data.message, "success");
                 setData(prevData => prevData.map(d => {
-                    if(d.id === editColor.id) {
+                    if (d.id === editColor.id) {
                         return response.data.data;
                     }
                     return d;
@@ -35,7 +35,7 @@ export const onSubmit = async (values, actions, setData, editColor, setEditColor
 }
 
 export const validationSchema = Yup.object({
-    title: Yup.string().required("نام رنگ را وارد کنید").matches(/^[a-zA-Z0-9!?@#$%&\u0600-\u06FF\s]+$/,
-        "فقط از حروف و اعداد و کاراکترها استفاده شود"),
+    title: Yup.string().required("نام رنگ را وارد کنید")
+        .matches(/^[a-zA-Z0-9!?@#$%&\u0600-\u06FF\s]+$/, "فقط از حروف و اعداد و کاراکترها استفاده شود"),
     code: Yup.string().required("رنگ مورد نظر را انتخاب کنید")
 })

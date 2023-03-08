@@ -1,7 +1,7 @@
 import httpService from "./httpService"
 
-export const loginService = (values) => {
-    return httpService("/auth/login", "post", values);
+export const loginService = (data) => {
+    return httpService("/auth/login", "post", data);
 }
 
 export const logoutService = () => {

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PaginatedTable from '../../components/PaginatedTable';
+import { useHasPermission } from '../../hooks/hasPermission';
 import { deleteBrandService, getBrandsService } from '../../services/brandsServices';
 import { apiPath } from '../../services/httpService';
 import { Alert, Confirm } from '../../utils/Alerts';
@@ -11,6 +12,8 @@ const BrandsTable = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [editBrand, setEditBrand] = useState(null);
+
+    const hasAddBrandPermission = useHasPermission("create_brand");
 
     const dataInfo = [
         { field: "id", title: "#" },
@@ -78,17 +81,15 @@ const BrandsTable = () => {
 
 
     return (
-        <>
-            <PaginatedTable
-                data={data}
-                dataInfo={dataInfo}
-                numOfItems={10}
-                searchParams={searchParams}
-                loading={loading}
-            >
-                <AddBrand setData={setData} editBrand={editBrand} setEditBrand={setEditBrand} />
-            </PaginatedTable>
-        </>
+        <PaginatedTable
+            data={data}
+            dataInfo={dataInfo}
+            numOfItems={10}
+            searchParams={searchParams}
+            loading={loading}
+        >
+            {hasAddBrandPermission && <AddBrand setData={setData} editBrand={editBrand} setEditBrand={setEditBrand} />}
+        </PaginatedTable>
     );
 }
 

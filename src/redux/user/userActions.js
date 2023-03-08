@@ -21,19 +21,19 @@ export const receiveUserErrorAction = (error) => {
     }
 }
 
-export const getUserDispatchRedux = () => {
-    return (dispatch, state) => {
-        dispatch(sendUserRequestAction());
-        getUserService()
-        .then(response => {
-            if(response.status === 200) {
-                dispatch(receiveUserResponseAction(response.data));
-            } else {
-                dispatch(receiveUserErrorAction(response.data.message));
-            }
-        })
-        .catch(error => {
-            dispatch(receiveUserErrorAction(error.message));
-        });
-    }
-}
+// export const getUserDispatchRedux = () => {
+//     return (dispatch, state) => {
+//         dispatch(sendUserRequestAction());
+//         getUserService()
+//         .then(response => {
+//             if(response.status === 200) {
+//                 dispatch(receiveUserResponseAction(response.data));
+//             } else {
+//                 dispatch(receiveUserErrorAction(response.data.message));
+//             }
+//         })
+//         .catch(error => {
+//             dispatch(receiveUserErrorAction(error.message));
+//         });
+//     }
+// }
