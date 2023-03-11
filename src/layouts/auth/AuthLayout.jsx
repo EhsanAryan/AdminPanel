@@ -1,8 +1,8 @@
 import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
+import Error from '../../components/Error';
 import { useIsLogin } from '../../hooks/useIsLogin';
 import Login from '../../pages/auth/Login';
-import Error from '../../pages/Error/Error';
 
 const AuthLayout = () => {
     const [loading, isLogin] = useIsLogin();

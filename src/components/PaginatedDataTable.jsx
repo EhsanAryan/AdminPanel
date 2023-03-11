@@ -13,7 +13,7 @@ const PaginatedTable = ({
     setCurrentPage,
     searchParams,
     handleSearch,
-    loading,
+    loading
 }) => {
     const [pages, setPages] = useState([]);
 

@@ -1,21 +1,21 @@
 import httpService from "./httpService";
 
-export const getAllCartsService = () => {
-    return httpService("/admin/carts", "get");
+export const getCartsService = (page, count, searchChar) => {
+    return httpService(`/admin/carts?page=${page}&count=${count}&searchChar=${searchChar}`, "get");
 }
 
-export const addNewCartService = (data) => {
-    return httpService("/admin/carts", "post", data);
-}
-
-export const editCartService = (cartId, data) => {
-    return httpService(`/admin/carts/${cartId}`, "put", data);
+export const getSingleCartService = (cartId) => {
+    return httpService(`/admin/carts/${cartId}`, "get");
 }
 
 export const deleteCartService = (cartId) => {
     return httpService(`/admin/carts/${cartId}`, "delete");
 }
 
-export const getSingleCartService = (cartId) => {
-    return httpService(`/admin/carts/${cartId}`, "get");
+export const addNewCartService = (data) => {
+    return httpService("/admin/carts", "post", data);
+}
+
+export const editCartService = (data, cartId) => {
+    return httpService(`/admin/carts/${cartId}`, "put", data);
 }

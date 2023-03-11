@@ -677,7 +677,37 @@ td , th {
 }
 /* End Date Picker */
 
+/* Start React Select Search */
+.select-search-container {
+    width: 100% !important;
+}
 
+.select-search-input {
+    height: 38px !important;
+    font-family: "BYekan" !important;
+    text-align: right !important;
+    border: 1px solid #ced4da !important;
+    border-radius: 0.25rem !important;    
+}
+
+.select-search-input:is(:focus, :hover) {
+    border: 1px solid #ced4da !important;
+}
+
+.select-search-select {
+    border: 1px solid #ced4da !important;
+    box-shadow: 0px 0px 5px rgb(60, 60, 60) !important;
+}
+
+.select-search-options {
+    padding: 0 !important;
+}
+
+.select-search-options * {
+    font-family: "BYekan" !important;
+    text-align: right !important;
+}
+/* End React Select Search */
 
 
 

@@ -3,6 +3,7 @@ import React from 'react';
 import GetField from '../../components/GetField';
 import { useNavigate } from 'react-router-dom';
 import { initialValues, onSubmit, validationSchema } from './loginFormikCodes';
+import SpinnerLoader from '../../components/SpinnerLoader';
 
 
 const Login = () => {
@@ -56,9 +57,7 @@ const Login = () => {
                                     d-flex justify-content-center align-items-center"
                                         disabled={!(formik.dirty && formik.isValid) || formik.isSubmitting}>
                                         {formik.isSubmitting ? (
-                                            <div className="spinner-border text-light">
-                                                <span className="visually-hidden">Loading...</span>
-                                            </div>
+                                            <SpinnerLoader colorClass={"text-light"} />
                                         ) : "ورود"}
                                     </button>
                                 </div>

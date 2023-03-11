@@ -2,6 +2,7 @@ import React from 'react';
 import CheckBox from './CheckBox';
 import CKEditorField from './CKEditorField';
 import Color from './Color';
+import CustomSelectSearch from './CustomSelectSearch';
 import Date from './Date';
 import File from './File';
 import InputField from './InputField';
@@ -29,6 +30,8 @@ const FormikControl = (props) => {
             return <MultiSelect {...props} />
         case "searchableSelect":
             return <SearchableSelect {...props} />
+        case "selectSearch":
+            return <CustomSelectSearch {...props} />
         case "file":
             return <File {...props} />
         case "switch":

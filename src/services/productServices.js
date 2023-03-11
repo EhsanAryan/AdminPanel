@@ -18,9 +18,9 @@ export const addNewProductService = (data) => {
     "multipart/form-data");
 }
 
-// export const getSingleProduct = (id) => {
-//     return httpService(`/admin/products/${id}`, "get");
-// }
+export const getSingleProduct = (id) => {
+    return httpService(`/admin/products/${id}`, "get");
+}
 
 export const editProductService = (id, data) => {
     return httpService(`/admin/products/${id}`, "put", data);

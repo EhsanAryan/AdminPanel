@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import AddButtonLink from '../../components/AddButtonLink';
-import PaginatedTable from '../../components/PaginatedTable';
-import { deleteCartService, getAllCartsService } from '../../services/cartsServices';
+import PaginatedDataTable from '../../components/PaginatedDataTable';
+import { useHasPermission } from '../../hooks/hasPermission';
+import { deleteCartService, getCartsService } from '../../services/cartsServices';
 import { Alert, Confirm } from '../../utils/Alerts';
 import { convertDateToJalali } from "../../utils/convertDate";
 import Actions from './additionFields/Actions';
@@ -13,13 +14,30 @@ import Status from './additionFields/Status';
 const CartsTable = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [searchChar, setSearchChar] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsCount, setItemsCount] = useState(8);
+    const [pagesCount, setPagesCount] = useState(0);
+
+    const hasAddCartPermission = useHasPermission("create_cart")
 
     const dataInfo = [
         { field: "id", title: "#" },
-        { 
+        { field: "user_id", title: "آیدی کاربر" },
+        {
             field: null,
-            title: "نام مشتری",
-            elements: (rowData) => <span>{`${rowData.user.first_name || ""} ${rowData.user.last_name || ""}`}</span> 
+            title: "نام کاربر",
+            elements: (rowData) => <span>{`${rowData.user.first_name || ""} ${rowData.user.last_name || ""}`}</span>
+        },
+        {
+            field: null,
+            title: "شماره کاربر",
+            elements: (rowData) => <span>{rowData.user.phone}</span>
+        },
+        {
+            field: null,
+            title: "تعداد کالاها",
+            elements: (rowData) => <span>{rowData.items.length}</span>
         },
         {
             field: null,
@@ -44,21 +62,20 @@ const CartsTable = () => {
     ]
 
     const searchParams = {
-        searchField: "",
         title: "جستجو",
         placeHolder: "عنوان محصول را وارد کنید"
     }
 
-    const handleGetAllCarts = async () => {
+    const handleGetCarts = async (page = currentPage, count = itemsCount, char = searchChar) => {
         setLoading(true);
         try {
-            const response = await getAllCartsService();
-            if(response.status === 200) {
-                console.log(response);
-                setData(response.data.data);
+            const response = await getCartsService(page, count, char);
+            if (response.status === 200) {
+                setData(response.data.data.data);
+                setPagesCount(response.data.data.last_page);
             }
         } catch (error) {
-            
+
         } finally {
             setLoading(false);
         }
@@ -66,39 +83,54 @@ const CartsTable = () => {
 
     const handleDeleteCart = async (cartData) => {
         const res = await Confirm("حذف سبد خرید", `آیا از حذف سبد خرید ${cartData.id} مطمئن هستید؟`, "warning");
-        if(res) {
+        if (res) {
             try {
                 const response = await deleteCartService(cartData.id);
-                if(response.status === 200) {
+                if (response.status === 200) {
                     Alert("حذف سبد خرید", response.data.message, "success");
                     setData(prevData => prevData.filter(d => d.id != cartData.id))
                 }
             } catch (error) {
-                
+
             }
         } else {
             Alert("لغو عملیات", "شما عملیات حذف سبد خرید را لغو کردید", "info");
         }
     }
 
+    const handleSearch = (char) => {
+        setSearchChar(char);
+        handleGetCarts(1, itemsCount, char);
+        setCurrentPage(1);
+    }
+
     useEffect(() => {
-        handleGetAllCarts();
-    }, []);
+        handleGetCarts(currentPage, itemsCount, searchChar);
+    }, [currentPage, itemsCount]);
 
 
     return (
-        <PaginatedTable
-            data={data}
+        <PaginatedDataTable
+            tableData={data}
             dataInfo={dataInfo}
-            numOfItems={10}
             searchParams={searchParams}
             loading={loading}
+            itemsCount={itemsCount}
+            setItemsCount={setItemsCount}
+            pagesCount={pagesCount}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            handleSearch={handleSearch}
         >
-            <AddButtonLink href="/carts/add-cart" />
-            <Outlet context={{
-                setData
-            }} />
-        </PaginatedTable>
+            {hasAddCartPermission && (
+                <>
+                    <AddButtonLink href="/carts/add-cart" />
+                    <Outlet context={{
+                        handleGetCarts
+                    }} />
+                </>
+            )}
+        </PaginatedDataTable>
     );
 }
 

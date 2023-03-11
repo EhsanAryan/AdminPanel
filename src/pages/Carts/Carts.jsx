@@ -1,6 +1,5 @@
 import React from 'react';
 import CartsTable from './CartsTable';
-import EditCart from './AddCart';
 
 const Carts = () => {
     return (

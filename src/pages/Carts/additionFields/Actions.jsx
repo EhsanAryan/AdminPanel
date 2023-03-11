@@ -1,15 +1,31 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import ActionIcon from '../../../components/ActionIcon';
 
 const Actions = ({ rowData, handleDeleteCart }) => {
+    const navigate = useNavigate();
+
     return (
         <>
-            <i className="fas fa-edit text-warning mx-1 hoverable_text pointer has_tooltip"
-                title="ویرایش دسته">
-            </i>
-            <i className="fas fa-times text-danger mx-1 hoverable_text pointer has_tooltip"
-                title="حذف دسته" data-bs-toggle="tooltip"
-                onClick={() => handleDeleteCart(rowData)}>
-            </i>
+            <ActionIcon 
+            permTitle="update_cart"
+            iconClasses="fas fa-edit text-warning"
+            title="ویرایش سبد"
+            onClick={() => navigate("/carts/add-cart", {
+                state: {
+                    editCartId: rowData.id
+                }
+            })}
+            />
+
+            {rowData.is_ordered == 0 ? (
+                <ActionIcon 
+                permTitle="delete_cart"
+                iconClasses="fas fa-times text-danger"
+                title="حذف سبد"
+                onClick={() => handleDeleteCart(rowData)}
+                />
+            ) : null}
         </>
     );
 }
