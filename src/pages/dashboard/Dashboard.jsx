@@ -1,72 +1,57 @@
-import React, { useEffect } from 'react';
-import { drawDashboardChart } from '../../utils/dashboardChart';
 import DashboardCard from './DashboardCard';
+import DashboardChart from './DashboardChart';
 import DashboardTable from './DashboardTable';
 
-const Dashboard =() => {
+const Dashboard = () => {
+    return (
+        <div id="dashboard_section" className="dashboard_section main_section">
 
-    useEffect(() => {
-        const labels = ['فروردین' , 'اردیبهشت', 'خرداد' , 'تیر' , 'مرداد' , 'شهریور' , 'مهر' , 'آبان' , 'آذر' , 'دی' , 'بهمن' , 'اسفند'];
-        const datapoints = [10, 20, 20, 60, 60, 120, 180, 120, 125, 105, 110, 170];
-        drawDashboardChart(labels , datapoints);
-    } , []);
+            <div className="row">
+                <DashboardCard
+                    currentValue={7}
+                    title={"سبد خرید امروز"}
+                    desc={"سبد های خرید مانده امروز"}
+                    lastWeekValue={13}
+                    lastMonthValue={18}
+                    icon={"fas fa-shopping-basket"}
+                />
 
-  return (
+                <DashboardCard
+                    currentValue={5}
+                    title={"سفارشات مانده امروز"}
+                    desc={"سفارشات معلق و فاقد پرداختی"}
+                    lastWeekValue={9}
+                    lastMonthValue={16}
+                    icon={"fas fa-dolly"}
+                />
 
-    <div id="dashboard_section" className="dashboard_section main_section">
+                <DashboardCard
+                    currentValue={45}
+                    title={"سفارشات امروز"}
+                    desc={"سفارشات کامل و دارای پرداختی"}
+                    lastWeekValue={263}
+                    lastMonthValue={1038}
+                    icon={"fas fa-luggage-cart"}
+                />
 
-        <div className="row">
-            <DashboardCard
-            currentValue={7}
-            title={"سبد خرید امروز"}
-            desc={"سبد های خرید مانده امروز"} 
-            lastWeekValue={13}
-            lastMonthValue={18}
-            icon={"fas fa-shopping-basket"}
-            />
+                <DashboardCard
+                    currentValue={"1,500,000"}
+                    title={"درآمد امروز"}
+                    desc={"جمع مبالغ پرداختی (تومان)"}
+                    lastWeekValue={"6,380,000"}
+                    lastMonthValue={"22,480,000"}
+                    icon={"fas fa-money-check-alt"}
+                />
 
-            <DashboardCard
-            currentValue={5}
-            title={"سفارشات مانده امروز"}
-            desc={"سفارشات معلق و فاقد پرداختی"} 
-            lastWeekValue={9}
-            lastMonthValue={16}
-            icon={"fas fa-dolly"}
-            />
-
-            <DashboardCard
-            currentValue={45}
-            title={"سفارشات امروز"}
-            desc={"سفارشات کامل و دارای پرداختی"} 
-            lastWeekValue={263}
-            lastMonthValue={1038}
-            icon={"fas fa-luggage-cart"}
-            />
-
-            <DashboardCard
-            currentValue={"1,500,000"}
-            title={"درآمد امروز"}
-            desc={"جمع مبالغ پرداختی (تومان)"} 
-            lastWeekValue={"6,380,000"}
-            lastMonthValue={"22,480,000"}
-            icon={"fas fa-money-check-alt"}
-            />
-
-        </div>
+            </div>
 
 
-        <div className="row">
-            <div className="col-12 col-lg-6">
-                <p className="text-center mt-3 text-dark">محصولات رو به اتمام</p>
+            <div className="row">
                 <DashboardTable />
-            </div>
-
-            <div className="col-12 col-lg-6">
-                <canvas id="myChart" height="195"></canvas>
+                <DashboardChart />
             </div>
         </div>
-    </div>
-  );
+    );
 }
 
 export default Dashboard;

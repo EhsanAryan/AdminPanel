@@ -59,7 +59,6 @@ const AddCart = () => {
             const response = await getSingleCartService(editCartId);
             if (response.status === 200) {
                 const cart = response.data.data;
-                console.log(cart);
                 setReinitializeValues({ ...initialValues, user_id: cart.user_id });
                 let allProducts = [];
                 for (let item of cart.items) {

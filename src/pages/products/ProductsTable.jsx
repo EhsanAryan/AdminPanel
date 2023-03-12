@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import AddButtonLink from '../../components/AddButtonLink';
 import PaginatedDataTable from '../../components/PaginatedDataTable';
 import { useHasPermission } from '../../hooks/hasPermission';
-import { deleteProductservice, getProductsService } from '../../services/productServices';
+import { deleteProductservice, getProductsService, toggleProductNotificationService } from '../../services/productServices';
 import { Alert, Confirm } from '../../utils/Alerts';
 import Actions from './additionFields/Actions';
 import LikeCounts from './additionFields/LikeCounts';
-import Status from './additionFields/Status';
+import Notification from './additionFields/Notification';
 
 
 const ProductsTable = () => {
@@ -48,13 +48,14 @@ const ProductsTable = () => {
         },
         {
             field: null,
-            title: "وضعیت",
-            elements: (rowData) => <Status rowData={rowData} />
+            title: "اعلان",
+            elements: (rowData) => <Notification rowData={rowData} />
         },
         {
             field: null,
             title: "عملیات",
-            elements: (rowData) => <Actions rowData={rowData} handleDeleteProduct={handleDeleteProduct} />
+            elements: (rowData) => <Actions rowData={rowData} handleDeleteProduct={handleDeleteProduct}
+            handleToggleProductNotification={handleToggleProductNotification} />
         }
     ];
 
@@ -96,8 +97,21 @@ const ProductsTable = () => {
         } else {
             Alert("لغو عملیات", "شما عملیات حذف محصول را لغو کردید", "info");
         }
-
     }
+
+    const handleToggleProductNotification = async (productId) => {
+        try {
+            const response = await toggleProductNotificationService(productId);
+            if(response.status === 200) {
+                Alert("انجام شد", response.data.message, "success");
+                handleGetProducts(1, itemsCount, searchChar);
+                setCurrentPage(1);
+            }
+        } catch (error) {
+            
+        }
+    }
+
 
     const handleSearch = (char) => {
         setSearchChar(char);

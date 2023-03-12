@@ -41,3 +41,12 @@ export const deleteGalleryImageService = (imageId) => {
 export const setMainGalleryImageService = (imageId) => {
     return httpService(`/admin/products/gallery/set_main/${imageId}`, "get");
 }
+
+export const getFewerProductsService = () => {
+    return httpService("/admin/products/fewer_products", "get");
+}
+
+export const toggleProductNotificationService = (productId) => {
+    return httpService(`/admin/products/toggle_notification/${productId}`, "get");
+}
+

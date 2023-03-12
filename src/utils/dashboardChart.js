@@ -53,7 +53,8 @@ export const drawDashboardChart = (labels , datapoints) => {
         };
 
         const chartExist = Chart.getChart("myChart");
-        if (chartExist !== undefined) {
+        console.log(chartExist);
+        if (chartExist) {
                chartExist.destroy(); 
         }
 

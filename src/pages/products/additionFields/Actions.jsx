@@ -2,11 +2,18 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import ActionIcon from '../../../components/ActionIcon';
 
-const Actions = ({ rowData, handleDeleteProduct }) => {
+const Actions = ({ rowData, handleDeleteProduct, handleToggleProductNotification }) => {
     const navigate = useNavigate();
 
     return (
         <>
+            <ActionIcon
+                permTitle="update_product_notification"
+                iconClasses={`fas ${rowData.has_notification ? "fa-eye-slash text-danger" : "fa-eye text-primary"}`}
+                title={rowData.has_notification ? "غیرفعال کردن اعلان محصول" : "فعال کردن اعلان محصول"}
+                onClick={() => handleToggleProductNotification(rowData.id)}
+            />
+
             <ActionIcon
                 permTitle="update_product"
                 iconClasses="fas fa-edit text-warning"

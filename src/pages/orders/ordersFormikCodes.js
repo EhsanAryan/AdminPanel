@@ -18,9 +18,8 @@ export const initialValues = {
 export const onSubmit = async (values, actions, handleGetOrders, navigate) => {
     const data ={
         ...values,
-        pay_at: convertDateToGregorian(values.pay_at)
-    }
-
+        pay_at: values.pay_at ? convertDateToGregorian(values.pay_at) : ""
+    };
     try {
         const response = await addNewOrderService(data);
         if(response.status === 201) {

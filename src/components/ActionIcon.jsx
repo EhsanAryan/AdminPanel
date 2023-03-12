@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHasPermission } from '../hooks/hasPermission';
 
-const ActionIcon = ({ iconClasses, permTitle, targetModalId, ...props}) => {
+const ActionIcon = ({ iconClasses, permTitle, targetModalId, ...others}) => {
     const hasPermission = useHasPermission(permTitle);
 
     return hasPermission && (
@@ -11,7 +11,7 @@ const ActionIcon = ({ iconClasses, permTitle, targetModalId, ...props}) => {
             data-bs-placement="top"
             data-bs-toggle={targetModalId ? "modal" : ""}
             data-bs-target={targetModalId}
-            {...props}
+            {...others}
         >
         </i>
     );

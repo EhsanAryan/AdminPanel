@@ -99,9 +99,6 @@ const AddOrder = () => {
                     pay_bank: selectedOrder.pay_bank || "",
                 });
 
-                // Extra request
-                // handleSetSelectedProductsInfo(selectedOrder.cart_id);
-                // So:
                 const cart = response.data.data.cart;
                 let selectedProducts = [];
                 for (let item of cart.items) {
