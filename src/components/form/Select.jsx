@@ -35,7 +35,9 @@ const Select = ({ name, label, options, className, headerText, handleOnChange })
                         );
                     }}
                 </Field>
-                <span className="input-group-text w_6rem justify-content-center">{label}</span>
+                {label ? (
+                    <span className="input-group-text w_6rem justify-content-center">{label}</span>
+                ) : null}
             </div>
             <ErrorMessage name={name} component={FormShowError} />
         </div>

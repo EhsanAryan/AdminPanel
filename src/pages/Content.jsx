@@ -31,6 +31,7 @@ import PermComponent from '../components/PermComponent';
 import { useHasPermission } from '../hooks/hasPermission';
 import AddDelivery from './deliveries/AddDelivery';
 import Error from '../components/Error';
+import AddOrder from './orders/AddOrder';
 
 const Content = () => {
     const { showSidebar } = useContext(AdminContext);
@@ -41,6 +42,7 @@ const Content = () => {
     const hasUsersPermission = useHasPermission("read_users");
     const hasRolesPermission = useHasPermission("read_roles");
     const hasDeliveriesPermission = useHasPermission("read_deliveries");
+    const hasOrdersPermission = useHasPermission("read_orders");
 
     return (
         <section id="content_section"
@@ -95,8 +97,12 @@ const Content = () => {
                     </Route>
                 )}
 
-                <Route path="/orders"
-                    element={<PermComponent component={<Orders />} permTitle="read_orders" />} />
+                {hasOrdersPermission && (
+                    <Route path="/orders" element={<Orders />}>
+                        <Route path="add-order" 
+                        element={<PermComponent component={<AddOrder />} permTitle="create_order" />} />
+                    </Route>
+                )}
 
 
                 {hasDeliveriesPermission && (

@@ -9,7 +9,6 @@ import { Alert, Confirm } from '../../utils/Alerts';
 import { convertDateToJalali } from "../../utils/convertDate";
 import Actions from './additionFields/Actions';
 import Ordered from './additionFields/Ordered';
-import Status from './additionFields/Status';
 
 const CartsTable = () => {
     const [data, setData] = useState([]);
@@ -46,12 +45,7 @@ const CartsTable = () => {
         },
         {
             field: null,
-            title: "وضعیت سبد",
-            elements: (rowData) => <Status rowData={rowData} />
-        },
-        {
-            field: null,
-            title: "وضعیت تحویل",
+            title: "وضعیت",
             elements: (rowData) => <Ordered rowData={rowData} />
         },
         {
@@ -88,7 +82,8 @@ const CartsTable = () => {
                 const response = await deleteCartService(cartData.id);
                 if (response.status === 200) {
                     Alert("حذف سبد خرید", response.data.message, "success");
-                    setData(prevData => prevData.filter(d => d.id != cartData.id))
+                    handleGetCarts(1, itemsCount, searchChar);
+                    setCurrentPage(1);
                 }
             } catch (error) {
 

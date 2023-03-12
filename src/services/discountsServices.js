@@ -4,6 +4,10 @@ export const getDiscountsService = () => {
     return httpService("/admin/discounts", "get");
 }
 
+export const getSingleDiscountsService = (discountId) => {
+    return httpService(`/admin/discounts/${discountId}`, "get");
+}
+
 export const deleteDiscountService = (id) => {
     return httpService(`/admin/discounts/${id}`, "delete");
 }

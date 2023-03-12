@@ -35,7 +35,7 @@ const Date = ({ name, label, className, placeHolder, formik, yearRange, initialD
 
     const handleOpenDatePicker = () => {
         let years = [];
-        for (let i = parseInt(year) - (yearRange?.from || 100); i <= parseInt(year) + (yearRange?.to || 1); i++) {
+        for (let i = parseInt(year) - (yearRange?.from || 100); i <= parseInt(year) + (yearRange?.to || 0); i++) {
             years = [...years, i];
         }
         setAllYears(years);
@@ -50,7 +50,10 @@ const Date = ({ name, label, className, placeHolder, formik, yearRange, initialD
 
     return (
         <>
-            <div className={`col-12 ${className || ""} p-0 position-relative overflow-hidden mb-2`}>
+            <div className={`col-12 ${className || ""} p-0 position-relative overflow-hidden mb-2`}
+            style={{
+                height: "39px"
+            }}>
                 <div className="input-group mb-2 dir_ltr"
                     onClick={() => handleOpenDatePicker()}>
                     <FastField id={name} name={name} className="form-control bgColor-fff pointer"

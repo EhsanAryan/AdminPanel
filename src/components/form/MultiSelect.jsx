@@ -63,7 +63,9 @@ const MultiSelect = ({
                                         );
                                     })}
                                 </Field>
-                                <span className="input-group-text w_6rem justify-content-center">{label}</span>
+                                {label ? (
+                                    <span className="input-group-text w_6rem justify-content-center">{label}</span>
+                                ) : null}
                             </div>
                             <div className="pt-1 d-flex justify-content-start align-items-center flex-wrap">
                                 {
