@@ -44,7 +44,7 @@ const Table = () => {
         <div className="col-12 col-lg-6 table-responsive">
             <p className="text-center mt-3 mb-2 text-dark">محصولات رو به اتمام</p>
             {loading ? (
-                <SpinnerLoader />
+                <SpinnerLoader colorClass="text-primary" />
             ) : fewerProducts.length > 0 ? (
                 <table className="table table-responsive text-center table-hover table-bordered 
                 no_shadow_back_table font_08">
