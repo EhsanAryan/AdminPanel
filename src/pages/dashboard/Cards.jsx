@@ -70,7 +70,6 @@ const Cards = () => {
                     newCardObjects[index].lastMonthValue = data[key].thisMonth;
                 }
                 setCardsInfo(newCardObjects);
-                console.log(newCardObjects);
             }
         } catch (error) {
 
