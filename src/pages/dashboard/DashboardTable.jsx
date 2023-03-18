@@ -3,12 +3,15 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import ActionIcon from '../../components/ActionIcon';
 import SpinnerLoader from '../../components/SpinnerLoader';
+import { useHasPermission } from '../../hooks/hasPermission';
 import { getFewerProductsService, toggleProductNotificationService } from '../../services/productServices';
 import { Alert } from '../../utils/Alerts';
 
 const Table = () => {
     const [fewerProducts, setFewerProducts] = useState([]);
     const [loading, setLoading] = useState(null);
+
+    const hasToggleNotificationPermission = useHasPermission("update_product_notification");
 
     const handleGetFewerProducts = async () => {
         setLoading(true);
@@ -27,12 +30,12 @@ const Table = () => {
     const handleSetOffNotification = async (productId) => {
         try {
             const response = await toggleProductNotificationService(productId);
-            if(response.status === 200) {
+            if (response.status === 200) {
                 Alert("انجام شد", response.data.message, "success");
                 setFewerProducts(prevValue => prevValue.filter(p => p.id != productId));
             }
         } catch (error) {
-            
+
         }
     }
 
@@ -54,7 +57,7 @@ const Table = () => {
                             <th>دسته</th>
                             <th>عنوان محصول</th>
                             <th>وضعیت</th>
-                            <th>عملیات</th>
+                            {hasToggleNotificationPermission && (<th>عملیات</th>)}
                         </tr>
                     </thead>
                     <tbody>
@@ -67,14 +70,16 @@ const Table = () => {
                                     <td>{p.stock === 0 ? (
                                         <span className="text-danger">پایان یافته</span>
                                     ) : `رو به اتمام (${p.stock})`}</td>
-                                    <td>
-                                        <ActionIcon 
-                                        permTitle="read_fewer_products"
-                                        iconClasses="fas fa-eye-slash text-danger"
-                                        title="غیرفعال کردن اعلان محصول"
-                                        onClick={() => handleSetOffNotification(p.id)}
-                                        />
-                                    </td>
+                                    {hasToggleNotificationPermission && (
+                                        <td>
+                                            <ActionIcon
+                                                permTitle="read_fewer_products"
+                                                iconClasses="fas fa-eye-slash text-danger"
+                                                title="غیرفعال کردن اعلان محصول"
+                                                onClick={() => handleSetOffNotification(p.id)}
+                                            />
+                                        </td>
+                                    )}
                                 </tr>
                             );
                         })}

@@ -39,7 +39,7 @@ const Actions = ({ rowData, handleDeleteProduct, handleToggleProductNotification
             />
 
             <ActionIcon
-                permTitle="create_product_image"
+                permTitle=""
                 iconClasses="fas fa-image text-success"
                 title="گالری تصاویر"
                 onClick={() => navigate("/products/gallery", {

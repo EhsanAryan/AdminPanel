@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import PrevButton from "../../../components/PrevButton";
 import SpinnerLoader from "../../../components/SpinnerLoader";
+import { useHasPermission } from "../../../hooks/hasPermission";
 import { apiPath } from "../../../services/httpService";
 import { addGalleryImageSerive, deleteGalleryImageService, setMainGalleryImageService } from "../../../services/productServices";
 import { Alert, Confirm } from "../../../utils/Alerts";
@@ -14,12 +15,16 @@ const ProductGallery = () => {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
 
+    const hasAddNewImagePermission = useHasPermission("create_product_image");
+    const hasDeleteImagePermission = useHasPermission("delete_product_image");
+    const hasSetMainImagePermission = useHasPermission("default_product_image")
+
     const handleAddNewImage = async (ev) => {
         setError("");
         setLoading(true);
 
         const image = ev.target.files[0];
-        if(!image) {
+        if (!image) {
             setLoading(false);
             return;
         }
@@ -54,15 +59,15 @@ const ProductGallery = () => {
 
     const handleDeleteImage = async (imageId) => {
         const res = await Confirm("حذف تصویر", "آیا از حذف این تصویر مطمئن هستید؟", "warning");
-        if(res) {
+        if (res) {
             try {
                 const response = await deleteGalleryImageService(imageId);
-                if(response.status === 200) {
+                if (response.status === 200) {
                     Alert("حذف تصویر", response.data.message, "success");
                     setGallery(prevGallery => prevGallery.filter(g => g.id != imageId));
                 }
             } catch (error) {
-                
+
             }
         } else {
             Alert("لغو عملیات", "شما عملیات حذف تصویر را لغو کردید!", "info");
@@ -72,21 +77,21 @@ const ProductGallery = () => {
     const handleSetMainImage = async (imageId) => {
         try {
             const response = await setMainGalleryImageService(imageId);
-            if(response.status === 200) {
+            if (response.status === 200) {
                 Alert("تنظیم تصویر اصلی", response.data.message, "success");
                 setGallery(prevGallery => {
                     return prevGallery.map(g => {
-                        if(g.id == imageId) {
-                            return {...g, is_main: 1};
-                        } else if(g.is_main == 1) {
-                            return  {...g, is_main: 0};
+                        if (g.id == imageId) {
+                            return { ...g, is_main: 1 };
+                        } else if (g.is_main == 1) {
+                            return { ...g, is_main: 0 };
                         }
                         return g;
                     })
                 });
             }
         } catch (error) {
-            
+
         }
     }
 
@@ -116,20 +121,22 @@ const ProductGallery = () => {
                                      border border-1 border-dark position-relative mx-1
                                       my-2 p-0 ${g.is_main ? "main-img" : ""}`}>
                                         <img src={`${apiPath}/${g.image}`}
-                                            className="img-fluid h-100" alt="gallery pic" />
+                                            className="gallery-img" alt="gallery pic" />
                                         <div className="gallery-img-options-container">
                                             {
-                                                !g.is_main ? (
+                                                !g.is_main && hasSetMainImagePermission ? (
                                                     <i className="fas fa-check fs-5 mx-1 text-success hoverable_text pointer"
                                                         title="انتخاب به عنوان تصویر اصلی"
                                                         onClick={() => handleSetMainImage(g.id)}>
                                                     </i>
                                                 ) : null
                                             }
-                                            <i className="fas fa-times fs-5 mx-1 text-danger hoverable_text pointer"
-                                                title="حذف تصویر"
-                                                onClick={() => handleDeleteImage(g.id)}>
-                                            </i>
+                                            {hasDeleteImagePermission && (
+                                                <i className="fas fa-times fs-5 mx-1 text-danger hoverable_text pointer"
+                                                    title="حذف تصویر"
+                                                    onClick={() => handleDeleteImage(g.id)}>
+                                                </i>
+                                            )}
                                         </div>
                                     </div>
                                 );
@@ -138,24 +145,26 @@ const ProductGallery = () => {
                     ) : null
                 }
 
-                <div className={`add-gallery-img-box bg-white border border-2 border-dark 
-                mx-1 my-2 d-flex justify-content-center align-items-center 
-                position-relative ${loading ? "disabled" : ""}`}>
-                    {
-                        loading ? (
-                            <SpinnerLoader colorClass="text-success" />
-                        ) : (
-                            <span className="add-icon border border-2 border-dark rounded-circle 
-                            d-flex justify-content-center align-items-center">
-                                <i className="fas fa-plus fs-1 text-success"
-                                    title="افزودن تصویر">
-                                </i>
-                            </span>
-                        )
-                    }
-                    <input type="file" className="gallery-file-input opacity-0 pointer bg-success"
-                        onChange={(ev) => handleAddNewImage(ev)} />
-                </div>
+                {hasAddNewImagePermission && (
+                    <div className={`add-gallery-img-box bg-white border border-2 border-dark 
+                    mx-1 my-2 d-flex justify-content-center align-items-center 
+                    position-relative ${loading ? "disabled" : ""}`}>
+                        {
+                            loading ? (
+                                <SpinnerLoader colorClass="text-success" />
+                            ) : (
+                                <span className="add-icon border border-2 border-dark rounded-circle 
+                                d-flex justify-content-center align-items-center">
+                                    <i className="fas fa-plus fs-1 text-success"
+                                        title="افزودن تصویر">
+                                    </i>
+                                </span>
+                            )
+                        }
+                        <input type="file" className="gallery-file-input opacity-0 pointer bg-success"
+                            onChange={(ev) => handleAddNewImage(ev)} />
+                    </div>
+                )}
             </div>
         </div>
     );
